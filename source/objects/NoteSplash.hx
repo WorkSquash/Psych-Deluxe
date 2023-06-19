@@ -71,7 +71,7 @@ class NoteSplash extends FlxSprite
 		if(animation.curAnim != null)animation.curAnim.frameRate = 30 + FlxG.random.int(-2, 2);
 
 		if (ClientPrefs.data.splashSkin == 'Forever')animation.curAnim.frameRate= 12;
-		if (ClientPrefs.data.splashSkin != 'Default')animation.curAnim.frameRate= 20;
+		if (ClientPrefs.data.splashSkin != 'Default' && ClientPrefs.data.splashSkin != 'Forever')animation.curAnim.frameRate= 20;
 	}
 
 	function loadAnims(skin:String) {

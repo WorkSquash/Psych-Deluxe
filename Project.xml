@@ -70,8 +70,9 @@
 	</section>
 
 	<!-- DONT ENABLE THIS -->
-	<define name="CHECK_FOR_UPDATES" if="desktop release"/>
+	<define name="CHECK_FOR_UPDATES" if="desktop officialBuild"/>
 	<define name="WATERMARKS_ENABLED" if="desktop release"/>
+	<define name="DEVELOPER_BUILD" if="debug"/>
 
 	<!-- Week Assets -->
 	<library name="videos"        preload="true" />

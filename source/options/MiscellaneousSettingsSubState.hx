@@ -41,7 +41,7 @@ class MiscellaneousSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		#end
 
-		#if WATERMARKS_ENABLED
+		#if DEVELOPER_BUILD
 		var option:Option = new Option('Engine Watermarks',
 			"Uncheck this to hide the watermarks",
 			'watermarksEnabled',
