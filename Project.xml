@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin':" file="Psych Deluxe" packageName="com.worksquash.psych-deluxe" package="com.worksquash.psych-deluxe" main="Main" version="0.2.8" company="WorkSquash" />
+	<app title="Friday Night Funkin'" file="Psych Deluxe" packageName="com.worksquash.psych-deluxe" package="com.worksquash.psych-deluxe" main="Main" version="0.2.8" company="WorkSquash" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -99,8 +99,9 @@
 	<section if="MODS_ALLOWED">
 		<assets path='example_mods' rename='mods' embed='false'/>
 	</section>
-	<assets path='art/readme.txt' rename='do NOT readme.txt' />
-
+	<assets path='text/readme.txt' rename='funkin.txt'/>
+	<assets path='text/info.txt' rename='useless info.txt' />
+	<assets path='text/mods.txt' rename='modsList.txt' />
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
@@ -165,9 +166,19 @@
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
-	
+
 	<icon path="art/icon16.png" size='16'/>
 	<icon path="art/icon32.png" size='32'/>
 	<icon path="art/icon64.png" size='64'/>
 	<icon path="art/iconOG.png" />
+
+	<section if="PSYCH_WATERMARKS">
+		<icon path="art/16x16.png" size='16'/>
+		<icon path="art/32x32.png" size='32'/>
+		<icon path="art/48x48.png" size='48'/>
+		<icon path="art/64x64.png" size='64'/>
+		<icon path="art/128x128.png" size='128'/>
+		<icon path="art/256x256.png" size='256'/>
+	</section>
+
 </project>

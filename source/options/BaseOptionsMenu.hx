@@ -38,6 +38,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		bg.screenCenter();
 		add(bg);
 
+
 		// avoids lagspikes while scrolling through menus!
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);

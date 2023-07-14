@@ -92,7 +92,8 @@ class FreeplayState extends MusicBeatState
 		add(grpSongs);
 
 		for (i in 0...songs.length)
-		{
+		{	
+			
 			var songText:Alphabet = new Alphabet(90, 320, songs[i].songName, true);
 			songText.targetY = i;
 			grpSongs.add(songText);
@@ -455,11 +456,11 @@ class FreeplayState extends MusicBeatState
 
 		iconArray[curSelected].alpha = 1;
 		
-		if(ClientPrefs.data.winningIcons && !ClientPrefs.data.losingIcons) {
+		if(ClientPrefs.data.winningIcons) {
 			iconArray[curSelected].animation.curAnim.curFrame = 2;
 		}
 
-		if(ClientPrefs.data.losingIcons && !ClientPrefs.data.winningIcons) {
+		else {
 			iconArray[curSelected].animation.curAnim.curFrame = 1;
 		}
 	

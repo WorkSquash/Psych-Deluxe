@@ -4,16 +4,35 @@ class HealthIcon extends FlxSprite
 {
 	public var sprTracker:FlxSprite;
 	private var isOldIcon:Bool = false;
+	private var isProtoIcon:Bool = false;
 	private var isPlayer:Bool = false;
 	private var char:String = '';
 
 	public function new(char:String = 'bf', isPlayer:Bool = false)
 	{
 		super();
-		isOldIcon = (char == 'bf-old');
-		this.isPlayer = isPlayer;
-		changeIcon(char);
-		scrollFactor.set();
+		if(char.startsWith('bf')){
+			isOldIcon = (char == 'bf-old');
+			isProtoIcon = (char == 'bf-prototype');
+			this.isPlayer = isPlayer;
+			changeIcon(char);
+			scrollFactor.set();
+		}
+		
+		if(char == 'dad'){
+			isOldIcon = (char == 'dad-old');
+			changeIcon(char);
+			scrollFactor.set();
+		}
+
+
+		else{		
+			isOldIcon = (char == 'no-icon');
+			this.isPlayer = isPlayer;
+			changeIcon(char);
+			scrollFactor.set();
+		}
+
 	}
 
 	override function update(elapsed:Float)
@@ -26,6 +45,16 @@ class HealthIcon extends FlxSprite
 
 	public function swapOldIcon() {
 		if(isOldIcon = !isOldIcon) changeIcon('bf-old');
+		else changeIcon('bf');
+	}
+
+	public function swapOPIcon() {
+		if(isOldIcon = !isOldIcon) changeIcon('dad-old');
+		else changeIcon('dad');
+	}
+
+	public function swapProtoIcon() {
+		if(isProtoIcon = !isProtoIcon) changeIcon('bf-prototype');
 		else changeIcon('bf');
 	}
 

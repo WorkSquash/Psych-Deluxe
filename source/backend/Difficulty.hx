@@ -3,9 +3,9 @@ package backend;
 class Difficulty
 {
 	public static var defaultList(default, never):Array<String> = [
-		'Easy',
-		'Normal',
-		'Hard'
+		'Easy', // 1
+		'Normal', // 2
+		'Hard' 	//3
 	];
 
 	
@@ -17,6 +17,7 @@ class Difficulty
 		if(num == null) num = PlayState.storyDifficulty;
 
 		var fileSuffix:String = list[num];
+
 		if(fileSuffix != defaultDifficulty)
 		{
 			fileSuffix = '-' + fileSuffix;

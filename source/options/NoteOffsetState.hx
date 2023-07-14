@@ -153,9 +153,17 @@ class NoteOffsetState extends MusicBeatState
 		add(changeModeText);
 		updateMode();
 
-		Conductor.changeBPM(128.0);
-		FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
 
+		if(ClientPrefs.data.offsetSong == 'Psych'){
+			Conductor.changeBPM(128.0);
+			FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
+		}
+
+		if(ClientPrefs.data.offsetSong == 'FPS Plus'){
+			Conductor.changeBPM(100.0);
+			FlxG.sound.playMusic(Paths.music('offsetSong-fpsPlus'), 1, true);
+		}
+		
 		super.create();
 	}
 
@@ -314,8 +322,8 @@ class NoteOffsetState extends MusicBeatState
 			persistentUpdate = false;
 			CustomFadeTransition.nextCamera = camOther;
 			MusicBeatState.switchState(new options.OptionsState());
-			FlxG.sound.playMusic(Paths.music('freakyMenu'), 1, true);
-			FlxG.mouse.visible = false;
+			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.titleMusic)));
+			FlxG.mouse.visible = true;
 		}
 
 		Conductor.songPosition = FlxG.sound.music.time;

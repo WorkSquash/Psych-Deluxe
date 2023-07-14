@@ -18,11 +18,7 @@ class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.7b'; //This is also used for Discord RPC
 	
-	#if DEVELOPER_BUILD
-	public static var psychDeluxeVersion:String = '1.1-dev'; 
-	#end
-
-	public static var psychDeluxeVersion:String = '1.0'; 
+	public static var psychDeluxeVersion:String = '1.2';
 
 	public static var curSelected:Int = 0;
 
@@ -33,11 +29,11 @@ class MainMenuState extends MusicBeatState
 	var optionShit:Array<String> = [
 		'story_mode',
 		'freeplay',
-		//#if MODS_ALLOWED 'mods', #end
+		'options',
+		#if MODS_ALLOWED 'mods' #end
 		//#if ACHIEVEMENTS_ALLOWED 'awards', #end
 		//'credits',
 		//#if !switch 'donate', #end
-		'options'
 	];
 
 	var magenta:FlxSprite;
@@ -120,7 +116,8 @@ class MainMenuState extends MusicBeatState
 		}
 
 		FlxG.camera.follow(camFollow, null, 0);
-		if(ClientPrefs.data.watermarksEnabled){
+
+		if(ClientPrefs.data.watermark){
 
 			var versionShit:FlxText = new FlxText(12, FlxG.height - 64, 0, "Psych Deluxe:" + psychDeluxeVersion, 12);
 			versionShit.scrollFactor.set();

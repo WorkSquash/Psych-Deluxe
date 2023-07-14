@@ -82,7 +82,13 @@ class ChartingState extends MusicBeatState
 		['Screen Shake', "Value 1: Camera shake\nValue 2: HUD shake\n\nEvery value works as the following example: \"1, 0.05\".\nThe first number (1) is the duration.\nThe second number (0.05) is the intensity."],
 		['Change Character', "Value 1: Character to change (Dad, BF, GF)\nValue 2: New character's name"],
 		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
-		['Set Property', "Value 1: Variable name\nValue 2: New value"]
+		['Set Property', "Value 1: Variable name\nValue 2: New value"],
+		['Create White Screen', "Creates a white screen.\nValue 1: Time until screen disappears.\nDosen't work when flashing lights are disabled."],
+		['Player Oppacity', "Changes the players oppacity (alpha value).\nValue 1: Oppacity (1 is default)\nValue 2: Time it takes to change fully in seconds."],
+		['Girlfriend Oppacity', "Changes the girlfriends oppacity (alpha value).\nValue 1: Oppacity (1 is default)\nValue 2: Time it takes to change fully in seconds."],
+		['Opponent Oppacity', "Changes the opponents oppacity (alpha value).\nValue 1: Oppacity (1 is default)\nValue 2: Time it takes to change fully in seconds."],
+		['Set Health', "Set the player's health to the desired value. \nValue 1: Any Pozitive Number"] //You can already do this with the Set Property event but this is easier and faster to do so
+
 	];
 
 	var _file:FileReference;
@@ -146,6 +152,8 @@ class ChartingState extends MusicBeatState
 	var value1InputText:FlxUIInputText;
 	var value2InputText:FlxUIInputText;
 	var currentSongName:String;
+	var currentSongArtist:String;
+	var currentSongDisplay:String;
 
 	var zoomTxt:FlxText;
 
@@ -202,12 +210,14 @@ class ChartingState extends MusicBeatState
 			Difficulty.resetList();
 			_song = {
 				song: 'Test',
+				artist: 'MTH',
+				displayName: 'Test',
 				notes: [],
 				events: [],
 				bpm: 150.0,
 				needsVoices: true,
-				arrowSkin: '',
-				splashSkin: 'noteSplashes',//idk it would crash if i didn't
+				arrowSkin: 'NOTE_assets',
+				splashSkin: 'splashes/default',//idk it would crash if i didn't
 				player1: 'bf',
 				player2: 'dad',
 				gfVersion: 'gf',
@@ -275,6 +285,8 @@ class ChartingState extends MusicBeatState
 		// sections = _song.notes;
 
 		currentSongName = Paths.formatToSongPath(_song.song);
+		currentSongArtist = Paths.formatToSongPath(_song.artist);
+		currentSongDisplay = Paths.formatToSongPath(_song.displayName);
 		loadSong();
 		reloadGridLayer();
 		Conductor.changeBPM(_song.bpm);
@@ -313,6 +325,7 @@ class ChartingState extends MusicBeatState
 		add(dummyArrow);
 
 		var tabs = [
+			{name: "Metadata", label: 'Metadata'},
 			{name: "Song", label: 'Song'},
 			{name: "Section", label: 'Section'},
 			{name: "Note", label: 'Note'},
@@ -355,6 +368,7 @@ class ChartingState extends MusicBeatState
 		add(UI_box);
 
 		addSongUI();
+		addMetaUI();
 		addSectionUI();
 		addNoteUI();
 		addEventsUI();
@@ -388,6 +402,8 @@ class ChartingState extends MusicBeatState
 	var playSoundBf:FlxUICheckBox = null;
 	var playSoundDad:FlxUICheckBox = null;
 	var UI_songTitle:FlxUIInputText;
+	var UI_songArtist:FlxUIInputText;
+	var UI_songDisplay:FlxUIInputText;
 	var noteSkinInputText:FlxUIInputText;
 	var noteSplashesInputText:FlxUIInputText;
 	var stageDropDown:FlxUIDropDownMenu;
@@ -397,7 +413,7 @@ class ChartingState extends MusicBeatState
 		UI_songTitle = new FlxUIInputText(10, 10, 70, _song.song, 8);
 		blockPressWhileTypingOn.push(UI_songTitle);
 
-		var check_voices = new FlxUICheckBox(10, 25, null, null, "Has voice track", 100);
+		var check_voices = new FlxUICheckBox(10, 30, null, null, "Has voice track", 100);
 		check_voices.checked = _song.needsVoices;
 		// _song.needsVoices = check_voices.checked;
 		check_voices.callback = function()
@@ -406,7 +422,7 @@ class ChartingState extends MusicBeatState
 			//trace('CHECKED!');
 		};
 
-		var saveButton:FlxButton = new FlxButton(110, 8, "Save", function()
+		var saveButton:FlxButton = new FlxButton(130, 8, "Save", function()
 		{
 			saveLevel();
 		});
@@ -414,6 +430,8 @@ class ChartingState extends MusicBeatState
 		var reloadSong:FlxButton = new FlxButton(saveButton.x + 90, saveButton.y, "Reload Audio", function()
 		{
 			currentSongName = Paths.formatToSongPath(UI_songTitle.text);
+			currentSongArtist = Paths.formatToSongPath(UI_songArtist.text);
+			currentSongDisplay = Paths.formatToSongPath(UI_songDisplay.text);
 			loadSong();
 			updateWaveform();
 		});
@@ -447,7 +465,7 @@ class ChartingState extends MusicBeatState
 			}
 		});
 
-		var saveEvents:FlxButton = new FlxButton(110, reloadSongJson.y, 'Save Events', function ()
+		var saveEvents:FlxButton = new FlxButton(130, reloadSongJson.y, 'Save Events', function ()
 		{
 			saveEvents();
 		});
@@ -613,7 +631,7 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(noteSkinInputText);
 		tab_group_song.add(noteSplashesInputText);
 		tab_group_song.add(new FlxText(stepperBPM.x, stepperBPM.y - 15, 0, 'Song BPM:'));
-		tab_group_song.add(new FlxText(stepperBPM.x + 100, stepperBPM.y - 15, 0, 'Song Offset:'));
+		tab_group_song.add(new FlxText(stepperBPM.x + 130, stepperBPM.y - 15, 0, 'Song Offset:'));
 		tab_group_song.add(new FlxText(stepperSpeed.x, stepperSpeed.y - 15, 0, 'Song Speed:'));
 		tab_group_song.add(new FlxText(player2DropDown.x, player2DropDown.y - 15, 0, 'Opponent:'));
 		tab_group_song.add(new FlxText(gfVersionDropDown.x, gfVersionDropDown.y - 15, 0, 'Girlfriend:'));
@@ -630,6 +648,29 @@ class ChartingState extends MusicBeatState
 
 		FlxG.camera.follow(camPos);
 	}
+
+
+	function addMetaUI():Void
+		{
+
+			UI_songArtist = new FlxUIInputText(10, 15, 70, _song.artist, 8);
+			blockPressWhileTypingOn.push(UI_songArtist);
+
+			UI_songDisplay = new FlxUIInputText(10, 35, 70, _song.displayName, 8);
+			blockPressWhileTypingOn.push(UI_songDisplay);
+
+
+			var tab_group_metadata = new FlxUI(null, UI_box);
+			tab_group_metadata.name = "Metadata";
+			tab_group_metadata.add(new FlxText(UI_songArtist.x, UI_songArtist.y + 10, 0, 'Song Artist:'));
+			tab_group_metadata.add(new FlxText(UI_songDisplay.x, UI_songDisplay.y + 10, 0, 'Song DisplayName:'));
+			tab_group_metadata.add(UI_songDisplay);
+			tab_group_metadata.add(UI_songArtist);
+
+			UI_box.addGroup(tab_group_metadata);
+
+			FlxG.camera.follow(camPos);
+		}
 
 	var stepperBeats:FlxUINumericStepper;
 	var check_mustHitSection:FlxUICheckBox;
@@ -1531,6 +1572,8 @@ class ChartingState extends MusicBeatState
 		}
 		Conductor.songPosition = FlxG.sound.music.time;
 		_song.song = UI_songTitle.text;
+		_song.artist = UI_songArtist.text;
+		_song.displayName = UI_songDisplay.text;
 
 		strumLineUpdateY();
 		for (i in 0...8){
@@ -1682,7 +1725,7 @@ class ChartingState extends MusicBeatState
 
 				PlayState.chartingMode = false;
 				MusicBeatState.switchState(new states.editors.MasterEditorMenu());
-				FlxG.sound.playMusic(Paths.music('freakyMenu'));
+				FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.titleMusic)));
 				FlxG.mouse.visible = false;
 				return;
 			}
@@ -2476,6 +2519,8 @@ class ChartingState extends MusicBeatState
 	{
 		var healthIconP1:String = loadHealthIconFromCharacter(_song.player1);
 		var healthIconP2:String = loadHealthIconFromCharacter(_song.player2);
+
+		
 
 		if (_song.notes[curSec].mustHitSection)
 		{

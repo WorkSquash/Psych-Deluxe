@@ -161,7 +161,7 @@ class WeekEditorState extends MusicBeatState
 
 	var hideCheckbox:FlxUICheckBox;
 
-	public static var weekFileName:String = 'week1';
+	public static var weekFileName:String = 'tutorial';
 	
 	function addWeekUI() {
 		var tab_group = new FlxUI(null, UI_box);

@@ -2,6 +2,8 @@ package options;
 
 class MiscellaneousSettingsSubState extends BaseOptionsMenu
 {
+	
+	
 	public function new()
 	{
 		title = 'Miscellaneous';
@@ -25,30 +27,20 @@ class MiscellaneousSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		#end
 
-		var option:Option = new Option('Freeplay Losing Icons',
-			"If checked, the game will display the characters losing icon when selecting it in freeplay.",
-			'losingIcons',
-			'bool',
-			false);
-		addOption(option);
-
-		#if html5
-		var option:Option = new Option('Random Loading Screens',
-			"If checked, the game will display random loading screens.",
-			'randomLoading',
-			'bool',
-			true);
-		addOption(option);
-		#end
-
-		#if DEVELOPER_BUILD
 		var option:Option = new Option('Engine Watermarks',
 			"Uncheck this to hide the watermarks",
-			'watermarksEnabled',
+			'watermark',
 			'bool',
 			true);
+		addOption(option);	
+
+		var option:Option = new Option('Botplay Text:',
+			"Change the botplay text",
+			'botText',
+			'string',
+			'Deafult',
+			['Default', 'Auto Play']);
 		addOption(option);
-		#end
 		
 		super();
 	}

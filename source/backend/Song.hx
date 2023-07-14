@@ -13,12 +13,13 @@ import backend.Section;
 typedef SwagSong =
 {
 	var song:String;
+	var artist:String;
+	var displayName:String;
 	var notes:Array<SwagSection>;
 	var events:Array<Dynamic>;
 	var bpm:Float;
 	var needsVoices:Bool;
 	var speed:Float;
-
 	var player1:String;
 	var player2:String;
 	var gfVersion:String;
@@ -31,6 +32,8 @@ typedef SwagSong =
 class Song
 {
 	public var song:String;
+	public var artist:String;
+	public var displayName:String;
 	public var notes:Array<SwagSection>;
 	public var events:Array<Dynamic>;
 	public var bpm:Float;
@@ -49,6 +52,22 @@ class Song
 		{
 			songJson.gfVersion = songJson.player3;
 			songJson.player3 = null;
+		}
+
+		if(songJson.artist == null)
+		{
+			songJson.artist = 'Kawaii Sprite';
+/*
+			if(songJson.song =  'Monster' | songJson.song = 'Winter Horrorland')songJson.artist = "Basset Films";
+			
+			if(songJson.song = 'Test')songJson.artist = "MTH";*/
+			
+		}
+
+
+		if(songJson.displayName == null)
+		{
+			songJson.displayName = songJson.song;
 		}
 
 		if(songJson.events == null)

@@ -9,6 +9,7 @@ import flixel.math.FlxPoint;
 
 import states.StoryMenuState;
 import states.FreeplayState;
+import states.PlayState;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
@@ -31,6 +32,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		deathSoundName = 'fnf_loss_sfx';
 		loopSoundName = 'gameOver';
 		endSoundName = 'gameOverEnd';
+
 	}
 
 	override function create()
@@ -118,6 +120,7 @@ class GameOverSubstate extends MusicBeatSubstate
 				if (boyfriend.animation.curAnim.finished && !playingDeathSound)
 				{
 					startedDeath = true;
+
 					if (PlayState.SONG.stage == 'tank')
 					{
 						playingDeathSound = true;
@@ -147,11 +150,12 @@ class GameOverSubstate extends MusicBeatSubstate
 		}
 		PlayState.instance.callOnLuas('onUpdatePost', [elapsed]);
 	}
-
+	
 	var isEnding:Bool = false;
 
 	function coolStartDeath(?volume:Float = 1):Void
 	{
+		if(PlayState.SONG.stage == 'philly')loopSoundName = 'gameOver-Pico';
 		FlxG.sound.playMusic(Paths.music(loopSoundName), volume);
 	}
 
@@ -162,7 +166,9 @@ class GameOverSubstate extends MusicBeatSubstate
 			isEnding = true;
 			boyfriend.playAnim('deathConfirm', true);
 			FlxG.sound.music.stop();
+			if(PlayState.SONG.stage == 'philly')endSoundName = 'gameOverEnd-Pico';
 			FlxG.sound.play(Paths.music(endSoundName));
+			
 			new FlxTimer().start(0.7, function(tmr:FlxTimer)
 			{
 				FlxG.camera.fade(FlxColor.BLACK, 2, false, function()

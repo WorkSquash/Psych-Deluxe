@@ -5,31 +5,24 @@ import states.MainMenuState;
 class OptionsState extends MusicBeatState
 {
 	//var options:Array<String> = ['Gameplay', 'Controls', 'Graphics', 'Customization', 'Miscellaneous', 'Note Colors', 'Adjust Delay and Combo' ];
-	var options:Array<String> = ['Gameplay', 'Controls', 'Graphics', 'Customization', 'Miscellaneous', 'Adjust Delay and Combo' ];
+	var options:Array<String> = ['Gameplay', 'Graphics', 'Controls', 'Adjust Delay and Combo' ];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
+
+	public static var onPlayState:Bool = false;
 
 	function openSelectedSubstate(label:String) {
 		switch(label) {
 			case 'Gameplay':
 				openSubState(new options.GameplaySettingsSubState());
 			
-			case 'Controls':
-				openSubState(new options.ControlsSubState());
-			
 			case 'Graphics':
 				openSubState(new options.GraphicsSettingsSubState());
 			
-			case 'Customization':
-				openSubState(new options.CustomizationSubState());
-			
-			case 'Miscellaneous':
-				openSubState(new options.MiscellaneousSettingsSubState());
+			case 'Controls':
+				openSubState(new options.ControlsSubState());
 
-			/*case 'Note Colors':
-				openSubState(new options.NotesSubState());	*/
-			
 			case 'Adjust Delay and Combo':
 				LoadingState.loadAndSwitchState(new options.NoteOffsetState());
 		}
@@ -53,6 +46,17 @@ class OptionsState extends MusicBeatState
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
 
+		var infoShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Press the left and right arrows to change option pages.", 18);
+		infoShit.scrollFactor.set();
+		infoShit.setFormat("VCR OSD Mono", 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(infoShit);
+
+	/*	var warningShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "", 18);
+		warningShit.scrollFactor.set();
+		warningShit.setFormat("VCR OSD Mono", 12, FlxColor.RED, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(warningShit);*/
+
+
 		for (i in 0...options.length)
 		{
 			var optionText:Alphabet = new Alphabet(0, 0, options[i], true);
@@ -62,9 +66,9 @@ class OptionsState extends MusicBeatState
 		}
 
 		selectorLeft = new Alphabet(0, 0, '>', true);
-		add(selectorLeft);
+		//add(selectorLeft);
 		selectorRight = new Alphabet(0, 0, '<', true);
-		add(selectorRight);
+		//add(selectorRight);
 
 		changeSelection();
 		ClientPrefs.saveSettings();
@@ -87,9 +91,19 @@ class OptionsState extends MusicBeatState
 			changeSelection(1);
 		}
 
+		if (controls.UI_RIGHT_P) {
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+			LoadingState.loadAndSwitchState(new options.OSTP2());
+		}
+
 		if (controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			MusicBeatState.switchState(new MainMenuState());
+			if(onPlayState)
+				{
+					MusicBeatState.switchState(new PlayState());
+					FlxG.sound.music.volume = 0;
+				}
+			else MusicBeatState.switchState(new MainMenuState());
 		}
 
 		if (controls.ACCEPT) {

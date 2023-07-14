@@ -1,0 +1,471 @@
+{
+	"song": {
+		"events": [
+			[
+				38300,
+				[
+					[
+						"Create Flash",
+						"",
+						""
+					],
+					[
+						"Dadbattle Spotlight",
+						"1",
+						""
+					],
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07  "
+					]
+				]
+			],
+			[
+				38400,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07  "
+					]
+				]
+			],
+			[
+				38800,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07  "
+					]
+				]
+			],
+			[
+				39200,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07  "
+					]
+				]
+			],
+			[
+				39500,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07  "
+					]
+				]
+			],
+			[
+				39900,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07  "
+					]
+				]
+			],
+			[
+				40000,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07  "
+					]
+				]
+			],
+			[
+				40400,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07  "
+					]
+				]
+			],
+			[
+				40800,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07  "
+					]
+				]
+			],
+			[
+				41200,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07  "
+					]
+				]
+			],
+			[
+				41500,
+				[
+					[
+						"Create Flash",
+						"0.075",
+						"0.07  "
+					],
+					[
+						"Dadbattle Spotlight",
+						"3",
+						""
+					]
+				]
+			],
+			[
+				41600,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07"
+					]
+				]
+			],
+			[
+				42000,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07"
+					]
+				]
+			],
+			[
+				42400,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07"
+					]
+				]
+			],
+			[
+				42800,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07"
+					]
+				]
+			],
+			[
+				43100,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07"
+					]
+				]
+			],
+			[
+				43200,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07"
+					]
+				]
+			],
+			[
+				43600,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07"
+					]
+				]
+			],
+			[
+				44000,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07"
+					]
+				]
+			],
+			[
+				44400,
+				[
+					[
+						"Add Camera Zoom",
+						"0.075",
+						"0.07"
+					]
+				]
+			],
+			[
+				44700,
+				[
+					[
+						"Create Flash",
+						"",
+						""
+					],
+					[
+						"Dadbattle Spotlight",
+						"0",
+						""
+					]
+				]
+			],
+			[
+				51200,
+				[
+					[
+						"Screen Shake",
+						"0.25, 0.05",
+						"0.5, 0.05"
+					]
+				]
+			],
+			[
+				52800,
+				[
+					[
+						"Screen Shake",
+						"0.25, 0.05",
+						"0.5, 0.05"
+					]
+				]
+			],
+			[
+				54400,
+				[
+					[
+						"Screen Shake",
+						"0.25, 0.075",
+						"0.5, 0.075"
+					]
+				]
+			],
+			[
+				56000,
+				[
+					[
+						"Screen Shake",
+						"0.25, 0.025",
+						"0.5, 0.025"
+					]
+				]
+			],
+			[
+				57600,
+				[
+					[
+						"Screen Shake",
+						"0.25, 0.025",
+						"0.5, 0.025"
+					]
+				]
+			],
+			[
+				59200,
+				[
+					[
+						"Screen Shake",
+						"0.25, 0.025",
+						"0.5, 0.025"
+					]
+				]
+			],
+			[
+				60800,
+				[
+					[
+						"Screen Shake",
+						"0.25, 0.075",
+						"0.5, 0.075"
+					]
+				]
+			],
+			[
+				62400,
+				[
+					[
+						"Screen Shake",
+						"0.25, 0.025",
+						"0.5, 0.025"
+					]
+				]
+			],
+			[
+				63300,
+				[
+					[
+						"Create Flash",
+						"",
+						""
+					],
+					[
+						"Dadbattle Spotlight",
+						"1",
+						""
+					],
+					[
+						"Add Camera Zoom",
+						"0.025",
+						"0.075"
+					]
+				]
+			],
+			[
+				63400,
+				[
+					[
+						"Change Character",
+						"dad",
+						"bf-pixel-opponent"
+					]
+				]
+			],
+			[
+				63800,
+				[
+					[
+						"Add Camera Zoom",
+						"0.025",
+						"0.075"
+					]
+				]
+			],
+			[
+				63900,
+				[
+					[
+						"Play Animation",
+						"singDOWNmiss",
+						"bf"
+					]
+				]
+			],
+			[
+				64000,
+				[
+					[
+						"Play Animation",
+						"singLEFTmiss",
+						"bf"
+					]
+				]
+			],
+			[
+				69000,
+				[
+					[
+						"Play Animation",
+						"singLEFTmiss",
+						"bf"
+					]
+				]
+			],
+			[
+				70300,
+				[
+					[
+						"Create Flash",
+						"",
+						""
+					],
+					[
+						"Dadbattle Spotlight",
+						"0",
+						""
+					]
+				]
+			],
+			[
+				70400,
+				[
+					[
+						"Play Animation",
+						"hey",
+						"bf"
+					]
+				]
+			],
+			[
+				70500,
+				[
+					[
+						"Play Animation",
+						"singDOWNmiss",
+						"dad"
+					]
+				]
+			],
+			[
+				71200,
+				[
+					[
+						"Play Animation",
+						"singUPmiss",
+						"dad"
+					]
+				]
+			],
+			[
+				71600,
+				[
+					[
+						"Play Animation",
+						"singRIGHTmiss",
+						"dad"
+					]
+				]
+			],
+			[
+				89600,
+				[
+					[
+						"Create Flash",
+						"",
+						""
+					],
+					[
+						"Change Character",
+						"dad",
+						"bf-opponent"
+					]
+				]
+			],
+			[
+				99100,
+				[
+					[
+						"Create Flash",
+						"",
+						""
+					],
+					[
+						"Character Transparancy",
+						"3",
+						"0"
+					]
+				]
+			]
+		]
+	}
+}

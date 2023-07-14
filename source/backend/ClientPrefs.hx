@@ -16,10 +16,9 @@ class SaveVariables {
 	public var flashing:Bool = true;
 	public var antialiasing:Bool = true;
 	public var noteSplashes:Bool = true;
-	public var pixelSplash:Bool = false;
-	public var watermarksEnabled:Bool = true;
+	public var pixelSplash:Bool = true;
+	public var watermark:Bool = true;
 	public var winningIcons:Bool = false;
-	public var losingIcons:Bool = false;
 	public var lowQuality:Bool = false;
 	public var shaders:Bool = true;
 	public var framerate:Int = 60;
@@ -28,13 +27,18 @@ class SaveVariables {
 	public var violence:Bool = true;
 	public var camZooms:Bool = true;
 	public var hideHud:Bool = false;
+	public var rainbowTime:Bool = true;
+	public var scoreText:String = 'Psych';
 	//public var foreverSplash:Bool = false;
 	//public var funkinSplash:Bool = false;
 	public var noteOffset:Int = 0;
 	public var arrowHSV:Array<Array<Int>> = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
 	public var ghostTapping:Bool = true;
-	public var timeBarType:String = 'Time Left';
+	public var songInfo:Bool = true;
+	public var timeBarType:String = 'Disabled';
 	public var splashSkin:String = 'Default';
+	public var botText:String = 'Default';
+	public var flashVolume:Float = 0;
 	public var scoreZoom:Bool = true;
 	public var noReset:Bool = false;
 	public var displayIcons:Bool = true;
@@ -42,6 +46,9 @@ class SaveVariables {
 	public var healthBarAlpha:Float = 1;
 	public var hitsoundVolume:Float = 0;
 	public var pauseMusic:String = 'Tea Time';
+	public var offsetSong:String = 'FPS Plus';
+	public var titleMusic:String = 'Freaky Menu';
+	public var phillyColors:String = 'Default';
 	public var checkForUpdates:Bool = true;
 	public var comboStacking:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
@@ -63,7 +70,10 @@ class SaveVariables {
 		'instakill' => false,
 		'practice' => false,
 		'botplay' => false,
-		'opponentplay' => false
+		'opponentplay' => false,
+		'pussymode' => false,
+		'deathmode' => false
+
 	];
 
 	public var comboOffset:Array<Int> = [0, 0, 0, 0];
@@ -72,7 +82,7 @@ class SaveVariables {
 	public var goodWindow:Int = 90;
 	public var badWindow:Int = 135;
 	public var safeFrames:Float = 10;
-	public var discordRPC:Bool = true;
+	public var discordRPC:Bool = false;
 
 	public function new()
 	{

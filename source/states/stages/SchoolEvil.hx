@@ -44,8 +44,11 @@ class SchoolEvil extends BaseStage
 	}
 	override function createPost()
 	{
-		var trail:FlxTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069);
+		var trail:FlxTrail = new FlxTrail(dad, null, 4, 24, 0.45, 0.075);
 		addBehindDad(trail);
+
+		var trail2:FlxTrail = new FlxTrail(boyfriend, null, 4, 24, 0.45, 0.075);
+		addBehindDad(trail2);
 	}
 
 	// Ghouls event

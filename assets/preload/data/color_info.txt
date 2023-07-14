@@ -1,0 +1,11 @@
+gf: 165, 0, 77 			    #A5004D
+bf: 49, 174, 204 		    #31AECF
+dad: 175, 102, 206 		    #AF66CE
+spooky: 213, 126, 0		    #D57E00
+monster: 243, 255, 110 	    #F3FF6E
+pico: 183, 216, 85 		    #B7D855
+mom: 216, 85, 142		    #D8558E
+senpai: 255, 170, 111		#FFAA6F
+senpai-angry: 255, 170, 111	#FFAA6F
+spirit: 255, 60, 110		#FF3C6E
+tankman: 255, 255, 255		#FFFFFF

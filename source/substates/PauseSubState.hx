@@ -10,13 +10,14 @@ import flixel.util.FlxStringUtil;
 
 import states.StoryMenuState;
 import states.FreeplayState;
+import options.OptionsState;
 
 class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Exit to menu'];
+	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Options', 'Exit to menu'];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -217,6 +218,14 @@ class PauseSubState extends MusicBeatSubstate
 					practiceText.visible = PlayState.instance.practiceMode;
 				case "Restart Song":
 					restartSong();
+
+				case "Options":
+					PlayState.instance.paused = true; // For lua
+					PlayState.instance.vocals.volume = 0;
+					MusicBeatState.switchState(new OptionsState());
+					if(ClientPrefs.data.pauseMusic != 'None') FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)));
+					OptionsState.onPlayState = true;
+
 				case "Leave Charting Mode":
 					restartSong();
 					PlayState.chartingMode = false;
@@ -256,7 +265,7 @@ class PauseSubState extends MusicBeatSubstate
 						MusicBeatState.switchState(new FreeplayState());
 					}
 					PlayState.cancelMusicFadeTween();
-					FlxG.sound.playMusic(Paths.music('freakyMenu'));
+					FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.titleMusic)));
 					PlayState.changedDifficulty = false;
 					PlayState.chartingMode = false;
 					FlxG.camera.followLerp = 0;

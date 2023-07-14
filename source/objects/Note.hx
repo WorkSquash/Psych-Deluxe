@@ -126,11 +126,9 @@ class Note extends FlxSprite
 			switch(value) {
 				case 'Hurt Note':
 					ignoreNote = mustPress;
-					reloadNote('HURT');
-					noteSplashTexture = 'Splashes/hurt_note';
-					/*if (PlayState.isPixelStage && ClientPrefs.data.pixelSplash) {
-						noteSplashTexture = 'PixelUI/Splashes/hurt_note';
-					}*/
+					reloadNote('hurt_note');
+					noteSplashTexture = 'note_splashes/hurt_note';
+					if (PlayState.isPixelStage && ClientPrefs.data.pixelSplash)noteSplashTexture = 'PixelUI/note_splashes/hurt_note';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -142,6 +140,24 @@ class Note extends FlxSprite
 						missHealth = 0.3;
 					}
 					hitCausesMiss = true;
+
+				case 'Death Note':
+						ignoreNote = mustPress;
+						reloadNote('hurt_note');
+						noteSplashTexture = 'note_splashes/hurt_note';
+						if (PlayState.isPixelStage && ClientPrefs.data.pixelSplash)noteSplashTexture = 'PixelUI/note_splashes/hurt_note';
+						colorSwap.hue = 0;
+						colorSwap.saturation = 0;
+						colorSwap.brightness = 0;
+						lowPriority = true;
+	
+						if(isSustainNote) {
+							missHealth = 100;
+						} else {
+							missHealth = 100;
+						}
+						hitCausesMiss = true;
+
 				case 'Alt Animation':
 					animSuffix = '-alt';
 				case 'No Animation':

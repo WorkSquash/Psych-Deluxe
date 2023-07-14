@@ -1,12 +1,15 @@
 package objects;
 
 import shaders.ColorSwap;
+import flixel.system.FlxAssets.FlxShader;
+import states.PlayState;
 
 class NoteSplash extends FlxSprite
 {
 	public var colorSwap:ColorSwap = null;
 	private var idleAnim:String;
 	private var textureLoaded:String = null;
+
 
 	public function new(x:Float = 0, y:Float = 0, ?note:Int = 0) {
 		super(x, y);
@@ -29,28 +32,34 @@ class NoteSplash extends FlxSprite
 		if(PlayState.isPixelStage)alpha = 1;
 
 		if(texture == null && ClientPrefs.data.splashSkin == 'Default') {
-			texture = 'Splashes/default';
+			texture = 'note_splashes/default';
 			if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) texture = PlayState.SONG.splashSkin;
-			if(PlayState.isPixelStage && ClientPrefs.data.pixelSplash) texture = 'pixelUI/Splashes/default';
+			if(PlayState.isPixelStage && ClientPrefs.data.pixelSplash) texture = 'pixelUI/note_splashes/default';
 		}
 
-		if(ClientPrefs.data.splashSkin == 'Funkin') {
-			texture = 'Splashes/funkin';
+		if(ClientPrefs.data.splashSkin == "Funkin'") {
+			texture = 'note_splashes/funkin';
 			if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) texture = PlayState.SONG.splashSkin;
-			if(PlayState.isPixelStage && ClientPrefs.data.pixelSplash) texture = 'pixelUI/Splashes/funkin';
+			if(PlayState.isPixelStage && ClientPrefs.data.pixelSplash) texture = 'pixelUI/note_splashes/funkin';
 		}
 
 
 		if(ClientPrefs.data.splashSkin == 'Forever') {
-			texture = 'Splashes/forever';
+			texture = 'note_splashes/forever';
 			if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) texture = PlayState.SONG.splashSkin;
-			if(PlayState.isPixelStage && ClientPrefs.data.pixelSplash) texture = 'pixelUI/Splashes/forever';
+			if(PlayState.isPixelStage && ClientPrefs.data.pixelSplash) texture = 'pixelUI/note_splashes/forever';
 		}
 
 		if(ClientPrefs.data.splashSkin == 'Impostor') {
-			texture = 'Splashes/impostor';
+			texture = 'note_splashes/impostor';
 			if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) texture = PlayState.SONG.splashSkin;
-			if(PlayState.isPixelStage && ClientPrefs.data.pixelSplash) texture = 'pixelUI/Splashes/impostor';
+			if(PlayState.isPixelStage && ClientPrefs.data.pixelSplash) texture = 'pixelUI/note_splashes/impostor';
+		}
+
+		if(ClientPrefs.data.splashSkin == 'Diamond') {
+			texture = 'note_splashes/diamond';
+			if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) texture = PlayState.SONG.splashSkin;
+			if(PlayState.isPixelStage && ClientPrefs.data.pixelSplash) texture = 'pixelUI/note_splashes/diamond';
 		}
 		
 
@@ -60,18 +69,28 @@ class NoteSplash extends FlxSprite
 		colorSwap.hue = hueColor;
 		colorSwap.saturation = satColor;
 		colorSwap.brightness = brtColor;
-		offset.set(10, 10);
+		offset.set(10, PlayState.STRUM_X -15);
 
-		if(ClientPrefs.data.splashSkin == 'Funkin') {
-			offset.set(-12, -12);
+		if(ClientPrefs.data.splashSkin == "Funkin'") {
+			offset.set(-10.75, PlayState.STRUM_X - y);
+			if(ClientPrefs.data.downScroll) {
+				offset.set(-10.75, PlayState.STRUM_X - 50);
+			}
 		}
+
+		if(ClientPrefs.data.splashSkin == 'Diamond') {
+			offset.set(10, PlayState.STRUM_X - y);
+			if(ClientPrefs.data.downScroll) {
+				offset.set(10, PlayState.STRUM_X - 55);
+			}
+		}
+
+		//if(ClientPrefs.data.splashSkin == 'Diamond')offset.set(width * 0.3, height);
 
 		var animNum:Int = FlxG.random.int(1, 2);
 		animation.play('note' + note + '-' + animNum, true);
 		if(animation.curAnim != null)animation.curAnim.frameRate = 30 + FlxG.random.int(-2, 2);
-
-		if (ClientPrefs.data.splashSkin == 'Forever')animation.curAnim.frameRate= 12;
-		if (ClientPrefs.data.splashSkin != 'Default' && ClientPrefs.data.splashSkin != 'Forever')animation.curAnim.frameRate= 20;
+		if (ClientPrefs.data.splashSkin == 'Forever' || PlayState.isPixelStage)animation.curAnim.frameRate = 15;
 	}
 
 	function loadAnims(skin:String) {

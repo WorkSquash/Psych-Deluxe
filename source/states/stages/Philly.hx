@@ -3,6 +3,8 @@ package states.stages;
 import states.stages.objects.*;
 import objects.Character;
 
+import flixel.addons.effects.FlxTrail;
+
 class Philly extends BaseStage
 {
 	var phillyLightsColors:Array<FlxColor>;
@@ -10,14 +12,13 @@ class Philly extends BaseStage
 	var phillyStreet:BGSprite;
 	var phillyTrain:PhillyTrain;
 	var curLight:Int = -1;
-
 	//For Philly Glow events
 	var blammedLightsBlack:FlxSprite;
 	var phillyGlowGradient:PhillyGlowGradient;
 	var phillyGlowParticles:FlxTypedGroup<PhillyGlowParticle>;
 	var phillyWindowEvent:BGSprite;
 	var curLightEvent:Int = -1;
-
+	
 	override function create()
 	{
 		if(!ClientPrefs.data.lowQuality) {
@@ -30,7 +31,18 @@ class Philly extends BaseStage
 		city.updateHitbox();
 		add(city);
 
-		phillyLightsColors = [0xFF31A2FD, 0xFF31FD8C, 0xFFFB33F5, 0xFFFD4531, 0xFFFBA633];
+		if(ClientPrefs.data.phillyColors == 'Default'){
+			phillyLightsColors = [0xFF31A2FD, 0xFF31FD8C, 0xFFFB33F5, 0xFFFD4531, 0xFFFBA633];
+		}
+
+		if(ClientPrefs.data.phillyColors == 'Deluxe'){
+			phillyLightsColors = [0xFF12B0FF, 0xFF1DFE1D, 0xFFFF7300, 0xFFFF0101, 0xFFFFEE00, 0xFFFFFF, 0x7A29D7 ];
+		}
+
+		if(ClientPrefs.data.phillyColors == 'White'){
+			phillyLightsColors = [0xFFFFFFFF];
+		}
+
 		phillyWindow = new BGSprite('philly/window', city.x, city.y, 0.3, 0.3);
 		phillyWindow.setGraphicSize(Std.int(phillyWindow.width * 0.85));
 		phillyWindow.updateHitbox();
@@ -47,7 +59,9 @@ class Philly extends BaseStage
 
 		phillyStreet = new BGSprite('philly/street', -40, 50);
 		add(phillyStreet);
+
 	}
+
 	override function eventPushed(event:objects.Note.EventNote)
 	{
 		switch(event.event)
@@ -73,6 +87,8 @@ class Philly extends BaseStage
 				phillyGlowParticles = new FlxTypedGroup<PhillyGlowParticle>();
 				phillyGlowParticles.visible = false;
 				insert(members.indexOf(phillyGlowGradient) + 1, phillyGlowParticles);
+				
+
 		}
 	}
 
@@ -111,6 +127,7 @@ class Philly extends BaseStage
 	{
 		switch(eventName)
 		{
+
 			case "Philly Glow":
 				if(flValue1 == null || flValue1 <= 0) flValue1 = 0;
 				var lightId:Int = Math.round(flValue1);
@@ -212,4 +229,5 @@ class Philly extends BaseStage
 
 		FlxG.camera.flash(color, 0.15, null, true);
 	}
+	
 }

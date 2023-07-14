@@ -1,8 +1,8 @@
 {
 	"songs": [
-		["Cocoa", "parents", [160, 209, 255]],
-		["Eggnog", "parents", [160, 209, 255]],
-		["Winter Horrorland", "monster", [160, 209, 255]]
+		["Cocoa", "parents", [175, 102, 206]],
+		["Eggnog", "parents", [216, 85, 142]],
+		["Winter Horrorland", "monster", [243, 255, 110]]
 	],
 
 	"weekCharacters": [
@@ -15,8 +15,8 @@
 	"storyName": "RED SNOW",
 	"weekBefore": "week4",
 	"weekName": "Week 5",
-	"startUnlocked": true,
-
+	"startUnlocked": false,
+	"hiddenUntilUnlocked": true,
 	"hideStoryMode": false,
 	"hideFreeplay": false
 }

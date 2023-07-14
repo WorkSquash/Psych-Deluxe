@@ -44,14 +44,17 @@ class LoadingState extends MusicBeatState
 	{
 		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xffcaff4d);
 		add(bg);
-		funkay = new FlxSprite(0, 0).loadGraphic(Paths.getPath('images/funkay.png', IMAGE));
+		funkay = new FlxSprite(0, 0).loadGraphic(Paths.getPath('images/loading/funkay-' + FlxG.random.int(1,5) + '.png', IMAGE));
+		if(!ClientPrefs.data.randomLoading){
+			funkay = new FlxSprite(0, 0).loadGraphic(Paths.getPath('images/loading/funkay-1.png', IMAGE));
+		}
 		funkay.setGraphicSize(0, FlxG.height);
 		funkay.updateHitbox();
 		add(funkay);
 		funkay.scrollFactor.set();
 		funkay.screenCenter();
 
-		loadBar = new FlxSprite(0, FlxG.height - 20).makeGraphic(FlxG.width, 10, 0xffff16d2);
+		loadBar = new FlxSprite(0, FlxG.height - 20).makeGraphic(FlxG.width, 10, 0xff7412c5);
 		loadBar.screenCenter(X);
 		add(loadBar);
 		
