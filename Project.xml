@@ -3,6 +3,9 @@
 	<!-- _________________________ Application Settings _________________________ -->
 
 	<app title="Friday Night Funkin'" file="Psych Deluxe" packageName="com.worksquash.psych-deluxe" package="com.worksquash.psych-deluxe" main="Main" version="0.2.8" company="WorkSquash" />
+	<section if="32bits">
+		<app title="Friday Night Funkin': 32 Bits"/>
+	</section>
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -49,6 +52,7 @@
 	<set name="BUILD_DIR" value="export/test" if="debug" />
 	<set name="BUILD_DIR" value="export/main" unless="debug" />
 	<set name="BUILD_DIR" value="export/32bit" if="32bits" />
+	<set name="BUILD_DIR" value="export/linux" if="linux" />
 
 	<classpath name="source" />
 
