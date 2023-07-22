@@ -21,26 +21,7 @@ class AudioSetttingsSubState extends BaseOptionsMenu
 		option.decimals = 1;
 		option.onChange = onChangeHitsoundVolume;
 
-
-        var option:Option = new Option('Pause Screen Song:',
-        "What song do you prefer for the Pause Screen?",
-        'pauseMusic',
-        'string',
-        'Tea Time',
-        ['None', 'Breakfast', 'Tea Time']);
-        addOption(option);
-        option.onChange = onChangePauseMusic;
-
-		var option:Option = new Option('Title Screen Song:',
-        "What song do you prefer for the Title Screen?",
-        'titleMusic',
-        'string',
-        'Freaky Menu',
-        ['Freaky Menu', 'Classic', 'Klaskii Loop', 'Give A Lil Bit Back']);
-        addOption(option);
-        option.onChange = onChangeTitleMusic;
-    
-        var option:Option = new Option('Flash Event Volume',
+		var option:Option = new Option('Flash Event Volume',
         'Change how loud the flashbang sound should be.',
         'flashVolume',
         'percent',
@@ -53,13 +34,43 @@ class AudioSetttingsSubState extends BaseOptionsMenu
         //option.decimals = 1;
          option.onChange = onChangeFlashsoundVolume;
 
+
+        var option:Option = new Option('Pause Screen Song:',
+        "What song do you prefer for the Pause Screen?",
+        'pauseMusic',
+        'string',
+        'Tea Time',
+        ['None', 'Breakfast', 'Tea Time', 'Fresh Chill Mix']);
+        addOption(option);
+        option.onChange = onChangePauseMusic;
+
+		var option:Option = new Option('Title Screen Song:',
+        "What song do you prefer for the Title Screen?",
+        'titleMusic',
+        'string',
+        'Freaky Menu',
+        ['Freaky Menu', 'Classic', 'Klaskii Romper', 'Klaskii Loop', 'Give A Lil Bit Back']);
+        addOption(option);
+        option.onChange = onChangeTitleMusic;
+
+		var option:Option = new Option('Note Offset Song:',
+        "What song do you prefer for the Note Offset Setting Page?",
+        'offsetMusic',
+        'string',
+        'Freaky Menu',
+        ['Psync', 'FPS Plus']);
+        addOption(option);
+        option.onChange = onChangeOffsetMusic;
+
 		super();
 	}
 
 	var changedHit:Bool = false;
+	var changedFlash:Bool = false;
 	var changedMusic:Bool = false;
 	var changedTitleMusic:Bool = false;
-	var changedFlash:Bool = false;
+	var changedOffsetMusic:Bool = false;
+	
 
 	function onChangeHitsoundVolume()
 	{
@@ -67,30 +78,36 @@ class AudioSetttingsSubState extends BaseOptionsMenu
 		FlxG.sound.music.volume = 0;
 		changedHit = true;
 	}
-	
-    function onChangeTitleMusic()
+
+	function onChangeFlashsoundVolume()
 	{
-		FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.titleMusic)));
-		changedTitleMusic = true;
+			FlxG.sound.play(Paths.sound('flash'), ClientPrefs.data.flashVolume);
+			FlxG.sound.music.volume = 0;
+			changedFlash = true;
 	}
-
-
+	
 	function onChangePauseMusic()
-		{
+	{
 			if(ClientPrefs.data.pauseMusic == 'None')
 				FlxG.sound.music.volume = 0;
 			else
 				FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)));
-	
 			changedMusic = true;
-		}
+	}
+
+	function onChangeTitleMusic()
+	{
+			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.titleMusic)));
+			changedTitleMusic = true;
+	}
+
+	function onChangeOffsetMusic()
+	{
+			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.offsetMusic)));
+			changedOffsetMusic = true;
+	}
 	
-    function onChangeFlashsoundVolume()
-		{
-			FlxG.sound.play(Paths.sound('flash'), ClientPrefs.data.flashVolume);
-			FlxG.sound.music.volume = 0;
-			changedFlash = true;
-		}
+    
 
 	override function destroy()
 		{
@@ -102,7 +119,7 @@ class AudioSetttingsSubState extends BaseOptionsMenu
 			if(changedTitleMusic){
 				FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.titleMusic)));
 				super.destroy();
-			} 
+			}
 
 			if(changedHit){
 				FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.titleMusic)));

@@ -30,19 +30,7 @@ class Philly extends BaseStage
 		city.setGraphicSize(Std.int(city.width * 0.85));
 		city.updateHitbox();
 		add(city);
-
-		if(ClientPrefs.data.phillyColors == 'Default'){
-			phillyLightsColors = [0xFF31A2FD, 0xFF31FD8C, 0xFFFB33F5, 0xFFFD4531, 0xFFFBA633];
-		}
-
-		if(ClientPrefs.data.phillyColors == 'Deluxe'){
-			phillyLightsColors = [0xFF12B0FF, 0xFF1DFE1D, 0xFFFF7300, 0xFFFF0101, 0xFFFFEE00, 0xFFFFFF, 0x7A29D7 ];
-		}
-
-		if(ClientPrefs.data.phillyColors == 'White'){
-			phillyLightsColors = [0xFFFFFFFF];
-		}
-
+		phillyLightsColors = [0xFF31A2FD, 0xFF31FD8C, 0xFFFB33F5, 0xFFFD4531, 0xFFFBA633];
 		phillyWindow = new BGSprite('philly/window', city.x, city.y, 0.3, 0.3);
 		phillyWindow.setGraphicSize(Std.int(phillyWindow.width * 0.85));
 		phillyWindow.updateHitbox();

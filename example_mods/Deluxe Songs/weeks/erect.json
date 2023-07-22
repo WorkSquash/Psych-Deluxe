@@ -1,0 +1,18 @@
+{
+	"songs": [
+		[ "Bopeebo", "dad", [ 175, 102, 206 ] ],
+		[ "Dadbattle", "dad", [ 175, 102, 206 ] ], 
+		[ "South", "spooky", [ 172, 172, 172 ] ]
+	],
+	"hiddenUntilUnlocked": true,
+	"hideFreeplay": false,
+	"weekBackground": "",
+	"difficulties": "Erect",
+	"weekCharacters": [ "", "", "" ],
+	"storyName": "Offical Remixes",
+	"weekName": "erect",
+	"freeplayColor": [],
+	"hideStoryMode": true,
+	"weekBefore": "week2",
+	"startUnlocked": false
+}

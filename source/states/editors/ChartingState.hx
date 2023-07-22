@@ -210,19 +210,19 @@ class ChartingState extends MusicBeatState
 			Difficulty.resetList();
 			_song = {
 				song: 'Test',
-				artist: 'MTH',
+				artist: 'Kawai Sprite & MtH',
 				displayName: 'Test',
 				notes: [],
 				events: [],
 				bpm: 150.0,
 				needsVoices: true,
 				arrowSkin: 'NOTE_assets',
-				splashSkin: 'splashes/default',//idk it would crash if i didn't
+				splashSkin: 'note_splashes/vanilla',//idk it would crash if i didn't
 				player1: 'bf',
-				player2: 'dad',
-				gfVersion: 'gf',
+				player2: 'bf-pixel-opponent',
+				gfVersion: 'gf-pixel',
 				speed: 1,
-				stage: 'stage'
+				stage: 'school'
 			};
 			addSection();
 			PlayState.SONG = _song;

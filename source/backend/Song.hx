@@ -56,11 +56,7 @@ class Song
 
 		if(songJson.artist == null)
 		{
-			songJson.artist = 'Kawaii Sprite';
-/*
-			if(songJson.song =  'Monster' | songJson.song = 'Winter Horrorland')songJson.artist = "Basset Films";
-			
-			if(songJson.song = 'Test')songJson.artist = "MTH";*/
+			songJson.artist = 'Kawai Sprite'; //Default artist is always Kawai Sprite
 			
 		}
 

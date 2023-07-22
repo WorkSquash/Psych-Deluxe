@@ -22,14 +22,15 @@ class HealthIcon extends FlxSprite
 		if(char == 'dad'){
 			isOldIcon = (char == 'dad-old');
 			changeIcon(char);
+			this.char = char;
 			scrollFactor.set();
 		}
 
 
 		else{		
 			isOldIcon = (char == 'no-icon');
-			this.isPlayer = isPlayer;
 			changeIcon(char);
+			this.char = char;
 			scrollFactor.set();
 		}
 
@@ -50,7 +51,7 @@ class HealthIcon extends FlxSprite
 
 	public function swapOPIcon() {
 		if(isOldIcon = !isOldIcon) changeIcon('dad-old');
-		else changeIcon('dad');
+		else changeIcon('icons/' + char);
 	}
 
 	public function swapProtoIcon() {

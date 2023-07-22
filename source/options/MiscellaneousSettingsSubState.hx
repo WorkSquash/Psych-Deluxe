@@ -32,14 +32,6 @@ class MiscellaneousSettingsSubState extends BaseOptionsMenu
 			'watermark',
 			'bool',
 			true);
-		addOption(option);	
-
-		var option:Option = new Option('Botplay Text:',
-			"Change the botplay text",
-			'botText',
-			'string',
-			'Deafult',
-			['Default', 'Auto Play']);
 		addOption(option);
 		
 		super();

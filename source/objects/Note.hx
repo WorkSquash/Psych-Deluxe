@@ -126,7 +126,7 @@ class Note extends FlxSprite
 			switch(value) {
 				case 'Hurt Note':
 					ignoreNote = mustPress;
-					reloadNote('hurt_note');
+					reloadNote('Hurt');
 					noteSplashTexture = 'note_splashes/hurt_note';
 					if (PlayState.isPixelStage && ClientPrefs.data.pixelSplash)noteSplashTexture = 'PixelUI/note_splashes/hurt_note';
 					colorSwap.hue = 0;
@@ -143,7 +143,7 @@ class Note extends FlxSprite
 
 				case 'Death Note':
 						ignoreNote = mustPress;
-						reloadNote('hurt_note');
+						reloadNote('Hurt');
 						noteSplashTexture = 'note_splashes/hurt_note';
 						if (PlayState.isPixelStage && ClientPrefs.data.pixelSplash)noteSplashTexture = 'PixelUI/note_splashes/hurt_note';
 						colorSwap.hue = 0;
@@ -161,6 +161,7 @@ class Note extends FlxSprite
 				case 'Alt Animation':
 					animSuffix = '-alt';
 				case 'No Animation':
+					colorSwap.saturation = -100;
 					noAnimation = true;
 					noMissAnimation = true;
 				case 'GF Sing':

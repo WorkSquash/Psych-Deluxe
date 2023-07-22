@@ -154,15 +154,11 @@ class NoteOffsetState extends MusicBeatState
 		updateMode();
 
 
-		if(ClientPrefs.data.offsetSong == 'Psych'){
-			Conductor.changeBPM(128.0);
-			FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
-		}
+		if(ClientPrefs.data.offsetMusic == 'Psync')Conductor.changeBPM(128.0);
 
-		if(ClientPrefs.data.offsetSong == 'FPS Plus'){
-			Conductor.changeBPM(100.0);
-			FlxG.sound.playMusic(Paths.music('offsetSong-fpsPlus'), 1, true);
-		}
+		if(ClientPrefs.data.offsetMusic == 'FPS Plus')Conductor.changeBPM(100.0);
+		
+		FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.offsetMusic)));
 		
 		super.create();
 	}

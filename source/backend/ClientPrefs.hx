@@ -9,48 +9,64 @@ import states.TitleState;
 
 // Add a variable here and it will get automatically saved
 class SaveVariables {
+	//Gameplay Options
 	public var downScroll:Bool = false;
 	public var middleScroll:Bool = false;
 	public var opponentStrums:Bool = true;
-	public var showFPS:Bool = true;
-	public var flashing:Bool = true;
-	public var antialiasing:Bool = true;
-	public var noteSplashes:Bool = true;
-	public var pixelSplash:Bool = true;
-	public var watermark:Bool = true;
-	public var winningIcons:Bool = false;
+	public var ghostTapping:Bool = true;
+	public var noReset:Bool = false;
+	public var comboOffset:Array<Int> = [0, 0, 0, 0];
+	public var ratingOffset:Int = 0;
+	public var sickWindow:Int = 45;
+	public var goodWindow:Int = 90;
+	public var badWindow:Int = 135;
+	public var safeFrames:Float = 10;
+	//Graphics Options
 	public var lowQuality:Bool = false;
+	public var antialiasing:Bool = true;
 	public var shaders:Bool = true;
 	public var framerate:Int = 60;
-	public var cursing:Bool = true;
-	public var randomLoading:Bool = true;
-	public var violence:Bool = true;
-	public var camZooms:Bool = true;
-	public var hideHud:Bool = false;
-	public var rainbowTime:Bool = true;
-	public var scoreText:String = 'Psych';
-	//public var foreverSplash:Bool = false;
-	//public var funkinSplash:Bool = false;
+	//Note Options
 	public var noteOffset:Int = 0;
 	public var arrowHSV:Array<Array<Int>> = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
-	public var ghostTapping:Bool = true;
-	public var songInfo:Bool = true;
-	public var timeBarType:String = 'Disabled';
-	public var splashSkin:String = 'Default';
-	public var botText:String = 'Default';
-	public var flashVolume:Float = 0;
-	public var scoreZoom:Bool = true;
-	public var noReset:Bool = false;
+	// UI Options
 	public var displayIcons:Bool = true;
+	public var winningIcons:Bool = false;
 	public var healthbarColors:Bool = true;
 	public var healthBarAlpha:Float = 1;
-	public var hitsoundVolume:Float = 0;
-	public var pauseMusic:String = 'Tea Time';
-	public var offsetSong:String = 'FPS Plus';
-	public var titleMusic:String = 'Freaky Menu';
-	public var phillyColors:String = 'Default';
-	public var checkForUpdates:Bool = true;
+	public var timeBarType:String = 'Disabled';
+	public var timeBarColor:String = 'White';
+	public var hideHud:Bool = false;
+	public var songInfo:Bool = true;
+	public var judgementCounter:Bool = false;
+	public var judgementPosition:String = 'Left';
+	public var scoreText:String = 'Psych';
+	public var botText:String = 'Default';
+	public var showFPS:Bool = true;
+	//Visual Options
+	public var noteSplashes:Bool = true;
+	public var pixelSplash:Bool = true;
+	public var splashSkin:String = 'Vanilla';
+	public var splashFramerate:Int = 30;
+	public var flashing:Bool = true;
+	public var camZooms:Bool = true;
+	public var scoreZoom:Bool = true;
 	public var comboStacking:Bool = true;
+	public var randomLoading:Bool = true;
+	//Audio Options
+	public var hitsoundVolume:Float = 0;
+	public var flashVolume:Float = 0;
+	public var pauseMusic:String = 'Tea Time';
+	public var titleMusic:String = 'Freaky Menu';
+	public var offsetMusic:String = 'Psync';
+	
+	//Miscellaneous Options
+	public var checkForUpdates:Bool = true;
+	public var discordRPC:Bool = false;
+	public var watermark:Bool = true;
+	public var cursing:Bool = true;
+	public var violence:Bool = true;
+	
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -76,13 +92,8 @@ class SaveVariables {
 
 	];
 
-	public var comboOffset:Array<Int> = [0, 0, 0, 0];
-	public var ratingOffset:Int = 0;
-	public var sickWindow:Int = 45;
-	public var goodWindow:Int = 90;
-	public var badWindow:Int = 135;
-	public var safeFrames:Float = 10;
-	public var discordRPC:Bool = false;
+	
+	
 
 	public function new()
 	{

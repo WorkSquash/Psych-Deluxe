@@ -111,6 +111,7 @@ class PlayState extends MusicBeatState
 		
 	];
 
+
 	//event variables
 	private var isCameraOnForcedPos:Bool = false;
 
@@ -174,7 +175,9 @@ class PlayState extends MusicBeatState
 	public var playerStrums:FlxTypedGroup<StrumNote>;
 	public var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
 
-	public var timeColors:Array<FlxColor>;
+	//public var timeColors:Array<FlxColor>;
+
+	public var timeColors:FlxColor;
 
 	public var camZooming:Bool = false;
 	public var camZoomingMult:Float = 1;
@@ -230,8 +233,10 @@ class PlayState extends MusicBeatState
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
 	public var scoreTxt:FlxText;
+	public var judgementTxt:FlxText;
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
+	var judgementTxtTween:FlxTween;
 
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
@@ -534,9 +539,7 @@ class PlayState extends MusicBeatState
 		timeBar.screenCenter(X);
 		timeBar.alpha = 0;
 		timeBar.visible = showTime;
-		if(ClientPrefs.data.rainbowTime){
-			reloadTimeColors();
-		}
+		reloadTimeColors();
 		add(timeBar);
 		add(timeTxt);
 
@@ -583,9 +586,7 @@ class PlayState extends MusicBeatState
 		healthBar.scrollFactor.set();
 		healthBar.visible = !ClientPrefs.data.hideHud;
 		healthBar.alpha = ClientPrefs.data.healthBarAlpha;
-		if(ClientPrefs.data.healthbarColors){
-			reloadHealthBarColors();
-		}
+		reloadHealthBarColors();
 		if(!ClientPrefs.data.healthbarColors){
 			healthBar.setColors(FlxColor.fromInt(0xFFFF0000),
 			FlxColor.fromInt(0xFF00FF00));
@@ -610,11 +611,21 @@ class PlayState extends MusicBeatState
 		}
 
 		scoreTxt = new FlxText(0, healthBar.y + 40, FlxG.width, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		if(ClientPrefs.data.scoreText == 'Vanilla')scoreTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.data.hideHud;
 		if(ClientPrefs.data.scoreText != 'Disabled')add(scoreTxt);
+
+		judgementTxt = new FlxText(0, 0, FlxG.width, "", 20);
+		judgementTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		if(ClientPrefs.data.judgementPosition == 'Right')judgementTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		judgementTxt.scrollFactor.set();
+		judgementTxt.borderSize = 1.25;
+		judgementTxt.visible = !ClientPrefs.data.hideHud && ClientPrefs.data.judgementCounter;
+		judgementTxt.screenCenter(Y);
+		add(judgementTxt);
 
 		if(ClientPrefs.data.botText == 'Default'){
 			botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, "BOTPLAY", 32);
@@ -629,9 +640,9 @@ class PlayState extends MusicBeatState
 		add(botplayTxt);
 
 		if(SONG.displayName == SONG.song){
-			songTxt = new FlxText(-10, 10, FlxG.width, SONG.song + ' - ' + SONG.artist, 18);
+			songTxt = new FlxText(-10, 10, FlxG.width, SONG.artist + ': ' + SONG.song, 18);
 		}
-		songTxt = new FlxText(-10, 10, FlxG.width, SONG.displayName + ' - ' + SONG.artist, 18);
+		songTxt = new FlxText(-10, 10, FlxG.width, SONG.artist + ': ' + SONG.displayName, 18);
 		songTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		songTxt.scrollFactor.set();
 		songTxt.borderSize = 1.25;
@@ -669,6 +680,7 @@ class PlayState extends MusicBeatState
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
+		judgementTxt.cameras = [camHUD];
 
 		botplayTxt.cameras = [camHUD];
 		timeBar.cameras = [camHUD];
@@ -820,11 +832,16 @@ class PlayState extends MusicBeatState
 
 	public function reloadTimeColors() {
 		var curColor:Int = -1;
-		timeColors = [0xFF12B0FF, 0xFF1DFE1D, 0xFFFF7300, 0xFFFF0101, 0xFFFFEE00, 0xFFFFFF, 0x7A29D7, 0xF55DD4, 0x5D9FF5, 0xBBF55D];
+		//timeColors = [0xFF12B0FF, 0xFF1DFE1D, 0xFFFF7300, 0xFFFF0101, 0xFFFFEE00, 0xFFFFFF, 0x7A29D7, 0xF55DD4, 0x5D9FF5, 0xBBF55D];
 		
-		if (curBeat % 4 == 0){
-			curColor = FlxG.random.int(0, timeColors.length - 1, [curColor]);
-			timeBar.setColors(timeColors[curColor], FlxColor.fromInt(0x00000000));	
+		timeColors = FlxColor.fromRGB(FlxG.random.int(0, 255), FlxG.random.int(0, 255), FlxG.random.int(0, 255));
+		timeBar.setColors(timeColors, FlxColor.fromInt(0x00000000));
+		if(ClientPrefs.data.timeBarColor == 'White')timeBar.setColors(FlxColor.fromInt(0xFFFFFFFF), FlxColor.fromInt(0x00000000));
+
+		if (ClientPrefs.data.timeBarColor == 'Healthicon'){
+			timeColors = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
+			timeBar.setColors(timeColors, FlxColor.fromInt(0x00000000));	
+			if(!ClientPrefs.data.healthbarColors)timeBar.setColors(FlxColor.fromInt(0xFFFF0000), FlxColor.fromInt(0x00000000));
 		}
 		
 	}
@@ -1192,6 +1209,12 @@ class PlayState extends MusicBeatState
 
 	public function updateScore(miss:Bool = false)
 	{
+
+		var sicks = ratingsData[0].hits;
+		var goods = ratingsData[1].hits;
+		var bads = ratingsData[2].hits;
+		var shits = ratingsData[3].hits;
+
 		if(ClientPrefs.data.scoreText == "Psych"){
 			scoreTxt.text = 'Score: ' + songScore
 			+ ' | Combo Breaks: ' + songMisses
@@ -1200,7 +1223,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if(ClientPrefs.data.scoreText == 'Vanilla'){
-			scoreTxt.text = '' + songScore;
+			scoreTxt.text = 'Score: ' + songScore;
 		}
 			
 
@@ -1217,6 +1240,30 @@ class PlayState extends MusicBeatState
 				}
 			});
 		}
+
+		if(!miss && !cpuControlled)
+		{
+			if(judgementTxtTween != null) {
+				judgementTxtTween.cancel();
+			}
+			judgementTxt.scale.x = 1.075;
+			judgementTxt.scale.y = 1.075;
+			judgementTxtTween = FlxTween.tween(judgementTxt.scale, {x: 1, y: 1}, 0.2, {
+				onComplete: function(twn:FlxTween) {
+					judgementTxtTween = null;
+				}
+			});
+		}
+		
+		if(ClientPrefs.data.judgementCounter){
+			judgementTxt.text = 'Judgement Counter:\n'
+			+ 'Combo Breaks: ' + songMisses + '\n'
+			+ 'Sicks: ' + sicks + '\n'
+			+ 'Goods: ' + goods + '\n'
+			+ 'Bads: ' + bads + '\n'
+			+ 'Shits: ' + shits;
+		}
+
 		callOnLuas('onUpdateScore', [miss]);
 	}
 
@@ -3436,7 +3483,7 @@ class PlayState extends MusicBeatState
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
 
-		reloadTimeColors();
+		if(ClientPrefs.data.timeBarColor == 'Rainbow')reloadTimeColors();
 
 		if (gf != null && curBeat % Math.round(gfSpeed * gf.danceEveryNumBeats) == 0 && gf.animation.curAnim != null && !gf.animation.curAnim.name.startsWith("sing") && !gf.stunned)
 			gf.dance();
@@ -3560,6 +3607,7 @@ class PlayState extends MusicBeatState
 	public var ratingName:String = '?';
 	public var ratingPercent:Float;
 	public var ratingFC:String;
+
 	public function RecalculateRating(badHit:Bool = false) {
 		setOnLuas('score', songScore);
 		setOnLuas('misses', songMisses);
@@ -3662,6 +3710,10 @@ class PlayState extends MusicBeatState
 							}
 						case 'debugger':
 							if(Paths.formatToSongPath(SONG.song) == 'test' && !usedPractice) {
+								unlock = true;
+							}
+						case 'Sugar Daddy':
+							if(Paths.formatToSongPath(SONG.song) == 'hot dilf' && !usedPractice) {
 								unlock = true;
 							}
 					}

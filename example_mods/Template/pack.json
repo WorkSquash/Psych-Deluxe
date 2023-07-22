@@ -1,8 +1,6 @@
 {
-	"name": "Name",
-	"description": "Description",
+	"name": "Mod Template",
+	"description": "Use this for your mods.",
 	"restart":false,
-	"runsGlobally": false,
-	"color": [170, 0, 255],
-	"discordRPC": "863222024192262205"
+	"color": [255, 255, 255]
 }

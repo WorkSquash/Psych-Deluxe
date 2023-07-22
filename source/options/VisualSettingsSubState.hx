@@ -22,13 +22,25 @@ class VisualSettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
-		var option:Option = new Option('Note Splash Texture:',
-			"Change the appearence of the notesplash",
+		var option:Option = new Option('Note Splashes Texture',
+			"Change the appearence of the note splashes",
 			'splashSkin',
 			'string',
-			'Default',
-			['Default', "Funkin'", 'Forever', 'Impostor', 'Diamond']);
+			'Vanilla',
+			['Vanilla', "Psych", 'Forever', 'Impostor', 'Diamond']);
 		addOption(option);
+
+		var option:Option = new Option('Note Splashes Framerate',
+        'Changes the animation framerate for the notesplash.',
+        'splashFramerate',
+        'int',
+        30);
+        addOption(option);
+        option.minValue = 1;
+        option.maxValue = 75;
+		option.displayFormat = '%v FPS';
+        //option.changeValue = 1;
+        //option.decimals = 1;
 
 		var option:Option = new Option('Flashing Lights',
 			"Uncheck this if you're sensitive to flashing lights!",
@@ -58,16 +70,6 @@ class VisualSettingsSubState extends BaseOptionsMenu
 			'bool',
 			true);
 		addOption(option);
-
-
-        var option:Option = new Option('Philly Stage Colors:',
-        "Change the appearence of the philly stage colors",
-        'phillyColors',
-        'string',
-        'Deafult',
-        ['Default', 'Deluxe', 'White']);
-        addOption(option);
-
 
     	#if html5
 		var option:Option = new Option('Random Loading Screens',
