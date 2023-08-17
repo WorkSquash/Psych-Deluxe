@@ -2,7 +2,7 @@
 Engine originally used on [Mind Games Mod](https://gamebanana.com/mods/301107), intended to be a fix for the vanilla version's many issues while keeping the casual play aspect of it. Also aiming to be an easier alternative to newbie coders.
 
 ## Installation:
-You must have [the most up-to-date version of Haxe](https://haxe.org/download/), seriously, stop using 4.1.5, it misses some stuff.
+You must have [4.2.5](https://haxe.org/download/version/4.2.5/) version of haxe, other versions may not work correctly.
 
 open up a Command Prompt/PowerShell or Terminal, type `haxelib install hmm`
 
@@ -33,6 +33,7 @@ same goes for *Lua Scripts*, comment out or delete the line with `LUA_ALLOWED`, 
 * Keoiki - Note Splash Animations
 * Smokey - Sprite Atlas Support
 * Nebula the Zorua - LUA JIT Fork and some Lua reworks
+* ThatRozebudDude - Some code and assets used from [FPS Plus](https://gamebanana.com/mods/44201) Engine
 _____________________________________
 
 # Features
