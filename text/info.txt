@@ -1,1 +1,0 @@
-Psych Deluxe is a fork of Psych Engine ---> github.com/ShadowMario/FNF-PsychEngine
