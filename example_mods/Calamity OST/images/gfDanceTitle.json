@@ -1,0 +1,10 @@
+{	
+	"title":[-150, 0],
+	"titleSize":[0, 0],
+	"start":[150, 10],
+	"girlfriend":[500, 75],
+	"girlfriendSize":[0, 0],
+	"background":"songBackgrounds/sanctuary",
+	"menuMusic":"universal-collapse",
+	"bpm":102
+}

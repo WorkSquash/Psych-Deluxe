@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="senpaiunpixel.png">
+	<!-- Created with Adobe Animate version 21.0.6.41649 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="Senpai Angry Down0000" x="0" y="0" width="386" height="724"/>
+	<SubTexture name="Senpai Angry Down0001" x="386" y="0" width="386" height="724"/>
+	<SubTexture name="Senpai Angry Down0002" x="772" y="0" width="386" height="724"/>
+	<SubTexture name="Senpai Angry Down0003" x="1158" y="0" width="386" height="724"/>
+	<SubTexture name="Senpai Angry Down0004" x="1544" y="0" width="386" height="724"/>
+	<SubTexture name="Senpai Angry Down0005" x="1930" y="0" width="386" height="724"/>
+	<SubTexture name="Senpai Angry Down0006" x="2316" y="0" width="386" height="724"/>
+	<SubTexture name="Senpai Angry Down0007" x="2702" y="0" width="386" height="724"/>
+	<SubTexture name="Senpai Angry Down0008" x="1544" y="0" width="386" height="724"/>
+	<SubTexture name="Senpai Angry Down0009" x="1930" y="0" width="386" height="724"/>
+	<SubTexture name="Senpai Angry Idle0000" x="3088" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0001" x="3506" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0002" x="3924" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0003" x="4342" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0004" x="4760" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0005" x="5178" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0006" x="5596" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0007" x="6014" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0008" x="6432" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0009" x="6850" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0010" x="7268" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0011" x="7686" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0012" x="6432" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0013" x="6850" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0014" x="7268" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0015" x="7686" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0016" x="6432" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0017" x="6850" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0018" x="7268" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0019" x="7686" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0020" x="6432" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0021" x="6850" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0022" x="7268" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0023" x="7686" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0024" x="6432" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0025" x="6850" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0026" x="7268" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Idle0027" x="7686" y="0" width="418" height="775"/>
+	<SubTexture name="Senpai Angry Left0000" x="0" y="775" width="390" height="776"/>
+	<SubTexture name="Senpai Angry Left0001" x="390" y="775" width="390" height="776"/>
+	<SubTexture name="Senpai Angry Left0002" x="780" y="775" width="390" height="776"/>
+	<SubTexture name="Senpai Angry Left0003" x="1170" y="775" width="390" height="776"/>
+	<SubTexture name="Senpai Angry Left0004" x="1560" y="775" width="390" height="776"/>
+	<SubTexture name="Senpai Angry Left0005" x="1950" y="775" width="390" height="776"/>
+	<SubTexture name="Senpai Angry Left0006" x="2340" y="775" width="390" height="776"/>
+	<SubTexture name="Senpai Angry Left0007" x="2730" y="775" width="390" height="776"/>
+	<SubTexture name="Senpai Angry Left0008" x="1560" y="775" width="390" height="776"/>
+	<SubTexture name="Senpai Angry Left0009" x="1950" y="775" width="390" height="776"/>
+	<SubTexture name="Senpai Angry Right0000" x="3120" y="775" width="413" height="746"/>
+	<SubTexture name="Senpai Angry Right0001" x="3533" y="775" width="413" height="746"/>
+	<SubTexture name="Senpai Angry Right0002" x="3946" y="775" width="413" height="746"/>
+	<SubTexture name="Senpai Angry Right0003" x="4359" y="775" width="413" height="746"/>
+	<SubTexture name="Senpai Angry Right0004" x="4772" y="775" width="413" height="746"/>
+	<SubTexture name="Senpai Angry Right0005" x="5185" y="775" width="413" height="746"/>
+	<SubTexture name="Senpai Angry Right0006" x="5598" y="775" width="413" height="746"/>
+	<SubTexture name="Senpai Angry Right0007" x="6011" y="775" width="413" height="746"/>
+	<SubTexture name="Senpai Angry Right0008" x="4772" y="775" width="413" height="746"/>
+	<SubTexture name="Senpai Angry Right0009" x="5185" y="775" width="413" height="746"/>
+	<SubTexture name="Senpai Angry Up0000" x="6424" y="775" width="371" height="815"/>
+	<SubTexture name="Senpai Angry Up0001" x="6795" y="775" width="371" height="815"/>
+	<SubTexture name="Senpai Angry Up0002" x="7166" y="775" width="371" height="815"/>
+	<SubTexture name="Senpai Angry Up0003" x="7537" y="775" width="371" height="815"/>
+	<SubTexture name="Senpai Angry Up0004" x="0" y="1590" width="371" height="815"/>
+	<SubTexture name="Senpai Angry Up0005" x="371" y="1590" width="371" height="815"/>
+	<SubTexture name="Senpai Angry Up0006" x="742" y="1590" width="371" height="815"/>
+	<SubTexture name="Senpai Angry Up0007" x="1113" y="1590" width="371" height="815"/>
+	<SubTexture name="Senpai Angry Up0008" x="0" y="1590" width="371" height="815"/>
+	<SubTexture name="Senpai Angry Up0009" x="371" y="1590" width="371" height="815"/>
+	<SubTexture name="Senpai Down0000" x="1484" y="1590" width="407" height="724"/>
+	<SubTexture name="Senpai Down0001" x="1484" y="1590" width="407" height="724"/>
+	<SubTexture name="Senpai Down0002" x="1891" y="1590" width="407" height="724"/>
+	<SubTexture name="Senpai Down0003" x="1891" y="1590" width="407" height="724"/>
+	<SubTexture name="Senpai Down0004" x="2298" y="1590" width="407" height="724"/>
+	<SubTexture name="Senpai Down0005" x="2298" y="1590" width="407" height="724"/>
+	<SubTexture name="Senpai Down0006" x="2298" y="1590" width="407" height="724"/>
+	<SubTexture name="Senpai Down0007" x="2298" y="1590" width="407" height="724"/>
+	<SubTexture name="Senpai Down0008" x="2298" y="1590" width="407" height="724"/>
+	<SubTexture name="Senpai Down0009" x="2298" y="1590" width="407" height="724"/>
+	<SubTexture name="Senpai Idle0000" x="2705" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0001" x="2705" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0002" x="3135" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0003" x="3135" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0004" x="3565" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0005" x="3565" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0006" x="3995" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0007" x="3995" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0008" x="4425" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0009" x="4425" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0010" x="4855" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0011" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0012" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0013" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0014" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0015" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0016" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0017" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0018" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0019" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0020" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0021" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0022" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0023" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0024" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0025" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0026" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0027" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0028" x="5715" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0029" x="5715" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0030" x="6145" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0031" x="6145" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0032" x="6575" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0033" x="6575" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0034" x="7005" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0035" x="7005" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0036" x="7435" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0037" x="7435" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0038" x="0" y="2405" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0039" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0040" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0041" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0042" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0043" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0044" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0045" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0046" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0047" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0048" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0049" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0050" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0051" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0052" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0053" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0054" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Idle0055" x="5285" y="1590" width="430" height="775"/>
+	<SubTexture name="Senpai Left0000" x="430" y="2405" width="390" height="776"/>
+	<SubTexture name="Senpai Left0001" x="430" y="2405" width="390" height="776"/>
+	<SubTexture name="Senpai Left0002" x="820" y="2405" width="390" height="776"/>
+	<SubTexture name="Senpai Left0003" x="820" y="2405" width="390" height="776"/>
+	<SubTexture name="Senpai Left0004" x="1210" y="2405" width="390" height="776"/>
+	<SubTexture name="Senpai Left0005" x="1210" y="2405" width="390" height="776"/>
+	<SubTexture name="Senpai Left0006" x="1210" y="2405" width="390" height="776"/>
+	<SubTexture name="Senpai Left0007" x="1210" y="2405" width="390" height="776"/>
+	<SubTexture name="Senpai Left0008" x="1210" y="2405" width="390" height="776"/>
+	<SubTexture name="Senpai Left0009" x="1210" y="2405" width="390" height="776"/>
+	<SubTexture name="Senpai Right0000" x="1600" y="2405" width="430" height="746"/>
+	<SubTexture name="Senpai Right0001" x="1600" y="2405" width="430" height="746"/>
+	<SubTexture name="Senpai Right0002" x="2030" y="2405" width="430" height="746"/>
+	<SubTexture name="Senpai Right0003" x="2030" y="2405" width="430" height="746"/>
+	<SubTexture name="Senpai Right0004" x="2460" y="2405" width="430" height="746"/>
+	<SubTexture name="Senpai Right0005" x="2460" y="2405" width="430" height="746"/>
+	<SubTexture name="Senpai Right0006" x="2460" y="2405" width="430" height="746"/>
+	<SubTexture name="Senpai Right0007" x="2460" y="2405" width="430" height="746"/>
+	<SubTexture name="Senpai Right0008" x="2460" y="2405" width="430" height="746"/>
+	<SubTexture name="Senpai Right0009" x="2460" y="2405" width="430" height="746"/>
+	<SubTexture name="Senpai Up0000" x="2890" y="2405" width="392" height="815"/>
+	<SubTexture name="Senpai Up0001" x="2890" y="2405" width="392" height="815"/>
+	<SubTexture name="Senpai Up0002" x="3282" y="2405" width="392" height="815"/>
+	<SubTexture name="Senpai Up0003" x="3282" y="2405" width="392" height="815"/>
+	<SubTexture name="Senpai Up0004" x="3674" y="2405" width="392" height="815"/>
+	<SubTexture name="Senpai Up0005" x="3674" y="2405" width="392" height="815"/>
+	<SubTexture name="Senpai Up0006" x="3674" y="2405" width="392" height="815"/>
+	<SubTexture name="Senpai Up0007" x="3674" y="2405" width="392" height="815"/>
+	<SubTexture name="Senpai Up0008" x="3674" y="2405" width="392" height="815"/>
+	<SubTexture name="Senpai Up0009" x="3674" y="2405" width="392" height="815"/>
+</TextureAtlas>

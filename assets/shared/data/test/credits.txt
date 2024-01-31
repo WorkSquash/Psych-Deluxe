@@ -1,0 +1,4 @@
+Song: Test
+Composer: Kawaii Sprite & MtH
+Artist: Moawling
+Origin: Friday Night Funkin'

@@ -1,0 +1,8 @@
+{
+	"name": "Calamity OST",
+	"description": "Fully charted song form terraria's calamity mod.\nAll songs are written by DM DOKURO",
+	"restart":true,
+	"runsGlobally": false,
+	"color": [255, 255, 255],
+	"discordRPC": "863222024192262205"
+}

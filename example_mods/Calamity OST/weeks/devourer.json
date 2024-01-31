@@ -1,0 +1,17 @@
+{
+	"songs": [
+		[ "The Devourer Of Gods", "", [ 255, 255, 255 ] ]
+
+	],
+	"hiddenUntilUnlocked": true,
+	"hideFreeplay": false,
+	"weekBackground": "",
+	"difficulties": "Death",
+	"weekCharacters": [ "", "", "" ],
+	"storyName": "Calamity OST",
+	"weekName": "devourer",
+	"freeplayColor": [ 255, 0, 0 ],
+	"hideStoryMode": true,
+	"weekBefore": "pack2",
+	"startUnlocked": true
+}

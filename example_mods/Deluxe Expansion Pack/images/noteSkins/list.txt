@@ -1,0 +1,10 @@
+Diamonds
+Bar
+Circle
+Square
+Shiny
+Stepmania
+Addbyzero
+Subtractbyzero
+Multiplybyzero
+Dividebyzero

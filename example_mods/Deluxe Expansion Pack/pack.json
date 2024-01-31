@@ -1,0 +1,8 @@
+{
+	"name": " Deluxe Expansion Pack",
+	"description": "Add extra hitsounds noteskins and splashes to the game.\nContains 32 hitounds, 10 noteskins and 7 splashes",
+	"restart":true,
+	"runsGlobally": true,
+	"color": [223, 192, 237],
+	"discordRPC": "863222024192262205"
+}

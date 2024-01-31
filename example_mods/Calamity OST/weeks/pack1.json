@@ -1,0 +1,30 @@
+{
+	"songs": [
+		[ "Infestation", "", [ 255, 255, 255 ] ],
+		[ "The Filthy Mind", "", [ 255, 255, 255 ] ],
+		[ "Inferior Fabrications", "", [ 255, 255, 255 ] ],
+		[ "Return To Slime", "", [ 255, 255, 255 ] ],
+		[ "Raw Unfiltered Calamity", "", [ 255, 255, 255 ] ],
+		[ "Left Alone", "", [ 255, 255, 255 ] ],
+		[ "wasteland", "", [ 255, 255, 255 ] ],
+		[ "Open Frenzy", "", [ 255, 255, 255 ] ],
+		[ "Threats of the Ocean Floor", "", [ 255, 255, 255 ] ],
+		[ "Hadopelagic Pressure", "", [ 255, 255, 255 ] ],
+		[ "Murderswarm", "", [ 255, 255, 255 ] ],
+		[ "Fly of Beelzebub", "", [ 255, 255, 255 ] ]
+
+		
+
+	],
+	"hiddenUntilUnlocked": true,
+	"hideFreeplay": false,
+	"weekBackground": "",
+	"difficulties": "Death",
+	"weekCharacters": [ "", "", "" ],
+	"storyName": "Calamity OST",
+	"weekName": "pack1",
+	"freeplayColor": [ 255, 0, 0 ],
+	"hideStoryMode": true,
+	"weekBefore": "pack1",
+	"startUnlocked": true
+}
