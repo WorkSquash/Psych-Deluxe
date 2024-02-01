@@ -64,7 +64,6 @@ class FreeplayState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
 		#end
-		if(Mods.currentModDirectory == '')addSong('test', 8, 'bf-pixel', FlxColor.fromString('#7BD6F6')); //Add the test week when there are no custom difficulties
 		for (i in 0...WeekData.weeksList.length) {
 			if(weekIsLocked(WeekData.weeksList[i])) continue;
 
