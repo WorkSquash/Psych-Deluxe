@@ -144,6 +144,13 @@ class Paths
 
 	inline static public function txt(key:String, ?library:String)
 	{
+		#if MODS_ALLOWED
+		var file:String = modsData(key);
+		if(FileSystem.exists(file)) {
+			return file;
+		}
+		#end
+		
 		return getPath('data/$key.txt', TEXT, library);
 	}
 
@@ -479,6 +486,10 @@ class Paths
 
 	inline static public function modsJson(key:String) {
 		return modFolders('data/' + key + '.json');
+	}
+
+	inline static public function modsData(key:String) {
+		return modFolders('data/' + key + '.txt');
 	}
 
 	inline static public function modsVideo(key:String) {

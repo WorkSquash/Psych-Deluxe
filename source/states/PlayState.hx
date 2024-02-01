@@ -244,8 +244,6 @@ class PlayState extends MusicBeatState
 	var scoreTxtTween:FlxTween;
 	var statTxtTween:FlxTween;
 
-	var targetAlpha:Float = 1;
-
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
 	public static var seenCutscene:Bool = false;
@@ -541,7 +539,7 @@ class PlayState extends MusicBeatState
 		//oppUnderlay.color = FlxColor.BLACK;
 		oppUnderlay.scrollFactor.set();
         oppUnderlay.alpha = ClientPrefs.data.underlayAlpha;
-        oppUnderlay.visible = ClientPrefs.data.underlay && targetAlpha != 0;
+        oppUnderlay.visible = ClientPrefs.data.underlay && !ClientPrefs.data.middleScroll;
 		noteGroup.add(oppUnderlay);
 
 
@@ -1636,6 +1634,7 @@ class PlayState extends MusicBeatState
 	public var skipArrowStartTween:Bool = false; //for lua
 	private function generateStaticArrows(player:Int):Void
 	{
+		var targetAlpha:Float = 1;
 		var strumLineX:Float = ClientPrefs.data.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X;
 		var strumLineY:Float = ClientPrefs.data.downScroll ? (FlxG.height - 150) : 50;
 		for (i in 0...4)

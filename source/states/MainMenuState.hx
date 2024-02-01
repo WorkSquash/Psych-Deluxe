@@ -9,8 +9,8 @@ import options.OptionsState;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var psychEngineVersion:String = '0.7.2'; 
-	public static var deluxeVer:String = '2.75-b dev'; // This is also used for Discord RPC
+	public static var psychEngineVersion:String = '0.7.3'; 
+	public static var deluxeVer:String = '3.0b'; // This is also used for Discord RPC
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;

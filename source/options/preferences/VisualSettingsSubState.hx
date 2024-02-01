@@ -134,7 +134,7 @@ class VisualSettingsSubState extends BaseOptionsMenu
 			['Dynamic', 'Kade', 'Static']);
 		addOption(option);
 
-		/*
+		
 		var option:Option = new Option('Note Underlay',
 			"If checked, shows the underlay for notes making them easier to see.",
 			'underlay',
@@ -151,7 +151,7 @@ class VisualSettingsSubState extends BaseOptionsMenu
 		option.maxValue = 1;
 		option.changeValue = 0.01;
 		option.decimals = 2;
-		*/
+		
 		
 		super();
 		add(notes);

@@ -203,11 +203,11 @@ class ChartingState extends MusicBeatState
 				events: [],
 				bpm: 150.0,
 				needsVoices: true,
-				player1: 'bf',
-				player2: 'dad',
-				gfVersion: 'gf',
+				player1: 'bf-pixel',
+				player2: 'bf-pixel-opponent',
+				gfVersion: 'gf-pixel',
 				speed: 1,
-				stage: 'stage'
+				stage: 'school'
 			};
 			addSection();
 			PlayState.SONG = _song;
@@ -499,13 +499,13 @@ class ChartingState extends MusicBeatState
 		var gfVersions:Array<String> = Mods.mergeAllTextsNamed('data/gfVersion.txt', Paths.getSharedPath());
 		var bfVersions:Array<String> = Mods.mergeAllTextsNamed('data/bfVersion.txt', Paths.getSharedPath());
 		var dadVersions:Array<String> = Mods.mergeAllTextsNamed('data/dadVersion.txt', Paths.getSharedPath());
-		for (character in bfVersions)
+		/*for (character in bfVersions)
 		{
 			if(character.trim().length > 0)
 				tempArray.push(character);
-		}
+		}*/
 
-		#if MODS_ALLOWED
+		/*#if MODS_ALLOWED
 		for (i in 0...directories.length) {
 			var directory:String = directories[i];
 			if(FileSystem.exists(directory)) {
@@ -521,7 +521,7 @@ class ChartingState extends MusicBeatState
 				}
 			}
 		}
-		#end
+		#end*/
 		tempArray = [];
 
 		var player1DropDown = new FlxUIDropDownMenu(10, stepperSpeed.y + 45, FlxUIDropDownMenu.makeStrIdLabelArray(bfVersions, true), function(character:String)
