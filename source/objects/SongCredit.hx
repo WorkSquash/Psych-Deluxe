@@ -50,7 +50,7 @@ class SongCredit extends FlxSpriteGroup
         bg = new FlxSprite(fontSize/-2, fontSize/-2).makeGraphic(Math.floor(size + fontSize), Math.floor(text.height + fontSize), FlxColor.BLACK);
         bg.alpha = 0.75;
 
-        text.text += "\n";
+        //text.text += "\n";
 
         add(bg);
         add(text);

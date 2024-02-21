@@ -127,11 +127,13 @@ class FunkinLua {
 		set('misses', 0);
 		set('hits', 0);
 		set('combo', 0);
+		set('highestCombo', 0);
 
 		set('rating', 0);
 		set('ratingName', '');
 		set('ratingFC', '');
 		set('version', MainMenuState.psychEngineVersion.trim());
+		set('deluxeVersion', MainMenuState.deluxeVer.trim());
 
 		set('inGameOver', false);
 		set('mustHitSection', false);
@@ -183,6 +185,7 @@ class FunkinLua {
 		set('scoreZoom', ClientPrefs.data.scoreZoom);
 		set('cameraZoomOnBeat', ClientPrefs.data.camZooms);
 		set('flashingLights', ClientPrefs.data.flashing);
+		set('screenShakes', ClientPrefs.data.flashing);
 		set('noteOffset', ClientPrefs.data.noteOffset);
 		set('healthBarAlpha', ClientPrefs.data.healthBarAlpha);
 		set('noResetButton', ClientPrefs.data.noReset);

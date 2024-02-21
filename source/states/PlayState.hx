@@ -240,15 +240,18 @@ class PlayState extends MusicBeatState
 	public var songMisses:Int = 0;
 	public var scoreTxt:FlxText;
 	public var statisticsTxt:FlxText;
+	//private static var scoreTxtColor:FlxColor;
+	//private static var statisticsTxtColor:FlxColor;
 	var timeTxt:FlxText;
-	var scoreTxtTween:FlxTween;
-	var statTxtTween:FlxTween;
+	var scoreTween:FlxTween;
+	var statTween:FlxTween;
 
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
 	public static var seenCutscene:Bool = false;
 	public static var deathCounter:Int = 0;
 
+	public static var flashNotes:Array<String>;
 	public var defaultCamZoom:Float = 1.05;
 
 	public var oppUnderlay:FlxSprite; //Creates a note underlay for the opponent
@@ -1296,14 +1299,14 @@ class PlayState extends MusicBeatState
 		if(!ClientPrefs.data.scoreZoom)
 			return;
 
-		if(scoreTxtTween != null)
-			scoreTxtTween.cancel();
+		if(scoreTween != null)
+			scoreTween.cancel();
 
 		scoreTxt.scale.x = 1.075;
 		scoreTxt.scale.y = 1.075;
-		scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
+		scoreTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
 			onComplete: function(twn:FlxTween) {
-				scoreTxtTween = null;
+				scoreTween = null;
 			}
 		});
 	}
@@ -1312,14 +1315,14 @@ class PlayState extends MusicBeatState
 		if(!ClientPrefs.data.scoreZoom)
 			return;
 
-		if(statTxtTween != null)
-			statTxtTween.cancel();
+		if(statTween != null)
+			statTween.cancel();
 
 		statisticsTxt.scale.x = 1.02;
 		statisticsTxt.scale.y = 1.02;
-		statTxtTween = FlxTween.tween(statisticsTxt.scale, {x: 1, y: 1}, 0.2, {
+		statTween = FlxTween.tween(statisticsTxt.scale, {x: 1, y: 1}, 0.2, {
 			onComplete: function(twn:FlxTween) {
-				statTxtTween = null;
+				statTween = null;
 			}
 		});
 	}
@@ -1777,10 +1780,10 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-
-		if(combo >= 10) showCombo = ClientPrefs.data.showCombo;
-
-		if(combo >= highestCombo && combo !=0 ){ //I know complex math but not simple am i stupid????? -WorkSquash 2024
+		if(combo >= 10 && ClientPrefs.data.showCombo) showCombo = true;
+		else showCombo = false;
+		
+		if(combo >= highestCombo && combo !=0 ){ //I know complex math but not simple am i stupid?? -WorkSquash 2024
 			highestCombo = combo;
 			updateStats();
 		}
@@ -2067,6 +2070,11 @@ class PlayState extends MusicBeatState
 		MusicBeatState.switchState(new ChartingState());
 	}
 
+	function goFullScreen()
+	{
+		
+	}
+
 	function openCharacterEditor()
 	{
 		FlxG.camera.followLerp = 0;
@@ -2257,7 +2265,7 @@ class PlayState extends MusicBeatState
 					if(Math.isNaN(duration)) duration = 0;
 					if(Math.isNaN(intensity)) intensity = 0;
 
-					if(duration > 0 && intensity != 0) {
+					if(duration > 0 && intensity != 0 && ClientPrefs.data.screenShake) {
 						targetsArray[i].shake(intensity, duration);
 					}
 				}
@@ -2993,13 +3001,10 @@ class PlayState extends MusicBeatState
 
 	function noteMissCommon(direction:Int, note:Note = null)
 	{
-		scoreTxt.color = FlxColor.RED;
-		statisticsTxt.color = FlxColor.RED;
-
-		// score and data
 		var subtract:Float = 0.05;
 		if(note != null) subtract = note.missHealth;
 
+		if(ClientPrefs.data.noteFlash) FlxG.camera.flash(0xFFFF0000, 0.125);
 		// GUITAR HERO SUSTAIN CHECK LOL!!!!
 		if (note != null && guitarHeroSustains && note.parent == null) {
 			if(note.tail.length > 0) {
@@ -3010,13 +3015,16 @@ class PlayState extends MusicBeatState
 					childNote.canBeHit = false;
 					childNote.ignoreNote = true;
 					childNote.tooLate = true;
+					childNote.destroy();
+					vocals.volume = 0;
+					boyfriend.holdTimer = 0;
 				}
 				note.missed = true;
 				note.canBeHit = false;
 
 				//subtract += 0.385; // you take more damage if playing with this gameplay changer enabled.
 				// i mean its fair :p -Crow
-				subtract *= note.tail.length + 1;
+				//subtract *= note.tail.length + 1;
 				// i think it would be fair if damage multiplied based on how long the sustain is -Tahir
 			}
 
@@ -3034,6 +3042,9 @@ class PlayState extends MusicBeatState
 					child.canBeHit = false;
 					child.ignoreNote = true;
 					child.tooLate = true;
+					child.destroy();
+					vocals.volume = 0;
+					boyfriend.holdTimer = 0;
 				}
 			}
 		}
@@ -3125,9 +3136,15 @@ class PlayState extends MusicBeatState
 	{
 		if(note.wasGoodHit) return;
 		if(cpuControlled && note.ignoreNote) return;
+		var flashCompleted:Bool = false;
+		var reqs = combo >= 25 && ClientPrefs.data.noteFlash && flashNotes.contains(note.noteType)  && !flashCompleted;
+		flashNotes = ['', 'Hey!', 'GF Sing',  'No Animation', 'Alt Animation'];
 
-		scoreTxt.color = FlxColor.LIME;
-		statisticsTxt.color = FlxColor.LIME;
+		if(reqs && !note.isSustainNote) FlxG.camera.flash(note.rgbShader.r, 0.125);
+		if(reqs && note.isSustainNote){
+			FlxG.camera.flash(note.rgbShader.r, note.tail.length + 1);
+			flashCompleted = true;
+		}
 
 		var isSus:Bool = note.isSustainNote; //GET OUT OF MY HEAD, GET OUT OF MY HEAD, GET OUT OF MY HEAD
 		var leData:Int = Math.round(Math.abs(note.noteData));
@@ -3209,6 +3226,14 @@ class PlayState extends MusicBeatState
 		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('goodNoteHit', [note]);
 
 		if(!note.isSustainNote) invalidateNote(note);
+
+		if(note.isSustainNote && !note.wasGoodHit && guitarHeroSustains){
+			noteMiss(note);
+			vocals.volume = 0;
+			note.tooLate = true;
+			note.destroy();
+			boyfriend.holdTimer = 0;
+		}
 	}
 
 	public function invalidateNote(note:Note):Void {

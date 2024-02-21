@@ -60,6 +60,20 @@ class VisualSettingsSubState extends BaseOptionsMenu
 			addOption(option);
 		}
 
+		var option:Option = new Option('Healthbar Color Scheme:',
+			"Changes the healthbar colors depending on your option.",
+			'healthBarType',
+			'string',
+			['Psych', 'Vanilla']);
+		addOption(option);
+
+		var option:Option = new Option('Timebar Colors:',
+			"Enables or disables the timebar color",
+			'timeBarColors',
+			'string',
+			['Dynamic', 'Kade', 'Static']);
+		addOption(option);
+
 		var option:Option = new Option('Note Splash Opacity',
 			'How much transparent should the Note Splashes be.',
 			'splashAlpha',
@@ -74,6 +88,12 @@ class VisualSettingsSubState extends BaseOptionsMenu
 		var option:Option = new Option('Flashing Lights',
 		"Uncheck this if you're sensitive to flashing lights!",
 		'flashing',
+		'bool');
+		addOption(option);
+
+		var option:Option = new Option('Screen Shake',
+		"Uncheck this if you're sensitive to screen shakes!",
+		'screenShake',
 		'bool');
 		addOption(option);
 
@@ -120,21 +140,6 @@ class VisualSettingsSubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);*/
 
-		var option:Option = new Option('Healthbar Color Scheme:',
-			"Changes the healthbar colors depending on your option.",
-			'healthBarType',
-			'string',
-			['Psych', 'Vanilla']);
-		addOption(option);
-
-		var option:Option = new Option('Timebar Colors:',
-			"Enables or disables the timebar color",
-			'timeBarColors',
-			'string',
-			['Dynamic', 'Kade', 'Static']);
-		addOption(option);
-
-		
 		var option:Option = new Option('Note Underlay',
 			"If checked, shows the underlay for notes making them easier to see.",
 			'underlay',

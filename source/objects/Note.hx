@@ -151,9 +151,10 @@ class Note extends FlxSprite
 
 	public function defaultRGB()
 	{
-		var arr:Array<FlxColor> = ClientPrefs.data.arrowRGB[noteData];
-		if(PlayState.isPixelStage) arr = ClientPrefs.data.arrowRGBPixel[noteData];
-
+		var arr:Array<FlxColor>;
+		arr = ClientPrefs.data.arrowRGB[noteData];
+		//if(PlayState.isPixelStage)arr = ClientPrefs.data.arrowRGBPixel[noteData];
+		
 		if (noteData > -1 && noteData <= arr.length)
 		{
 			rgbShader.r = arr[0];
@@ -176,13 +177,13 @@ class Note extends FlxSprite
 
 					// note colors
 					rgbShader.r = 0xFF101010;
-					rgbShader.g = 0xFFFF0000;
-					rgbShader.b = 0xFF990022;
+					rgbShader.g = 0xFFFF6600;
+					rgbShader.b = 0xFF993D00;
 
 					// splash data and colors
-					noteSplashData.r = 0xFFFF0000;
+					noteSplashData.r = 0xFFFF6600;
 					noteSplashData.g = 0xFF101010;
-					noteSplashData.texture = 'noteSplashes/noteSplashes-electric';
+					//noteSplashData.texture = 'noteSplashes/noteSplashes-electric';
 
 					// gameplay data
 					lowPriority = true;
@@ -190,11 +191,31 @@ class Note extends FlxSprite
 					hitCausesMiss = true;
 					hitsound = 'cancelMenu';
 					hitsoundChartEditor = false;
+
+				case 'Death Note':
+					ignoreNote = mustPress;
+					
+					rgbShader.r = 0xFF101010;
+					rgbShader.g = 0xFFFF0000;
+					rgbShader.b = 0xFF990022;
+
+					noteSplashData.r = 0xFFFF0000;
+					noteSplashData.g = 0xFF101010;
+					//noteSplashData.texture = 'noteSplashes/noteSplashes-electric';
+	
+					lowPriority = true;
+					missHealth = isSustainNote ? 2.1 : 2.1;
+					hitCausesMiss = true;
+					hitsound = 'cancelMenu';
+					hitsoundChartEditor = false;
+				
 				case 'Alt Animation':
 					animSuffix = '-alt';
+				
 				case 'No Animation':
 					noAnimation = true;
 					noMissAnimation = true;
+				
 				case 'GF Sing':
 					gfNote = true;
 			}
@@ -304,7 +325,8 @@ class Note extends FlxSprite
 			var newRGB:RGBPalette = new RGBPalette();
 			globalRgbShaders[noteData] = newRGB;
 
-			var arr:Array<FlxColor> = (!PlayState.isPixelStage) ? ClientPrefs.data.arrowRGB[noteData] : ClientPrefs.data.arrowRGBPixel[noteData];
+			//var arr:Array<FlxColor> = (!PlayState.isPixelStage) ? ClientPrefs.data.arrowRGB[noteData] : ClientPrefs.data.arrowRGBPixel[noteData];
+			var arr:Array<FlxColor> = ClientPrefs.data.arrowRGB[noteData];
 			if (noteData > -1 && noteData <= arr.length)
 			{
 				newRGB.r = arr[0];

@@ -37,8 +37,11 @@ import states.TitleState;
 	//Visual Settings
 	public var noteSkin:String = 'Default';
 	public var splashSkin:String = 'Psych';
+	public var healthBarType:String = 'Psych';
+	public var timeBarColors:String = 'Static';
 	public var splashAlpha:Float = 0.6;
 	public var flashing:Bool = true;
+	public var screenShake:Bool = true;
 	public var smoothHealthbar:Bool = false;
 	public var iconBop:Bool = true;
 	public var camZooms:Bool = true;
@@ -47,8 +50,6 @@ import states.TitleState;
 	public var showCombo:Bool = true;
 	public var comboStacking:Bool = true;
 	//public var playMissAnim:Bool = true;
-	public var healthBarType:String = 'Psych';
-	public var timeBarColors:String = 'Static';
 	public var underlay:Bool = false;
 	public var underlayAlpha:Float = 0.75;
 
@@ -64,7 +65,7 @@ import states.TitleState;
 	public var pauseMusic:String = 'Tea Time';
 	//public var menuMusic:String = 'Default'; //Default is the Freaky Menu
 	public var noteSounds:Bool = false;
-	public var hitsound:String = 'Osu!Mania'; //This is the default Psych hitsound....
+	//public var hitsound:String = 'Osu!Mania'; //This is the default Psych hitsound....
 	public var hitsoundVolume:Float = 0;
 	//public var missSound:Bool = true;
 	public var instVolume:Float = 1;
@@ -76,18 +77,18 @@ import states.TitleState;
 		[0xFF00FFFF, 0xFFFFFFFF, 0xFF1542B7],
 		[0xFF12FA05, 0xFFFFFFFF, 0xFF0A4447],
 		[0xFFF9393F, 0xFFFFFFFF, 0xFF651038]];
-	public var arrowRGBPixel:Array<Array<FlxColor>> = [
+	/*public var arrowRGBPixel:Array<Array<FlxColor>> = [
 		[0xFFE276FF, 0xFFFFF9FF, 0xFF60008D],
 		[0xFF3DCAFF, 0xFFF4FFFF, 0xFF003060],
 		[0xFF71E300, 0xFFF6FFE6, 0xFF003100],
 		[0xFFFF884E, 0xFFFFFAF5, 0xFF6C0000]];
-	
+	*/
 	//Misc
 	public var showFPS:Bool = true;
 	public var enableDebug:Bool = false;
 	public var extendDebug:Bool = false;
 	public var hideStrums:Bool = false;
-	public var slowResume:Bool = false;
+	public var noteFlash:Bool = false;
 	public var watermarks:Bool = true;
 	public var checkForUpdates:Bool = true;
 	public var discordRPC:Bool = true;
@@ -220,7 +221,7 @@ class ClientPrefs {
 		
 		'debug_1'		=> [SEVEN],
 		'debug_2'		=> [EIGHT],
-		'debug_3'		=> [F1]
+		'fullscreen'	=> [F11]
 	];
 	public static var gamepadBinds:Map<String, Array<FlxGamepadInputID>> = [
 		'note_up'		=> [DPAD_UP, Y],

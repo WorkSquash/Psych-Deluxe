@@ -47,9 +47,9 @@ class MiscSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		#end
 
-		var option:Option = new Option('Slow Resume',
-			"If checked, a coundown will start and when is finished the game will continue.",
-			'slowResume',
+		var option:Option = new Option('Dynamic Flashing',
+			"If checked, hitting a  note while having a combo of 25 and above flashes the screen. \nAlso makes the screen flash when you miss a note.",
+			'noteFlash',
 			'bool');
 		addOption(option);
 

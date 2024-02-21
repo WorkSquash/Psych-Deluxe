@@ -2,6 +2,7 @@ package backend;
 
 import openfl.utils.Assets;
 import lime.utils.Assets as LimeAssets;
+import objects.Character;
 
 class CoolUtil
 {
@@ -50,7 +51,7 @@ class CoolUtil
 		return daList;
 	}
 
-	public static function floorDecimal(value:Float, decimals:Int):Float
+	inline public static function floorDecimal(value:Float, decimals:Int):Float
 	{
 		if(decimals < 1)
 			return Math.floor(value);
@@ -63,7 +64,7 @@ class CoolUtil
 		return newValue / tempMult;
 	}
 
-	public static function exists(path:String):Bool{
+	inline public static function exists(path:String):Bool{
 		#if desktop
 		return FileSystem.exists(path);
         #else
@@ -71,7 +72,7 @@ class CoolUtil
 		#end
 	}
 	
-	public static function getText(path:String):String{
+	inline public static function getText(path:String):String{
 		#if desktop
 		return File.getContent(path);
         #else
@@ -159,7 +160,7 @@ class CoolUtil
 		// #end
 	}
 
-	public static function setTextBorderFromString(text:FlxText, border:String)
+	inline public static function setTextBorderFromString(text:FlxText, border:String)
 	{
 		switch(border.toLowerCase().trim())
 		{
@@ -173,4 +174,16 @@ class CoolUtil
 				text.borderStyle = NONE;
 		}
 	}
+
+  /*inline public static function convCharCols(key:Array<String>):Array<FlxColor>
+	{
+        var charColors:Array<FlxColor> = [];
+
+        for (str in key) {
+            var color:Int = FlxColor.fromString(str);
+            var charColor:FlxColor = new FlxColor(color);
+            charColors.push(charColor);
+        }
+        return charColors;
+    }*/
 }
