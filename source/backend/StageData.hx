@@ -24,22 +24,43 @@ typedef StageFile = {
 class StageData {
 	public static function dummy():StageFile
 	{
-		return {
-			directory: "",
-			defaultZoom: 0.9,
-			isPixelStage: false,
-			stageUI: "normal",
+		if(PlayState.curStage == 'simple'){ //Hardcoded for the reason because i said so.. -WorkSquash <3
+			return {
+				directory: "",
+				defaultZoom: 0.495,
+				isPixelStage: false,
+				stageUI: "",
 
-			boyfriend: [770, 100],
-			girlfriend: [400, 130],
-			opponent: [100, 100],
-			hide_girlfriend: false,
-
-			camera_boyfriend: [0, 0],
-			camera_opponent: [0, 0],
-			camera_girlfriend: [0, 0],
-			camera_speed: 1
-		};
+				boyfriend: [250, -25],
+				girlfriend: [250, -25],
+				opponent: [250, -25],
+				hide_girlfriend: false,
+	
+				camera_boyfriend: [0, 0],
+				camera_opponent: [0, 0],
+				camera_girlfriend: [0, 0],
+				camera_speed: 0
+			};
+		}
+		else {
+			return {
+				directory: "",
+				defaultZoom: 0.9,
+				isPixelStage: false,
+				stageUI: "normal",
+	
+				boyfriend: [770, 100],
+				girlfriend: [400, 130],
+				opponent: [100, 100],
+				hide_girlfriend: false,
+	
+				camera_boyfriend: [0, 0],
+				camera_opponent: [0, 0],
+				camera_girlfriend: [0, 0],
+				camera_speed: 1
+			};
+		}
+		
 	}
 
 	public static var forceNextDirectory:String = null;

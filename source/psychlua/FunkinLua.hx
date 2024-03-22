@@ -150,8 +150,12 @@ class FunkinLua {
 		set('playbackRate', 1);
 		#end
 
-		set('guitarHeroSustains', game.guitarHeroSustains);
+		set('newInput', ClientPrefs.data.newInput);
 		set('instakillOnMiss', game.instakillOnMiss);
+		set('sickOnly', game.sickOnly);
+		set('mirrorChart', game.mirrorMode);
+		set('randomizeChart', game.randomMode);
+		set('fairplay', game.fairplay);
 		set('botPlay', game.cpuControlled);
 		set('practice', game.practiceMode);
 
@@ -191,6 +195,8 @@ class FunkinLua {
 		set('noResetButton', ClientPrefs.data.noReset);
 		set('lowQuality', ClientPrefs.data.lowQuality);
 		set('shadersEnabled', ClientPrefs.data.shaders);
+		set('underlayAlpha', ClientPrefs.data.underlayAlpha);
+		set('backgroundDim', ClientPrefs.data.backgroundDim);
 		set('scriptName', scriptName);
 		set('currentModDirectory', Mods.currentModDirectory);
 

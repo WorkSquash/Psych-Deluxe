@@ -17,7 +17,7 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Options', /*'Modifiers',*/ 'Exit to menu'];
+	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Options', 'Modifiers', 'Exit to menu'];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -316,7 +316,7 @@ class PauseSubState extends MusicBeatSubstate
 							FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
 							FlxG.sound.music.time = pauseMusic.time;
 						}
-						OptionsState.onPlayState = true;
+						GameplayChangersSubstate.onPlayState = true;
 				case "Exit to menu":
 					#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 					PlayState.deathCounter = 0;

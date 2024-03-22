@@ -18,23 +18,21 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 	function getOptions()
 	{
-		var goption:GameplayOption = new GameplayOption('Scroll Type', 'scrolltype', 'string', 'multiplicative', ["multiplicative", "constant"]);
+		var goption:GameplayOption = new GameplayOption('Scroll Type', 'scrolltype', 'string', 'multiplicative', ["multiplicative", "constant", "playbackrate"]);
 		optionsArray.push(goption);
 
 		var option:GameplayOption = new GameplayOption('Scroll Speed', 'scrollspeed', 'float', 1);
 		option.scrollSpeed = 2.0;
-		option.minValue = 0.35;
+		option.minValue = 0.25;
 		option.changeValue = 0.05;
 		option.decimals = 2;
-		if (goption.getValue() != "constant")
-		{
-			option.displayFormat = '%vX';
-			option.maxValue = 3;
-		}
-		else
-		{
-			option.displayFormat = "%v";
-			option.maxValue = 6;
+		switch(goption.getValue()){
+			case 'constant':
+				option.displayFormat = "%v";
+				option.maxValue = 6;
+			default:
+				option.displayFormat = '%vX';
+				option.maxValue = 3;
 		}
 		optionsArray.push(option);
 
@@ -73,8 +71,12 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		option.displayFormat = '%vX';
 		optionsArray.push(option);
 
+		optionsArray.push(new GameplayOption('Mirror Chart', 'mirrorMode', 'bool', false));
+		optionsArray.push(new GameplayOption('Randomize Chart', 'randomMode', 'bool', false));
+
 		optionsArray.push(new GameplayOption('Fair Play', 'fairplay', 'bool', false)); //Basically Healtdrain
 		optionsArray.push(new GameplayOption('Instakill on Miss', 'instakill', 'bool', false));
+		optionsArray.push(new GameplayOption('Sicks Only', 'sickOnly', 'bool', false));
 		optionsArray.push(new GameplayOption('Practice Mode', 'practice', 'bool', false));
 		optionsArray.push(new GameplayOption('Botplay', 'botplay', 'bool', false));
 	}
@@ -94,8 +96,11 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 	{
 		super();
 		
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		bg.alpha = 0.6;
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		bg.antialiasing = ClientPrefs.data.antialiasing;
+		bg.color = FlxColor.WHITE;
+		bg.updateHitbox();
+		bg.screenCenter();
 		add(bg);
 
 		// avoids lagspikes while scrolling through menus!

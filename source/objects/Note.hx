@@ -230,6 +230,17 @@ class Note extends FlxSprite
 	{
 		super();
 
+		/*if (!inEditor && ClientPrefs.getGameplaySetting('randomMode')) {
+			noteData = FlxG.random.int(0,3);				
+			if (sustainNote) {				
+				noteData = prevNote.noteData;					
+			}				
+		}
+
+		if (!inEditor && ClientPrefs.getGameplaySetting('mirrorMode')) {
+			noteData = Std.parseInt(Std.string(Math.abs(Std.parseFloat(Std.string(noteData-3)))));
+		}*/
+
 		animation = new PsychAnimationController(this);
 
 		antialiasing = ClientPrefs.data.antialiasing;

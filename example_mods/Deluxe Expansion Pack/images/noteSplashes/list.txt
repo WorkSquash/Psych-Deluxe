@@ -5,3 +5,4 @@ Arrow
 Yoshi
 Forever
 Libitina
+Libitina-Colored

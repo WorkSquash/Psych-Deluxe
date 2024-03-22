@@ -38,8 +38,6 @@ class HealthIcon extends FlxSprite
 			loadGraphic(graphic, true, Math.floor(graphic.width / delimiter), Math.floor(graphic.height));
 			updateHitbox();
 			animation.add(char, [for (i in 0...numFrames) i], 0, false, isPlayer);
-
-			animation.add(char, [0, 1], 0, false, isPlayer);
 			animation.play(char);
 			this.char = char;
 

@@ -45,13 +45,9 @@ class AudioSettingsSubState extends BaseOptionsMenu
 			addOption(option);
             option.onChange = onChangeMenuMusic;
 		}*/
-		
-		var hitsounds:Array<String> = Mods.mergeAllTextsNamed('sounds/hitsounds.txt', 'shared');
-		/*if(hitsounds.length > 0)
+		var hitsounds:Array<String> = Mods.mergeAllTextsNamed('hitsounds/list.txt', 'shared');
+		if(hitsounds.length > 0)
 		{
-			if(!hitsounds.contains(ClientPrefs.data.hitsound))
-				ClientPrefs.data.hitsound = ClientPrefs.defaultData.hitsound; //Reset to default if saved hitsound couldn't be found
-
 			hitsounds.insert(0, ClientPrefs.defaultData.hitsound); //Default skin always comes first
 			var option:Option = new Option('Hitsound:',
 				'What soud should notes make when you hit them?',
@@ -60,7 +56,7 @@ class AudioSettingsSubState extends BaseOptionsMenu
 				#if MODS_ALLOWED hitsounds #else ['Osu!Mania', 'Bass Dry', 'Clap', 'Click', 'Dyssodia', 'Remu', 'Simple', 'Flourescent', 'Pop', 'Tick'] #end);
 			addOption(option);
             option.onChange = onChangeHitsoundVolume;
-		}*/
+		}
 
 		var option:Option = new Option('Hitsound Volume',
 			'Funny notes does \"Tick!\" when you hit them.',
@@ -127,8 +123,7 @@ class AudioSettingsSubState extends BaseOptionsMenu
 
 	function onChangeHitsoundVolume()
 	{
-		//FlxG.sound.play(Paths.sound(Paths.formatToSongPath('/hitsounds/' + ClientPrefs.data.hitsound)), ClientPrefs.data.hitsoundVolume);
-		FlxG.sound.play(Paths.sound(('hitsound')), ClientPrefs.data.hitsoundVolume);
+		FlxG.sound.play(Paths.hitsound(ClientPrefs.data.hitsound), ClientPrefs.data.hitsoundVolume);
 	}
 
 	override function destroy()

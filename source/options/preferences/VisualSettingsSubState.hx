@@ -138,24 +138,7 @@ class VisualSettingsSubState extends BaseOptionsMenu
 			"If unchecked, the miss animation won't play when missing a note.",
 			'playMissAnim',
 			'bool');
-		addOption(option);*/
-
-		var option:Option = new Option('Note Underlay',
-			"If checked, shows the underlay for notes making them easier to see.",
-			'underlay',
-			'bool');
-		addOption(option);
-
-		var option:Option = new Option('Note Underlay Visibility',
-			'Sets visibility of note underlay.',
-			'underlayAlpha',
-			'percent');
-		addOption(option);	
-		option.scrollSpeed = 1;
-		option.minValue = 0.0;
-		option.maxValue = 1;
-		option.changeValue = 0.01;
-		option.decimals = 2;
+		addOption(option);*/		
 		
 		
 		super();

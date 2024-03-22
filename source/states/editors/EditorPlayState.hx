@@ -17,6 +17,7 @@ import openfl.events.KeyboardEvent;
 import haxe.Json;
 import objects.Character;
 import openfl.utils.Assets as OpenFlAssets;
+import backend.Difficulty;
 
 class EditorPlayState extends MusicBeatSubstate
 {
@@ -72,7 +73,7 @@ class EditorPlayState extends MusicBeatSubstate
 
 	var scoreTxt:FlxText;
 	var dataTxt:FlxText;
-	var guitarHeroSustains:Bool = false;
+	var newInput:Bool = false;
 
 	public function new(playbackRate:Float)
 	{
@@ -92,8 +93,8 @@ class EditorPlayState extends MusicBeatSubstate
 			FlxG.sound.music.stop();
 
 		cachePopUpScore();
-		guitarHeroSustains = ClientPrefs.data.guitarHeroSustains;
-		if(ClientPrefs.data.hitsoundVolume > 0) Paths.sound('hitsound');
+		newInput = ClientPrefs.data.newInput;
+		if(ClientPrefs.data.hitsoundVolume > 0) Paths.hitsound(ClientPrefs.data.hitsound);
 
 		/* setting up Editor PlayState stuff */
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
@@ -324,6 +325,7 @@ class EditorPlayState extends MusicBeatSubstate
 			{
 				var playerVocals = Paths.voices(songData.song, (boyfriendVocals == null || boyfriendVocals.length < 1) ? 'Player' : boyfriendVocals);
 				vocals.loadEmbedded(playerVocals != null ? playerVocals : Paths.voices(songData.song));
+				if(Difficulty.getString() == Difficulty.remixDifficulty ) vocals.loadEmbedded(Paths.erectVoices(songData.song));
 				
 				var oppVocals = Paths.voices(songData.song, (dadVocals == null || dadVocals.length < 1) ? 'Opponent' : dadVocals);
 				if(oppVocals != null) opponentVocals.loadEmbedded(oppVocals);
@@ -342,6 +344,7 @@ class EditorPlayState extends MusicBeatSubstate
 		FlxG.sound.list.add(opponentVocals);
 
 		inst = new FlxSound().loadEmbedded(Paths.inst(songData.song));
+		if(Difficulty.getString() == Difficulty.remixDifficulty ) inst.loadEmbedded(Paths.erectInst(songData.song));
 		FlxG.sound.list.add(inst);
 		FlxG.sound.music.volume = 0;
 
@@ -792,7 +795,7 @@ class EditorPlayState extends MusicBeatSubstate
 				var canHit:Bool = (n != null && n.canBeHit && n.mustPress &&
 					!n.tooLate && !n.wasGoodHit && !n.blockHit);
 
-				if (guitarHeroSustains)
+				if (newInput)
 					canHit = canHit && n.parent != null && n.parent.wasGoodHit;
 
 				if (canHit && n.isSustainNote) {
@@ -868,7 +871,7 @@ class EditorPlayState extends MusicBeatSubstate
 				invalidateNote(daNote);
 		});
 
-		if (daNote != null && guitarHeroSustains && daNote.parent == null) {
+		if (daNote != null && newInput && daNote.parent == null) {
 			if(daNote.tail.length > 0) {
 				daNote.alpha = 0.35;
 				for(childNote in daNote.tail) {
@@ -886,7 +889,7 @@ class EditorPlayState extends MusicBeatSubstate
 				return;
 		}
 
-		if (daNote != null && guitarHeroSustains && daNote.parent != null && daNote.isSustainNote) {
+		if (daNote != null && newInput && daNote.parent != null && daNote.isSustainNote) {
 			if (daNote.missed)
 				return; 
 			

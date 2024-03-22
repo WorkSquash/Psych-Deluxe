@@ -174,16 +174,4 @@ class CoolUtil
 				text.borderStyle = NONE;
 		}
 	}
-
-  /*inline public static function convCharCols(key:Array<String>):Array<FlxColor>
-	{
-        var charColors:Array<FlxColor> = [];
-
-        for (str in key) {
-            var color:Int = FlxColor.fromString(str);
-            var charColor:FlxColor = new FlxColor(color);
-            charColors.push(charColor);
-        }
-        return charColors;
-    }*/
 }

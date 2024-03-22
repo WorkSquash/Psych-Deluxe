@@ -33,8 +33,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		
 		var option:Option = new Option('New Input System',
-			"If checked, sustains will count as one note.",
-			'guitarHeroSustains',
+			"If checked, the game will use a new input system simmiliar to FPS+",
+			'newInput',
 			'bool');
 		addOption(option);
 
@@ -50,6 +50,28 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'noReset',
 			'bool');
 		addOption(option);
+
+		var option:Option = new Option('Background Dim',
+			'Darkens the background.',
+			'backgroundDim',
+			'percent');
+		option.scrollSpeed = 5;
+		option.minValue = 0;
+		option.maxValue = 1;
+		option.changeValue = 0.05;
+        option.decimals = 2;
+		addOption(option);
+
+		var option:Option = new Option('Note Underlay Visibility',
+			'Sets visibility of note underlay.',
+			'underlayAlpha',
+			'percent');
+		addOption(option);	
+		option.scrollSpeed = 1;
+		option.minValue = 0.0;
+		option.maxValue = 1;
+		option.changeValue = 0.05;
+		option.decimals = 2;
 
 		var option:Option = new Option('Rating Offset',
 			'Changes how late/early you have to hit for a "Sick!"\nHigher values mean you have to hit later.',

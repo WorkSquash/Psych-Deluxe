@@ -37,6 +37,7 @@ import objects.HealthIcon;
 import objects.AttachedSprite;
 import objects.Character;
 import substates.Prompt;
+import backend.Difficulty;
 
 
 #if sys
@@ -82,7 +83,8 @@ class ChartingState extends MusicBeatState
 		['Set Property', "Value 1: Variable name\nValue 2: New value"],
 		['Play Sound', "Value 1: Sound file name\nValue 2: Volume (Default: 1), ranges from 0 to 1"],
 		['Camera Flash', "Value 1: Duration of the Camera Flash\nValue 2:The color name or its hex code.\nExample: red or #FF0000 or 0xFF0000.\nDoesn't work when flashing lights are disabled"],
-		['Add Lyrics', "Value 1: The text\nValue 2: The color name or its hex code.\nExample: red or #FF0000 or 0xFF0000" ]
+		['Add Lyrics', "Value 1: The text\nValue 2: The color name or its hex code.\nExample: red or #FF0000 or 0xFF0000" ],
+		['Change Song Pitch', "Value 1: Song Pitch Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
 	];
 
 	var _file:FileReference;
@@ -560,7 +562,7 @@ class ChartingState extends MusicBeatState
 		var directories:Array<String> = [Paths.getSharedPath('stages/')];
 		#end
 
-		var stageFile:Array<String> = Mods.mergeAllTextsNamed('data/stageList.txt', Paths.getSharedPath());
+		var stageFile:Array<String> = ['simple', 'stage', 'spooky', 'philly', 'limo', 'mall', 'mallEvil', 'school', 'schoolEvil', 'tank'];//Mods.mergeAllTextsNamed('data/stageList.txt', Paths.getSharedPath());
 		var stages:Array<String> = [];
 		for (stage in stageFile) {
 			if(stage.trim().length > 0) {
@@ -1442,6 +1444,7 @@ class ChartingState extends MusicBeatState
 		{
 			var playerVocals = Paths.voices(currentSongName, (characterData.vocalsP1 == null || characterData.vocalsP1.length < 1) ? 'Player' : characterData.vocalsP1);
 			vocals.loadEmbedded(playerVocals != null ? playerVocals : Paths.voices(currentSongName));
+			if(Difficulty.getString() == Difficulty.remixDifficulty ) vocals.loadEmbedded(Paths.erectVoices(currentSongName));
 		}
 		vocals.autoDestroy = false;
 		FlxG.sound.list.add(vocals);
@@ -1512,6 +1515,7 @@ class ChartingState extends MusicBeatState
 
 	function generateSong() {
 		FlxG.sound.playMusic(Paths.inst(currentSongName), 0.6/*, false*/);
+		if(Difficulty.getString() == Difficulty.remixDifficulty) FlxG.sound.playMusic(Paths.erectInst(currentSongName), 0.6/*, false*/);
 		FlxG.sound.music.autoDestroy = false;
 		if (instVolume != null) FlxG.sound.music.volume = instVolume.value;
 		if (check_mute_inst != null && check_mute_inst.checked) FlxG.sound.music.volume = 0;

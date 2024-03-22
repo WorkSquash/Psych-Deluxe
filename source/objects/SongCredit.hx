@@ -41,6 +41,7 @@ class SongCredit extends FlxSpriteGroup
         
         //if(CoolUtil.exists(Paths.txt(Paths.formatToSongPath(_song + "/credits"))))
         text.text = CoolUtil.getText(Paths.txt(Paths.formatToSongPath(_song + "/credits")));
+        if(CoolUtil.exists(Paths.txt(Paths.formatToSongPath(_song + '/credits-' + Difficulty.getString().toLowerCase())))) text.text = CoolUtil.getText(Paths.txt(Paths.formatToSongPath(_song + "/credits-" + Difficulty.getString().toLowerCase())));
         //else 
             //text.text = _song + 'By: Kawaii Sprite'; //Should default to current songname and artist
         size = text.fieldWidth;

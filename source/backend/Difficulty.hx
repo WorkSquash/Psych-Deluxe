@@ -7,8 +7,10 @@ class Difficulty
 		'Normal',
 		'Hard'
 	];
+
 	public static var list:Array<String> = [];
 	private static var defaultDifficulty(default, never):String = 'Normal'; //The chart that has no suffix and starting difficulty on Freeplay/Story Mode
+	public static var remixDifficulty(default, never):String = 'Erect';
 
 	inline public static function getFilePath(num:Null<Int> = null)
 	{
@@ -69,5 +71,10 @@ class Difficulty
 	inline public static function getDefault():String
 	{
 		return defaultDifficulty;
+	}
+
+	inline public static function getRemix():String 
+	{
+		return remixDifficulty;
 	}
 }

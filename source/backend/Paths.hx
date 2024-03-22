@@ -194,6 +194,11 @@ class Paths
 		return sound;
 	}
 
+	static public function hitsound(key:String):Sound
+	{
+		var sound:Sound = returnSound('hitsounds', formatToSongPath(key));
+		return sound;
+	}
 
 	inline static public function soundRandom(key:String, min:Int, max:Int, ?library:String)
 	{
@@ -215,9 +220,26 @@ class Paths
 		return voices;
 	}
 
+	inline static public function erectVoices(song:String):Any
+	{
+		var songKey:String = '${formatToSongPath(song)}/Voices';
+		songKey += '-Erect';
+		//trace('songKey test: $songKey');
+		var voices = returnSound(null, songKey, 'songs');
+		return voices;
+	}
+
 	inline static public function inst(song:String):Any
 	{
 		var songKey:String = '${formatToSongPath(song)}/Inst';
+		var inst = returnSound(null, songKey, 'songs');
+		return inst;
+	}
+
+	inline static public function erectInst(song:String):Any
+	{
+		var songKey:String = '${formatToSongPath(song)}/Inst';
+		songKey += '-Erect';
 		var inst = returnSound(null, songKey, 'songs');
 		return inst;
 	}
@@ -453,6 +475,17 @@ class Paths
 			localTrackedAssets.push(file);
 			return currentTrackedSounds.get(file);
 		}
+
+		var file:String = modsHitsounds(modLibPath, key);
+		if(FileSystem.exists(file)) {
+			if(!currentTrackedSounds.exists(file))
+			{
+				currentTrackedSounds.set(file, Sound.fromFile(file));
+				//trace('precached mod sound: $file');
+			}
+			localTrackedAssets.push(file);
+			return currentTrackedSounds.get(file);
+		}
 		#end
 
 		// I hate this so god damn much
@@ -497,6 +530,10 @@ class Paths
 	}
 
 	inline static public function modsSounds(path:String, key:String) {
+		return modFolders(path + '/' + key + '.' + SOUND_EXT);
+	}
+
+	inline static public function modsHitsounds(path:String, key:String) {
 		return modFolders(path + '/' + key + '.' + SOUND_EXT);
 	}
 

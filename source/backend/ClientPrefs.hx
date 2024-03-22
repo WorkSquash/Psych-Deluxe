@@ -14,9 +14,11 @@ import states.TitleState;
 	public var middleScroll:Bool = false;
 	public var opponentStrums:Bool = true;
 	public var ghostTapping:Bool = true;
-	public var guitarHeroSustains:Bool = true;
+	public var newInput:Bool = true;
 	public var autoPause:Bool = true;
 	public var noReset:Bool = false;
+	public var backgroundDim:Float = 0;
+	public var underlayAlpha:Float = 0.75;
 
 	//Offset Settings
 	public var comboOffset:Array<Int> = [0, 0, 0, 0];
@@ -50,8 +52,7 @@ import states.TitleState;
 	public var showCombo:Bool = true;
 	public var comboStacking:Bool = true;
 	//public var playMissAnim:Bool = true;
-	public var underlay:Bool = false;
-	public var underlayAlpha:Float = 0.75;
+	
 
 	//UI Settings
 	public var hideHud:Bool = false;
@@ -65,7 +66,7 @@ import states.TitleState;
 	public var pauseMusic:String = 'Tea Time';
 	//public var menuMusic:String = 'Default'; //Default is the Freaky Menu
 	public var noteSounds:Bool = false;
-	//public var hitsound:String = 'Osu!Mania'; //This is the default Psych hitsound....
+	public var hitsound:String = 'Osu!Mania'; //This is the default Psych hitsound....
 	public var hitsoundVolume:Float = 0;
 	//public var missSound:Bool = true;
 	public var instVolume:Float = 1;
@@ -112,11 +113,13 @@ import states.TitleState;
 		'oppHealthgain' => 1.0,
 		'fairplay' => false,
 		'instakill' => false,
+		'sickOnly' => false,
 		'practice' => false,
 		'botplay' => false,
-		'opponentplay' => false
+		'opponentplay' => false,
+		'mirrorMode' => false,
+		'randomMode' => false
 	];
-
 
 	//Old Variables in case i need it.
 	/*public var downScroll:Bool = false;
@@ -358,7 +361,6 @@ class ClientPrefs {
 		if(!customDefaultValue) defaultValue = defaultData.gameplaySettings.get(name);
 		return /*PlayState.isStoryMode ? defaultValue : */ (data.gameplaySettings.exists(name) ? data.gameplaySettings.get(name) : defaultValue);
 	}
-
 	public static function reloadVolumeKeys()
 	{
 		TitleState.muteKeys = keyBinds.get('volume_mute').copy();

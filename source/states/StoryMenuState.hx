@@ -10,7 +10,7 @@ import flixel.graphics.FlxGraphic;
 import objects.MenuItem;
 import objects.MenuCharacter;
 
-import substates.GameplayChangersSubstate;
+import substates.GameplayChangersSubstate as GameplayChangers;
 import substates.ResetScoreSubState;
 
 class StoryMenuState extends MusicBeatState
@@ -237,7 +237,7 @@ class StoryMenuState extends MusicBeatState
 			if(FlxG.keys.justPressed.CONTROL)
 			{
 				persistentUpdate = false;
-				openSubState(new GameplayChangersSubstate());
+				openSubState(new GameplayChangers());
 			}
 			else if(controls.RESET)
 			{

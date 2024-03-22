@@ -8,7 +8,7 @@ import backend.Difficulty;
 import objects.HealthIcon;
 import objects.MusicPlayer;
 
-import substates.GameplayChangersSubstate;
+import substates.GameplayChangersSubstate as GameplayChangers;
 import substates.ResetScoreSubState;
 
 import flixel.math.FlxMath;
@@ -314,7 +314,7 @@ class FreeplayState extends MusicBeatState
 		if(FlxG.keys.justPressed.CONTROL && !player.playingMusic)
 		{
 			persistentUpdate = false;
-			openSubState(new GameplayChangersSubstate());
+			openSubState(new GameplayChangers());
 		}
 		else if(FlxG.keys.justPressed.SPACE)
 		{
@@ -329,6 +329,7 @@ class FreeplayState extends MusicBeatState
 				if (PlayState.SONG.needsVoices)
 				{
 					vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
+					if(Difficulty.getString() == Difficulty.remixDifficulty) vocals.loadEmbedded(Paths.erectVoices(PlayState.SONG.song));
 					FlxG.sound.list.add(vocals);
 					vocals.persist = true;
 					vocals.looped = true;
@@ -341,6 +342,7 @@ class FreeplayState extends MusicBeatState
 				}
 
 				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.8);
+				if(Difficulty.getString() == Difficulty.remixDifficulty) FlxG.sound.playMusic(Paths.erectInst(PlayState.SONG.song), 0.8);
 				if(vocals != null) //Sync vocals to Inst
 				{
 					vocals.play();
