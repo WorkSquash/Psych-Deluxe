@@ -17,6 +17,7 @@ typedef SwagSong =
 	var player1:String;
 	var player2:String;
 	var gfVersion:String;
+	var difficulty:Int; //Used in chart editor to load a certain difficulty.
 	var stage:String;
 
 	@:optional var gameOverChar:String;
@@ -49,6 +50,7 @@ class Song
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
 	public var gfVersion:String = 'gf';
+	public var difficulty:Int = 1;
 
 	private static function onLoadJson(songJson:Dynamic) // Convert old charts to newest format
 	{

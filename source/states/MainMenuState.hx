@@ -10,7 +10,7 @@ import options.OptionsState;
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.7.3'; 
-	public static var deluxeVer:String = '3.0pr'; // This is also used for Discord RPC
+	public static var deluxeVer:String = #if debug '2.75-d' #else '2.75' #end; // This is also used for Discord RPC
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
@@ -88,10 +88,10 @@ class MainMenuState extends MusicBeatState
 			menuItem.screenCenter(X);
 		}
 
-		var dVer:FlxText = new FlxText(12, FlxG.height - 64, 0, "Deluxe: " + deluxeVer, 12);
-		dVer.scrollFactor.set();
-		dVer.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(dVer);
+		var deluxeVer:FlxText = new FlxText(12, FlxG.height - 64, 0, "Deluxe: " + deluxeVer, 12);
+		deluxeVer.scrollFactor.set();
+		deluxeVer.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(deluxeVer);
 
 		var psychVer:FlxText = new FlxText(12, FlxG.height - 44, 0, "Psych Engine: " + psychEngineVersion, 12);
 		psychVer.scrollFactor.set();

@@ -47,18 +47,6 @@ class MiscSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		#end
 
-		var option:Option = new Option('Dynamic Flashing',
-			"If checked, hitting a  note while having a combo of 25 and above flashes the screen. \nAlso makes the screen flash when you miss a note.",
-			'noteFlash',
-			'bool');
-		addOption(option);
-
-		var option:Option = new Option('Watermarks',
-			"If checked, watermarks will be shown",
-			'watermarks',
-			'bool');
-		addOption(option);
-
 		super();
 	}
 }

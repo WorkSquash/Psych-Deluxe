@@ -1,14 +1,8 @@
 {
 	"songs": [
-		[
-			"A Dramatic Irony",
-			"",
-			[
-				255,
-				255,
-				255
-			]
-		]
+		[ "A Dramatic Irony", "", [ 255, 255, 255 ] ],
+		[ "Da Capo", "", [ 255, 255, 255 ] ],
+		[ "Rabbit Hole", "", [ 255, 255, 255 ] ]
 	],
 	"hiddenUntilUnlocked": false,
 	"hideFreeplay": false,
@@ -22,11 +16,11 @@
 	"storyName": "",
 	"weekName": "ext-1",
 	"freeplayColor": [
-		146,
-		113,
-		253
+		0,
+		255,
+		255
 	],
 	"hideStoryMode": true,
-	"weekBefore": "week6",
+	"weekBefore": "week7",
 	"startUnlocked": true
 }

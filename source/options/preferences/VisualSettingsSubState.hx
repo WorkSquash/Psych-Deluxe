@@ -64,14 +64,14 @@ class VisualSettingsSubState extends BaseOptionsMenu
 			"Changes the healthbar colors depending on your option.",
 			'healthBarType',
 			'string',
-			['Psych', 'Vanilla']);
+			['Default', 'Vanilla', 'Deluxe']);
 		addOption(option);
 
 		var option:Option = new Option('Timebar Colors:',
 			"Enables or disables the timebar color",
 			'timeBarColors',
 			'string',
-			['Dynamic', 'Kade', 'Static']);
+			['Default', 'Dynamic', 'Kade', 'Deluxe']);
 		addOption(option);
 
 		var option:Option = new Option('Note Splash Opacity',
@@ -83,6 +83,23 @@ class VisualSettingsSubState extends BaseOptionsMenu
 		option.maxValue = 1;
 		option.changeValue = 0.1;
 		option.decimals = 1;
+		addOption(option);
+
+		var option:Option = new Option('Background Dim',
+			'Darkens the background.',
+			'backgroundDim',
+			'percent');
+		option.scrollSpeed = 5;
+		option.minValue = 0;
+		option.maxValue = 1;
+		option.changeValue = 0.05;
+        option.decimals = 2;
+		addOption(option);
+
+		var option:Option = new Option('Enable Song Captions',
+			'If checked, the songs captions will be rendered on screen.',
+			'showCaptions',
+			'bool');
 		addOption(option);
 
 		var option:Option = new Option('Flashing Lights',

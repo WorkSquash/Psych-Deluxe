@@ -20,11 +20,11 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);
 
-		var option:Option = new Option('Opponent Notes',
+		/*var option:Option = new Option('Opponent Notes',
 			'If unchecked, opponent notes get hidden.',
 			'opponentStrums',
 			'bool');
-		addOption(option);
+		addOption(option);*/
 
 		var option:Option = new Option('Ghost Tapping',
 			"If checked, you won't get misses from pressing keys\nwhile there are no notes able to be hit.",
@@ -49,17 +49,6 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If checked, pressing Reset won't do anything.",
 			'noReset',
 			'bool');
-		addOption(option);
-
-		var option:Option = new Option('Background Dim',
-			'Darkens the background.',
-			'backgroundDim',
-			'percent');
-		option.scrollSpeed = 5;
-		option.minValue = 0;
-		option.maxValue = 1;
-		option.changeValue = 0.05;
-        option.decimals = 2;
 		addOption(option);
 
 		var option:Option = new Option('Note Underlay Visibility',
@@ -93,12 +82,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.maxValue = 65;
 		addOption(option);
 
+
 		var option:Option = new Option('Good Hit Window',
 			'Changes the amount of time you have\nfor hitting a "Good" in milliseconds.',
 			'goodWindow',
 			'int');
 		option.displayFormat = '%vms';
-		option.scrollSpeed = 30;
+		option.scrollSpeed = 15;
 		option.minValue = 15;
 		option.maxValue = 120;
 		addOption(option);
@@ -108,9 +98,9 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'badWindow',
 			'int');
 		option.displayFormat = '%vms';
-		option.scrollSpeed = 60;
+		option.scrollSpeed = 15;
 		option.minValue = 15;
-		option.maxValue = 155;
+		option.maxValue = 160;
 		addOption(option);
 
 		var option:Option = new Option('Safe Frames',

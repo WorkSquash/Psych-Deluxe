@@ -36,20 +36,18 @@ class SongCredit extends FlxSpriteGroup
 
         var text = new FlxText(0, 0, 0, '', fontSize);
         //if(PlayState.isPixelStage) text.setFormat(Paths.font('pixel.otf'), 15, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE_FAST, FlxColor.BLACK);
-        text.setFormat(Paths.font("vcr.tff"), fontSize, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.SHADOW, FlxColor.BLACK);
+        text.setFormat(Paths.font("notosans.tff"), fontSize, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.SHADOW, FlxColor.BLACK);
         
         
         //if(CoolUtil.exists(Paths.txt(Paths.formatToSongPath(_song + "/credits"))))
-        text.text = CoolUtil.getText(Paths.txt(Paths.formatToSongPath(_song + "/credits")));
-        if(CoolUtil.exists(Paths.txt(Paths.formatToSongPath(_song + '/credits-' + Difficulty.getString().toLowerCase())))) text.text = CoolUtil.getText(Paths.txt(Paths.formatToSongPath(_song + "/credits-" + Difficulty.getString().toLowerCase())));
-        //else 
-            //text.text = _song + 'By: Kawaii Sprite'; //Should default to current songname and artist
+        text.text = CoolUtil.exists(Paths.txt(Paths.formatToSongPath(_song + '/credits-' + Difficulty.getString()))) ? 
+         CoolUtil.getText(Paths.txt(Paths.formatToSongPath(_song + "/credits-" + Difficulty.getString().toLowerCase()))) : CoolUtil.getText(Paths.txt(Paths.formatToSongPath(_song + "/credits")));
         size = text.fieldWidth;
         
         text.antialiasing = ClientPrefs.data.antialiasing && !PlayState.isPixelStage;
         
         bg = new FlxSprite(fontSize/-2, fontSize/-2).makeGraphic(Math.floor(size + fontSize), Math.floor(text.height + fontSize), FlxColor.BLACK);
-        bg.alpha = 0.75;
+        bg.alpha = 0.5;
 
         //text.text += "\n";
 

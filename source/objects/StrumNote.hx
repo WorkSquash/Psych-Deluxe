@@ -84,20 +84,20 @@ class StrumNote extends FlxSprite
 			{
 				case 0:
 					animation.add('static', [0]);
-					animation.add('pressed', [4, 8], 12, false);
-					animation.add('confirm', [12, 16], 24, false);
+					animation.add('pressed', [4, 8], 60, false);
+					animation.add('confirm', [12, 16], 60, false);
 				case 1:
 					animation.add('static', [1]);
-					animation.add('pressed', [5, 9], 12, false);
-					animation.add('confirm', [13, 17], 24, false);
+					animation.add('pressed', [5, 9], 60, false);
+					animation.add('confirm', [13, 17], 60, false);
 				case 2:
 					animation.add('static', [2]);
-					animation.add('pressed', [6, 10], 12, false);
-					animation.add('confirm', [14, 18], 12, false);
+					animation.add('pressed', [6, 10], 60, false);
+					animation.add('confirm', [14, 18], 60, false);
 				case 3:
 					animation.add('static', [3]);
-					animation.add('pressed', [7, 11], 12, false);
-					animation.add('confirm', [15, 19], 24, false);
+					animation.add('pressed', [7, 11], 60, false);
+					animation.add('confirm', [15, 19], 60, false);
 			}
 		}
 		else
@@ -115,20 +115,20 @@ class StrumNote extends FlxSprite
 			{
 				case 0:
 					animation.addByPrefix('static', 'arrowLEFT');
-					animation.addByPrefix('pressed', 'left press', 24, false);
-					animation.addByPrefix('confirm', 'left confirm', 24, false);
+					animation.addByPrefix('pressed', 'left press', 60, false);
+					animation.addByPrefix('confirm', 'left confirm', 60, false);
 				case 1:
 					animation.addByPrefix('static', 'arrowDOWN');
-					animation.addByPrefix('pressed', 'down press', 24, false);
-					animation.addByPrefix('confirm', 'down confirm', 24, false);
+					animation.addByPrefix('pressed', 'down press', 60, false);
+					animation.addByPrefix('confirm', 'down confirm', 60, false);
 				case 2:
 					animation.addByPrefix('static', 'arrowUP');
-					animation.addByPrefix('pressed', 'up press', 24, false);
-					animation.addByPrefix('confirm', 'up confirm', 24, false);
+					animation.addByPrefix('pressed', 'up press', 60, false);
+					animation.addByPrefix('confirm', 'up confirm', 60, false);
 				case 3:
 					animation.addByPrefix('static', 'arrowRIGHT');
-					animation.addByPrefix('pressed', 'right press', 24, false);
-					animation.addByPrefix('confirm', 'right confirm', 24, false);
+					animation.addByPrefix('pressed', 'right press', 60, false);
+					animation.addByPrefix('confirm', 'right confirm', 60, false);
 			}
 		}
 		updateHitbox();

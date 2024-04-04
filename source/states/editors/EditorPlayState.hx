@@ -94,7 +94,6 @@ class EditorPlayState extends MusicBeatSubstate
 
 		cachePopUpScore();
 		newInput = ClientPrefs.data.newInput;
-		if(ClientPrefs.data.hitsoundVolume > 0) Paths.hitsound(ClientPrefs.data.hitsound);
 
 		/* setting up Editor PlayState stuff */
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
@@ -121,24 +120,24 @@ class EditorPlayState extends MusicBeatSubstate
 		generateStaticArrows(1);
 		/***************/
 		
-		scoreTxt = new FlxText(10, FlxG.height - 50, FlxG.width - 20, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt = new FlxText(0, FlxG.height - 35, FlxG.width - 20, "", 20);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.data.hideHud;
 		add(scoreTxt);
 		
-		dataTxt = new FlxText(10, 580, FlxG.width - 20, "Section: 0", 20);
-		dataTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		dataTxt = new FlxText(10, 100, FlxG.width - 20, "Section: 0", 20);
+		dataTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		dataTxt.scrollFactor.set();
 		dataTxt.borderSize = 1.25;
 		add(dataTxt);
 
-		var tipText:FlxText = new FlxText(10, FlxG.height - 24, 0, 'Press ESC to Go Back to Chart Editor', 16);
-		tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		/*var tipText:FlxText = new FlxText(10, ClientPrefs.data.downScroll ? 10 : FlxG.height - 25, 0, 'Press ESC to Go Back to Chart Editor', 16);
+		tipText.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		tipText.borderSize = 2;
 		tipText.scrollFactor.set();
-		add(tipText);
+		add(tipText);*/
 		FlxG.mouse.visible = false;
 		
 		generateSong(PlayState.SONG.song);
@@ -325,7 +324,7 @@ class EditorPlayState extends MusicBeatSubstate
 			{
 				var playerVocals = Paths.voices(songData.song, (boyfriendVocals == null || boyfriendVocals.length < 1) ? 'Player' : boyfriendVocals);
 				vocals.loadEmbedded(playerVocals != null ? playerVocals : Paths.voices(songData.song));
-				if(Difficulty.getString() == Difficulty.remixDifficulty ) vocals.loadEmbedded(Paths.erectVoices(songData.song));
+				if(CoolUtil.exists(Paths.voicesDiff(songData.song, Difficulty.getString(PlayState.storyDifficulty)))) vocals.loadEmbedded(Paths.voicesDiff(songData.song, Difficulty.getString()));
 				
 				var oppVocals = Paths.voices(songData.song, (dadVocals == null || dadVocals.length < 1) ? 'Opponent' : dadVocals);
 				if(oppVocals != null) opponentVocals.loadEmbedded(oppVocals);
@@ -343,11 +342,14 @@ class EditorPlayState extends MusicBeatSubstate
 		FlxG.sound.list.add(vocals);
 		FlxG.sound.list.add(opponentVocals);
 
-		inst = new FlxSound().loadEmbedded(Paths.inst(songData.song));
-		if(Difficulty.getString() == Difficulty.remixDifficulty ) inst.loadEmbedded(Paths.erectInst(songData.song));
+		inst = new FlxSound();
+		try {
+			if(CoolUtil.exists(Paths.instDiff(songData.song, Difficulty.getString(PlayState.storyDifficulty)))) inst.loadEmbedded(Paths.instDiff(songData.song, Difficulty.getString()));
+			inst.loadEmbedded(Paths.inst(songData.song));
+		}
 		FlxG.sound.list.add(inst);
 		FlxG.sound.music.volume = 0;
-
+		//To Lazy to code this shit here so...
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
 
@@ -362,13 +364,16 @@ class EditorPlayState extends MusicBeatSubstate
 				var daStrumTime:Float = songNotes[0];
 				if(daStrumTime < startPos) continue;
 
-				var daNoteData:Int = Std.int(songNotes[1] % 4);
-				var gottaHitNote:Bool = section.mustHitSection;
+				var rand:Int = FlxG.random.int(0, 3);
 
+				var daNoteData = Std.int((ClientPrefs.getGameplaySetting('randomMode') ? rand : songNotes[1] % 4));
+				var gottaHitNote:Bool = ClientPrefs.getGameplaySetting('mirrorMode') ? !section.mustHitSection : section.mustHitSection;
+				
 				if (songNotes[1] > 3)
-				{
-					gottaHitNote = !section.mustHitSection;
-				}
+					gottaHitNote = (ClientPrefs.getGameplaySetting('mirrorMode') ? section.mustHitSection : !section.mustHitSection);
+		
+				if (ClientPrefs.getGameplaySetting('randomMode') && songNotes[3] == 2)
+					continue;
 
 				var oldNote:Note;
 				if (unspawnNotes.length > 0)
@@ -450,7 +455,7 @@ class EditorPlayState extends MusicBeatSubstate
 
 		unspawnNotes.sort(PlayState.sortByTime);
 	}
-	
+
 	private function generateStaticArrows(player:Int):Void
 	{
 		var strumLineX:Float = ClientPrefs.data.middleScroll ? PlayState.STRUM_X_MIDDLESCROLL : PlayState.STRUM_X;
@@ -461,8 +466,7 @@ class EditorPlayState extends MusicBeatSubstate
 			var targetAlpha:Float = 1;
 			if (player < 1)
 			{
-				if(!ClientPrefs.data.opponentStrums) targetAlpha = 0;
-				else if(ClientPrefs.data.middleScroll) targetAlpha = 0.35;
+				if(ClientPrefs.data.middleScroll) targetAlpha = 0;
 			}
 
 			var babyArrow:StrumNote = new StrumNote(strumLineX, strumLineY, i, player);
@@ -829,6 +833,9 @@ class EditorPlayState extends MusicBeatSubstate
 
 		if (!note.isSustainNote)
 			invalidateNote(note);
+		if(!note.noteSplashData.disabled && !note.isSustainNote && ClientPrefs.getGameplaySetting('fairplay'))
+			spawnNoteSplashOnOpponentNote(note);
+
 	}
 
 	function goodNoteHit(note:Note):Void
@@ -837,7 +844,7 @@ class EditorPlayState extends MusicBeatSubstate
 
 		note.wasGoodHit = true;
 		if (ClientPrefs.data.hitsoundVolume > 0 && !note.hitsoundDisabled)
-			FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.data.hitsoundVolume);
+			FlxG.sound.play(Paths.hitsound(ClientPrefs.data.hitsound), ClientPrefs.data.hitsoundVolume);
 
 		if(note.hitCausesMiss) {
 			noteMiss(note);
@@ -926,9 +933,18 @@ class EditorPlayState extends MusicBeatSubstate
 		}
 	}
 
+	function spawnNoteSplashOnOpponentNote(note:Note) {
+		if(note != null && ClientPrefs.getGameplaySetting('fairplay')) {
+			var strum:StrumNote = opponentStrums.members[note.noteData];
+			if(strum != null)
+				spawnNoteSplash(strum.x, strum.y, note.noteData, note);
+		}
+	}
+
 	function spawnNoteSplash(x:Float, y:Float, data:Int, ?note:Note = null) {
 		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
 		splash.setupNoteSplash(x, y, data, note);
+		if(ClientPrefs.getGameplaySetting('fairplay'))splash.alpha = note.alpha;
 		grpNoteSplashes.add(splash);
 	}
 	
@@ -971,6 +987,12 @@ class EditorPlayState extends MusicBeatSubstate
 			str = '$percent% - $ratingFC';
 		}
 		scoreTxt.text = 'Hits: $songHits | Misses: $songMisses | Rating: $str';
+		if(ClientPrefs.data.verticalUI){
+		scoreTxt.text = 'H: $songHits'
+			+ ' • M: $songMisses'
+			+ ' • A: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} %'
+			+ ' • R: $ratingFC';
+		}
 	}
 	
 	function fullComboUpdate()

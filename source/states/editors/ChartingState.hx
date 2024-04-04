@@ -38,6 +38,7 @@ import objects.AttachedSprite;
 import objects.Character;
 import substates.Prompt;
 import backend.Difficulty;
+import backend.WeekData;
 
 
 #if sys
@@ -83,7 +84,8 @@ class ChartingState extends MusicBeatState
 		['Set Property', "Value 1: Variable name\nValue 2: New value"],
 		['Play Sound', "Value 1: Sound file name\nValue 2: Volume (Default: 1), ranges from 0 to 1"],
 		['Camera Flash', "Value 1: Duration of the Camera Flash\nValue 2:The color name or its hex code.\nExample: red or #FF0000 or 0xFF0000.\nDoesn't work when flashing lights are disabled"],
-		['Add Lyrics', "Value 1: The text\nValue 2: The color name or its hex code.\nExample: red or #FF0000 or 0xFF0000" ],
+		['Add Caption', "Value 1: The text \nValue 2: The color name or its hex code.\nExample: red or #FF0000 or 0xFF0000"],
+		['Hide Caption', "Hides the caption box."],
 		['Change Song Pitch', "Value 1: Song Pitch Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
 	];
 
@@ -210,7 +212,8 @@ class ChartingState extends MusicBeatState
 				player2: 'bf-pixel-opponent',
 				gfVersion: 'gf-pixel',
 				speed: 1,
-				stage: 'school'
+				stage: 'school',
+				difficulty: 1
 			};
 			addSection();
 			PlayState.SONG = _song;
@@ -377,7 +380,7 @@ class ChartingState extends MusicBeatState
 		}
 		lastSong = currentSongName;
 
-		zoomTxt = new FlxText(10, 10, 0, "Zoom: 1 / 1", 16);
+		zoomTxt = new FlxText(10, FlxG.height - 45, 0, "Zoom: 1 / 1", 16);
 		zoomTxt.scrollFactor.set();
 		add(zoomTxt);
 
@@ -502,6 +505,12 @@ class ChartingState extends MusicBeatState
 		var gfVersions:Array<String> = Mods.mergeAllTextsNamed('data/gfVersion.txt', Paths.getSharedPath());
 		var bfVersions:Array<String> = Mods.mergeAllTextsNamed('data/bfVersion.txt', Paths.getSharedPath());
 		var dadVersions:Array<String> = Mods.mergeAllTextsNamed('data/dadVersion.txt', Paths.getSharedPath());
+		var difficulties:Array<Int> = [0, 1, 2];
+		var diffList:Array<String> = Difficulty.defaultList;
+		if(!diffList.contains(Difficulty.getString())){
+			diffList.push(Difficulty.getString());
+			difficulties.push(PlayState.storyDifficulty);
+		}
 		/*for (character in bfVersions)
 		{
 			if(character.trim().length > 0)
@@ -597,6 +606,17 @@ class ChartingState extends MusicBeatState
 		stageDropDown.selectedLabel = _song.stage;
 		blockPressWhileScrolling.push(stageDropDown);
 
+		var diffDropDown = new FlxUIDropDownMenu(stageDropDown.x, stageDropDown.y + 40, FlxUIDropDownMenu.makeStrIdLabelArray(diffList, true), function(diff:String)
+		{
+			_song.difficulty = difficulties[Std.parseInt(diff)];
+			openSubState(new Prompt('This action will change the current difficulty.\nAny unsaved data will be lost.', 0, function() {
+				loadJson(_song.song.toLowerCase());
+			},
+			null, ignoreWarnings));
+		});
+		diffDropDown.selectedLabel = Difficulty.getString(_song.difficulty);
+		blockPressWhileScrolling.push(diffDropDown);
+
 		var tab_group_song = new FlxUI(null, UI_box);
 		tab_group_song.name = "Song";
 		tab_group_song.add(UI_songTitle);
@@ -619,10 +639,12 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(new FlxText(gfVersionDropDown.x, gfVersionDropDown.y - 15, 0, 'Girlfriend:'));
 		tab_group_song.add(new FlxText(player1DropDown.x, player1DropDown.y - 15, 0, 'Boyfriend:'));
 		tab_group_song.add(new FlxText(stageDropDown.x, stageDropDown.y - 15, 0, 'Stage:'));
+		tab_group_song.add(new FlxText(diffDropDown.x, diffDropDown.y - 15, 0, 'Difficulty:'));
 		tab_group_song.add(player2DropDown);
 		tab_group_song.add(gfVersionDropDown);
 		tab_group_song.add(player1DropDown);
 		tab_group_song.add(stageDropDown);
+		tab_group_song.add(diffDropDown);
 
 		UI_box.addGroup(tab_group_song);
 
@@ -1444,7 +1466,7 @@ class ChartingState extends MusicBeatState
 		{
 			var playerVocals = Paths.voices(currentSongName, (characterData.vocalsP1 == null || characterData.vocalsP1.length < 1) ? 'Player' : characterData.vocalsP1);
 			vocals.loadEmbedded(playerVocals != null ? playerVocals : Paths.voices(currentSongName));
-			if(Difficulty.getString() == Difficulty.remixDifficulty ) vocals.loadEmbedded(Paths.erectVoices(currentSongName));
+			if(CoolUtil.exists(Paths.voicesDiff(currentSongName, Difficulty.getString(PlayState.storyDifficulty)))) vocals.loadEmbedded(Paths.voicesDiff(currentSongName, Difficulty.getString()));
 		}
 		vocals.autoDestroy = false;
 		FlxG.sound.list.add(vocals);
@@ -1515,7 +1537,7 @@ class ChartingState extends MusicBeatState
 
 	function generateSong() {
 		FlxG.sound.playMusic(Paths.inst(currentSongName), 0.6/*, false*/);
-		if(Difficulty.getString() == Difficulty.remixDifficulty) FlxG.sound.playMusic(Paths.erectInst(currentSongName), 0.6/*, false*/);
+		if(CoolUtil.exists(Paths.instDiff(currentSongName, Difficulty.getString(PlayState.storyDifficulty)))) FlxG.sound.playMusic(Paths.instDiff(currentSongName, Difficulty.getString()), 0.6/*, false*/);
 		FlxG.sound.music.autoDestroy = false;
 		if (instVolume != null) FlxG.sound.music.volume = instVolume.value;
 		if (check_mute_inst != null && check_mute_inst.checked) FlxG.sound.music.volume = 0;
@@ -3111,10 +3133,11 @@ class ChartingState extends MusicBeatState
 		//make it look sexier if possible
 		try {
 			if (Difficulty.getString() != Difficulty.getDefault()) {
-				if(Difficulty.getString() == null){
+				if(Difficulty.getString() == null || Difficulty.getString() == Difficulty.getDefault()){
 					PlayState.SONG = Song.loadFromJson(song.toLowerCase(), song.toLowerCase());
-				}else{
-					PlayState.SONG = Song.loadFromJson(song.toLowerCase() + "-" + Difficulty.getString(), song.toLowerCase());
+				}
+				else{
+					PlayState.SONG = Song.loadFromJson(song.toLowerCase() + "-" + Difficulty.getString(_song.difficulty), song.toLowerCase());
 				}
 			}
 			else PlayState.SONG = Song.loadFromJson(song.toLowerCase(), song.toLowerCase());

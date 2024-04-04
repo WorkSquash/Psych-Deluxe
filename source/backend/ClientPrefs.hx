@@ -12,12 +12,11 @@ import states.TitleState;
 	//Gameplay Settings
 	public var downScroll:Bool = false;
 	public var middleScroll:Bool = false;
-	public var opponentStrums:Bool = true;
+	//public var opponentStrums:Bool = true;
 	public var ghostTapping:Bool = true;
 	public var newInput:Bool = true;
 	public var autoPause:Bool = true;
 	public var noReset:Bool = false;
-	public var backgroundDim:Float = 0;
 	public var underlayAlpha:Float = 0.75;
 
 	//Offset Settings
@@ -42,6 +41,8 @@ import states.TitleState;
 	public var healthBarType:String = 'Psych';
 	public var timeBarColors:String = 'Static';
 	public var splashAlpha:Float = 0.6;
+	public var backgroundDim:Float = 0;
+	public var showCaptions:Bool = true;
 	public var flashing:Bool = true;
 	public var screenShake:Bool = true;
 	public var smoothHealthbar:Bool = false;
@@ -89,8 +90,6 @@ import states.TitleState;
 	public var enableDebug:Bool = false;
 	public var extendDebug:Bool = false;
 	public var hideStrums:Bool = false;
-	public var noteFlash:Bool = false;
-	public var watermarks:Bool = true;
 	public var checkForUpdates:Bool = true;
 	public var discordRPC:Bool = true;
 	

@@ -11,6 +11,7 @@ import lime.utils.AssetLibrary;
 import lime.utils.AssetManifest;
 
 import backend.StageData;
+import backend.Difficulty;
 
 import haxe.io.Path;
 
@@ -134,12 +135,12 @@ class LoadingState extends MusicBeatState
 	
 	static function getSongPath()
 	{
-		return Paths.inst(PlayState.SONG.song);
+		return CoolUtil.exists(Paths.instDiff(PlayState.SONG.song, Difficulty.getString())) ? Paths.instDiff(PlayState.SONG.song, Difficulty.getString()) : Paths.inst(PlayState.SONG.song);
 	}
 	
 	static function getVocalPath()
 	{
-		return Paths.voices(PlayState.SONG.song);
+		return CoolUtil.exists(Paths.voicesDiff(PlayState.SONG.song, Difficulty.getString())) ? Paths.voicesDiff(PlayState.SONG.song, Difficulty.getString()) : Paths.voices(PlayState.SONG.song);
 	}
 	
 	inline static public function loadAndSwitchState(target:FlxState, stopMusic = false)

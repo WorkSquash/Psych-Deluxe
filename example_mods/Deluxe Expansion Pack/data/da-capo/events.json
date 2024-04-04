@@ -1,0 +1,416 @@
+{
+	"song": {
+		"events": [
+			[
+				1114.86486486486,
+				[
+					[
+						"Add Caption",
+						"When good old friends are",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				2939.18918918919,
+				[
+					[
+						"Add Caption",
+						"going away",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				5320.94594594595,
+				[
+					[
+						"Hide Caption",
+						"",
+						""
+					]
+				]
+			],
+			[
+				6993.24324324324,
+				[
+					[
+						"Add Caption",
+						"Will you wish them to remember",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				10540.5405405405,
+				[
+					[
+						"Add Caption",
+						"your name?",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				11047.2972972973,
+				[
+					[
+						"Hide Caption",
+						"",
+						""
+					]
+				]
+			],
+			[
+				14290.5405405405,
+				[
+					[
+						"Add Caption",
+						"When good old days are",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				15912.1621621622,
+				[
+					[
+						"Add Caption",
+						"passing away",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				19966.2162162162,
+				[
+					[
+						"Add Caption",
+						"Will you promise your heart",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				22398.6486486486,
+				[
+					[
+						"Add Caption",
+						"remains the same?",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				23716.2162162162,
+				[
+					[
+						"Hide Caption",
+						"",
+						""
+					]
+				]
+			],
+			[
+				27668.9189189189,
+				[
+					[
+						"Add Caption",
+						"Never can we suspend the time",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				30405.4054054054,
+				[
+					[
+						"Hide Caption",
+						"",
+						""
+					]
+				]
+			],
+			[
+				33952.7027027027,
+				[
+					[
+						"Add Caption",
+						"Having to leave the tracks",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				35979.7297297297,
+				[
+					[
+						"Add Caption",
+						"behind",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				38817.5675675676,
+				[
+					[
+						"Hide Caption",
+						"",
+						""
+					]
+				]
+			],
+			[
+				40540.5405405405,
+				[
+					[
+						"Add Caption",
+						"There is a longer way ahead,",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				48243.2432432432,
+				[
+					[
+						"Add Caption",
+						"after all",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				52601.3513513513,
+				[
+					[
+						"Hide Caption",
+						"",
+						""
+					]
+				]
+			],
+			[
+				54527.027027027,
+				[
+					[
+						"Add Caption",
+						"There used to be a story teller",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				60405.4054054054,
+				[
+					[
+						"Add Caption",
+						"Who always painted the",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				62432.4324324324,
+				[
+					[
+						"Add Caption",
+						"sunshine and the rain",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				64662.1621621621,
+				[
+					[
+						"Hide Caption",
+						"",
+						""
+					]
+				]
+			],
+			[
+				67702.7027027026,
+				[
+					[
+						"Add Caption",
+						"One has to eventually grow up",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				73277.027027027,
+				[
+					[
+						"Add Caption",
+						"Spending a lifetime to taste the",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				75709.4594594594,
+				[
+					[
+						"Add Caption",
+						"love and pain",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				77229.7297297297,
+				[
+					[
+						"Hide Caption",
+						"",
+						""
+					]
+				]
+			],
+			[
+				81081.0810810811,
+				[
+					[
+						"Add Caption",
+						"Never can we suspend the time",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				84222.972972973,
+				[
+					[
+						"Hide Caption",
+						"",
+						""
+					]
+				]
+			],
+			[
+				87668.9189189189,
+				[
+					[
+						"Add Caption",
+						"Having to leave the tracks",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				89594.5945945946,
+				[
+					[
+						"Add Caption",
+						"behind",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				93952.7027027027,
+				[
+					[
+						"Add Caption",
+						"There is a longer way ahead,",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				101858.108108108,
+				[
+					[
+						"Add Caption",
+						"after all",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				106418.918918919,
+				[
+					[
+						"Hide Caption",
+						"",
+						""
+					]
+				]
+			],
+			[
+				107027.027027027,
+				[
+					[
+						"Add Caption",
+						"If it's too hard to say goodbye",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				109763.513513514,
+				[
+					[
+						"Hide Caption",
+						"",
+						""
+					]
+				]
+			],
+			[
+				113513.513513514,
+				[
+					[
+						"Add Caption",
+						"Give us a try to sing a rhyme",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				118783.783783784,
+				[
+					[
+						"Hide Caption",
+						"",
+						""
+					]
+				]
+			],
+			[
+				119898.648648649,
+				[
+					[
+						"Add Caption",
+						"May you, the beauty of this world,",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				127601.351351352,
+				[
+					[
+						"Add Caption",
+						"always shine",
+						"#FFFFFF"
+					]
+				]
+			],
+			[
+				132162.162162162,
+				[
+					[
+						"Hide Caption",
+						"",
+						""
+					]
+				]
+			]
+		]
+	}
+}

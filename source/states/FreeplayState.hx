@@ -328,8 +328,12 @@ class FreeplayState extends MusicBeatState
 				PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
 				if (PlayState.SONG.needsVoices)
 				{
-					vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
-					if(Difficulty.getString() == Difficulty.remixDifficulty) vocals.loadEmbedded(Paths.erectVoices(PlayState.SONG.song));
+					vocals = new FlxSound();
+					try
+					{
+						vocals.loadEmbedded(Paths.voices(PlayState.SONG.song));
+						if(CoolUtil.exists(Paths.voicesDiff(PlayState.SONG.song, Difficulty.getString(curDifficulty)))) vocals.loadEmbedded(Paths.voicesDiff(PlayState.SONG.song, Difficulty.getString()));
+					}
 					FlxG.sound.list.add(vocals);
 					vocals.persist = true;
 					vocals.looped = true;
@@ -342,7 +346,7 @@ class FreeplayState extends MusicBeatState
 				}
 
 				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.8);
-				if(Difficulty.getString() == Difficulty.remixDifficulty) FlxG.sound.playMusic(Paths.erectInst(PlayState.SONG.song), 0.8);
+				if(CoolUtil.exists(Paths.instDiff(PlayState.SONG.song, Difficulty.getString(curDifficulty)))) FlxG.sound.playMusic(Paths.instDiff(PlayState.SONG.song, Difficulty.getString()), 0.8);
 				if(vocals != null) //Sync vocals to Inst
 				{
 					vocals.play();

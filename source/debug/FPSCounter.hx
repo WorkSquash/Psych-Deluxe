@@ -71,10 +71,8 @@ class FPSCounter extends TextField
 			text += 'Process Time: ${Sys.cpuTime()}\n';
 			if(ClientPrefs.data.extendDebug){
 				#if PSYCH_WATERMARKS
-				if(ClientPrefs.data.watermarks){
-					text += 'Psych Engine: ${MainMenuState.psychEngineVersion}\n';
-					text += 'Deluxe: ${MainMenuState.deluxeVer}\n';
-				}
+				text += 'Psych Engine: ${MainMenuState.psychEngineVersion}\n';
+				text += 'Deluxe: ${MainMenuState.deluxeVer}\n';
 				#end
 				#if MODS_ALLOWED
 				if(Mods.currentModDirectory != '') text += 'modFolder: ${Mods.currentModDirectory}\n'; 
