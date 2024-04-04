@@ -1,0 +1,16 @@
+2.75:
+Note: this version is still in development!!
+Ported to psych 0.7.3
+Added Hitsounds
+Changed the pre installed mod
+Removed Erect Remixes.
+Added Remove / Add Caption, Change Pitch event
+Optimized Camera Flash event
+New Input system
+Difficulty selector in chart editor (W.I.P)
+New gameplay changers: Mirror / Randomize Chart, Fairplay and Sick only
+New scrollspeed option Playbackrate
+New options: Background Dim, Note Underlay, Show Captions, ect...
+Reworked Options menu.
+
+
