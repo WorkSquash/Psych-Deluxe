@@ -313,6 +313,9 @@ class EditorPlayState extends MusicBeatSubstate
 		var songData = PlayState.SONG;
 		Conductor.bpm = songData.bpm;
 
+		var mirrorMode:Bool = songData.disableMirrorCharts ? false : ClientPrefs.getGameplaySetting('mirrorMode');
+		var randomMode:Bool = ClientPrefs.getGameplaySetting('randomMode');
+
 		var boyfriendVocals:String = loadCharacterFile(PlayState.SONG.player1).vocals_file;
 		var dadVocals:String = loadCharacterFile(PlayState.SONG.player2).vocals_file;
 
@@ -349,107 +352,121 @@ class EditorPlayState extends MusicBeatSubstate
 		}
 		FlxG.sound.list.add(inst);
 		FlxG.sound.music.volume = 0;
-		//To Lazy to code this shit here so...
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
 
-		var noteData:Array<SwagSection>;
+		var noteDatas: Array<ChartNoteData> = [];
 
-		// NEW SHIT
-		noteData = songData.notes;
-		for (section in noteData)
+		for (section in songData.notes)
 		{
-			for (songNotes in section.sectionNotes)
+			for (i in 0...section.sectionNotes.length)
 			{
-				var daStrumTime:Float = songNotes[0];
-				if(daStrumTime < startPos) continue;
-
-				var rand:Int = FlxG.random.int(0, 3);
-
-				var daNoteData = Std.int((ClientPrefs.getGameplaySetting('randomMode') ? rand : songNotes[1] % 4));
-				var gottaHitNote:Bool = ClientPrefs.getGameplaySetting('mirrorMode') ? !section.mustHitSection : section.mustHitSection;
-				
-				if (songNotes[1] > 3)
-					gottaHitNote = (ClientPrefs.getGameplaySetting('mirrorMode') ? section.mustHitSection : !section.mustHitSection);
-		
-				if (ClientPrefs.getGameplaySetting('randomMode') && songNotes[3] == 2)
+				final songNotes: Array<Dynamic> = section.sectionNotes[i];
+				if (songNotes[1] == -1)
 					continue;
 
-				var oldNote:Note;
-				if (unspawnNotes.length > 0)
-					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
-				else
-					oldNote = null;
+				var gottaHitNote:Bool = (mirrorMode ? !section.mustHitSection : section.mustHitSection);
+				if (songNotes[1] > 3)
+					gottaHitNote = (mirrorMode ? section.mustHitSection : !section.mustHitSection);
 
-				var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote, this);
-				swagNote.mustPress = gottaHitNote;
-				swagNote.sustainLength = songNotes[2];
-				//swagNote.gfNote = (section.gfSection && (songNotes[1]<4));
-				swagNote.noteType = songNotes[3];
-				if(!Std.isOfType(songNotes[3], String)) swagNote.noteType = ChartingState.noteTypeList[songNotes[3]]; //Backward compatibility + compatibility with Week 7 charts
+				final leNoteData: ChartNoteData = {
+					time: songNotes[0],
+					id: randomMode ? FlxG.random.int(0,3) : Std.int(songNotes[1] % 4),
+					sLen: songNotes[2],
+					strumLine: gottaHitNote ? 1 : 0,
+					isGfNote: (section.gfSection && (songNotes[1]<4)),
+					type: songNotes[3]
+				};
+				if(randomMode && songNotes[3] == 2) continue;
+				if(!Std.isOfType(songNotes[3], String))
+					leNoteData.type = ChartingState.noteTypeList[songNotes[3]]; //Backward compatibility + compatibility with Week 7 charts
 
-				swagNote.scrollFactor.set();
-
-				unspawnNotes.push(swagNote);
-
-				final susLength:Float = swagNote.sustainLength / Conductor.stepCrochet;
-				final floorSus:Int = Math.floor(susLength);
-
-				if(floorSus > 0) {
-					for (susNote in 0...floorSus + 1)
-					{
-						oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
-
-						var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, this);
-						sustainNote.mustPress = gottaHitNote;
-						//sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
-						sustainNote.noteType = swagNote.noteType;
-						sustainNote.scrollFactor.set();
-						sustainNote.parent = swagNote;
-						unspawnNotes.push(sustainNote);
-						swagNote.tail.push(sustainNote);
-
-						sustainNote.correctionOffset = swagNote.height / 2;
-						if(!PlayState.isPixelStage)
-						{
-							if(oldNote.isSustainNote)
-							{
-								oldNote.scale.y *= Note.SUSTAIN_SIZE / oldNote.frameHeight;
-								oldNote.scale.y /= playbackRate;
-								oldNote.updateHitbox();
-							}
-
-							if(ClientPrefs.data.downScroll)
-								sustainNote.correctionOffset = 0;
+				if (i != 0) {
+					// CLEAR ANY POSSIBLE JACKS
+					for (evilNoteData in noteDatas) {
+						if (evilNoteData.id == leNoteData.id // does its direction match?
+							&& evilNoteData.strumLine == leNoteData.strumLine // does it strumline match?
+							&& Math.abs(evilNoteData.time - leNoteData.time) < 1.0) { // is it in the same step?
+								evilNoteData.dispose();
+								noteDatas.remove(evilNoteData);
+								//continue;
 						}
-						else if(oldNote.isSustainNote)
+					}
+				}
+				noteDatas.push(leNoteData);
+			}
+		}
+
+		for (i in 0...noteDatas.length) {
+			var oldNote:Note = null;
+			if (unspawnNotes.length > 0)
+				oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+
+			var swagNote:Note = new Note(noteDatas[i].time, noteDatas[i].id, oldNote);
+			swagNote.mustPress = noteDatas[i].strumLine == 1;
+			swagNote.sustainLength = noteDatas[i].sLen;
+			swagNote.strumLine = noteDatas[i].strumLine;
+			swagNote.gfNote = noteDatas[i].isGfNote;
+			swagNote.noteType = noteDatas[i].type;
+			swagNote.scrollFactor.set();
+			unspawnNotes.push(swagNote);
+
+			final susLength:Float = swagNote.sustainLength / Conductor.stepCrochet;
+			final floorSus:Int = Math.floor(susLength);
+
+			if(floorSus != 0) {
+				for (susNote in 0...floorSus + 1)
+				{
+					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+
+					var sustainNote:Note = new Note(noteDatas[i].time + (Conductor.stepCrochet * susNote), noteDatas[i].id, oldNote, true);
+					sustainNote.mustPress = swagNote.mustPress;
+					sustainNote.gfNote = swagNote.gfNote;
+					sustainNote.strumLine = swagNote.strumLine;
+					sustainNote.noteType = swagNote.noteType;
+					sustainNote.scrollFactor.set();
+					sustainNote.parent = swagNote;
+					unspawnNotes.push(sustainNote);
+					swagNote.tail.push(sustainNote);
+
+					sustainNote.correctionOffset = swagNote.height / 2;
+					if(!PlayState.isPixelStage)
+					{
+						if(oldNote.isSustainNote)
 						{
+							oldNote.scale.y *= Note.SUSTAIN_SIZE / oldNote.frameHeight;
 							oldNote.scale.y /= playbackRate;
 							oldNote.updateHitbox();
 						}
 
-						if (sustainNote.mustPress) sustainNote.x += FlxG.width / 2; // general offset
-						else if(ClientPrefs.data.middleScroll)
-						{
-							sustainNote.x += 310;
-							if(daNoteData > 1) //Up and Right
-								sustainNote.x += FlxG.width / 2 + 25;
-						}
+						if(ClientPrefs.data.downScroll)
+							sustainNote.correctionOffset = 0;
 					}
-				}
-
-				if (swagNote.mustPress)
-				{
-					swagNote.x += FlxG.width / 2; // general offset
-				}
-				else if(ClientPrefs.data.middleScroll)
-				{
-					swagNote.x += 310;
-					if(daNoteData > 1) //Up and Right
+					else if(oldNote.isSustainNote)
 					{
-						swagNote.x += FlxG.width / 2 + 25;
+						oldNote.scale.y /= playbackRate;
+						oldNote.updateHitbox();
+					}
+
+					if (sustainNote.mustPress) sustainNote.x += FlxG.width / 2; // general offset
+					else if(ClientPrefs.data.middleScroll)
+					{
+						sustainNote.x += 310;
+						if(noteDatas[i].id > 1) //Up and Right
+							sustainNote.x += FlxG.width / 2 + 25;
 					}
 				}
+			}
+
+			if (swagNote.mustPress)
+			{
+				swagNote.x += FlxG.width / 2; // general offset
+			}
+			else if(ClientPrefs.data.middleScroll)
+			{
+				swagNote.x += 310;
+				if(noteDatas[i].id > 1) //Up and Right
+					swagNote.x += FlxG.width / 2 + 25;
 			}
 		}
 
@@ -543,8 +560,12 @@ class EditorPlayState extends MusicBeatSubstate
 
 		//tryna do MS based judgment due to popular demand
 		var daRating:Rating = Conductor.judgeNote(ratingsData, noteDiff / playbackRate);
-
-		totalNotesHit += daRating.ratingMod;
+		switch(ClientPrefs.data.accType){
+			case 'complex':
+				totalNotesHit += ratingsData[0].hitWindow / (noteDiff/playbackRate);
+			default:
+				totalNotesHit += daRating.ratingMod;
+		}
 		note.ratingMod = daRating.ratingMod;
 		if(!note.ratingDisabled) daRating.hits++;
 		note.rating = daRating.name;

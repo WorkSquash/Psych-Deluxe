@@ -571,7 +571,7 @@ class ChartingState extends MusicBeatState
 		var directories:Array<String> = [Paths.getSharedPath('stages/')];
 		#end
 
-		var stageFile:Array<String> = ['simple', 'stage', 'spooky', 'philly', 'limo', 'mall', 'mallEvil', 'school', 'schoolEvil', 'tank'];//Mods.mergeAllTextsNamed('data/stageList.txt', Paths.getSharedPath());
+		var stageFile:Array<String> = ['simple', 'simple-pixel', 'stage', 'spooky', 'philly', 'limo', 'mall', 'mallEvil', 'school', 'schoolEvil', 'tank'];//Mods.mergeAllTextsNamed('data/stageList.txt', Paths.getSharedPath());
 		var stages:Array<String> = [];
 		for (stage in stageFile) {
 			if(stage.trim().length > 0) {
@@ -606,7 +606,7 @@ class ChartingState extends MusicBeatState
 		stageDropDown.selectedLabel = _song.stage;
 		blockPressWhileScrolling.push(stageDropDown);
 
-		var diffDropDown = new FlxUIDropDownMenu(stageDropDown.x, stageDropDown.y + 40, FlxUIDropDownMenu.makeStrIdLabelArray(diffList, true), function(diff:String)
+		var diffDropDown = new FlxUIDropDownMenu(stageDropDown.x, gfVersionDropDown.y + 40, FlxUIDropDownMenu.makeStrIdLabelArray(diffList, true), function(diff:String)
 		{
 			_song.difficulty = difficulties[Std.parseInt(diff)];
 			openSubState(new Prompt('This action will change the current difficulty.\nAny unsaved data will be lost.', 0, function() {
@@ -644,7 +644,7 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(gfVersionDropDown);
 		tab_group_song.add(player1DropDown);
 		tab_group_song.add(stageDropDown);
-		tab_group_song.add(diffDropDown);
+		//tab_group_song.add(diffDropDown);
 
 		UI_box.addGroup(tab_group_song);
 
@@ -1410,6 +1410,15 @@ class ChartingState extends MusicBeatState
 			//trace('CHECKED!');
 		};
 
+		var check_disableMirrorCharts:FlxUICheckBox = new FlxUICheckBox(10, 220, null, null, "Disable Mirror Charts", 100);
+		check_disableMirrorCharts.checked = (_song.disableMirrorCharts == true);
+		check_disableMirrorCharts.callback = function()
+		{
+			_song.disableMirrorCharts = check_disableMirrorCharts.checked;
+			updateGrid();
+			//trace('CHECKED!');
+		};
+
 		//
 		noteSkinInputText = new FlxUIInputText(10, 280, 150, _song.arrowSkin != null ? _song.arrowSkin : '', 8);
 		blockPressWhileTypingOn.push(noteSkinInputText);
@@ -1429,6 +1438,7 @@ class ChartingState extends MusicBeatState
 		tab_group_data.add(gameOverEndInputText);
 
 		tab_group_data.add(check_disableNoteRGB);
+		tab_group_data.add(check_disableMirrorCharts);
 		
 		tab_group_data.add(reloadNotesButton);
 		tab_group_data.add(noteSkinInputText);

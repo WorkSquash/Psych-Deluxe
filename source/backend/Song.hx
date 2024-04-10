@@ -26,9 +26,31 @@ typedef SwagSong =
 	@:optional var gameOverEnd:String;
 	
 	@:optional var disableNoteRGB:Bool;
+	@:optional var disableMirrorCharts:Bool;
 
 	@:optional var arrowSkin:String;
 	@:optional var splashSkin:String;
+}
+
+//// "what"?
+//// a typedef with default values, basically. @crowplexus
+@:structInit class ChartNoteData {
+	public var time: Null<Float> = null;
+	public var id: Null<Int> = null;
+	public var type: Null<String> = null;
+	public var strumLine: Null<Int> = null;
+	public var isGfNote: Null<Bool> = null;
+	public var sLen: Null<Float> = null;
+
+	public function dispose() {
+		// will be cleared by the GC later
+		time = null;
+		id = null;
+		type = null;
+		strumLine = null;
+		isGfNote = null;
+		sLen = null;
+	}
 }
 
 class Song
@@ -45,12 +67,13 @@ class Song
 	public var gameOverLoop:String;
 	public var gameOverEnd:String;
 	public var disableNoteRGB:Bool = false;
+	public var disableMirrorCharts:Bool = false;
 	public var speed:Float = 1;
 	public var stage:String;
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
 	public var gfVersion:String = 'gf';
-	public var difficulty:Int = 1;
+	public var difficulty:Int = PlayState.storyDifficulty;
 
 	private static function onLoadJson(songJson:Dynamic) // Convert old charts to newest format
 	{

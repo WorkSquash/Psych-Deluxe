@@ -334,7 +334,7 @@ class PlayState extends MusicBeatState
 		healthLoss = ClientPrefs.getGameplaySetting('healthloss');
 		oppHealthGain = ClientPrefs.getGameplaySetting('oppHealthgain');
 		instakillOnMiss = ClientPrefs.getGameplaySetting('instakill');
-		mirrorMode = ClientPrefs.getGameplaySetting('mirrorMode');
+		mirrorMode = SONG.disableMirrorCharts ? false : ClientPrefs.getGameplaySetting('mirrorMode');
 		randomMode = ClientPrefs.getGameplaySetting('randomMode');
 		sickOnly = ClientPrefs.getGameplaySetting('sickOnly');
 		fairplay = ClientPrefs.getGameplaySetting('fairplay');
@@ -434,7 +434,8 @@ class PlayState extends MusicBeatState
 			case 'school': new states.stages.School(); //Week 6 - Senpai, Roses
 			case 'schoolEvil': new states.stages.SchoolEvil(); //Week 6 - Thorns
 			case 'tank': new states.stages.Tank(); //Week 7 - Ugh, Guns, Stress
-			case 'simple': new states.stages.SongBackground(); //Fuck it.. I'll use it for osu songs..
+			case 'simple': new states.stages.SongBackground();
+			case 'simple-pixel': new states.stages.SongBackgroundPixel();
 		}
 
 		if(isPixelStage) {
@@ -1296,10 +1297,10 @@ class PlayState extends MusicBeatState
 
 	public dynamic function fullComboFunction()
 	{
-		var sicks:Int = ratingsData[0].hits;
-		var goods:Int = ratingsData[1].hits;
-		var bads:Int = ratingsData[2].hits;
-		var shits:Int = ratingsData[3].hits;
+		final sicks:Int = ratingsData[0].hits;
+		final goods:Int = ratingsData[1].hits;
+		final bads:Int = ratingsData[2].hits;
+		final shits:Int = ratingsData[3].hits;
 
 		ratingFC = "";
 		if(songMisses == 0)
@@ -1575,116 +1576,134 @@ class PlayState extends MusicBeatState
 
 	function generateNotes()
 		{
-			var songData = SONG;
-			var noteData:Array<SwagSection>;
-			noteData = songData.notes;
-			var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
-			var prevRand:Int = 0;
-			for (section in noteData)
-				{
-					for (songNotes in section.sectionNotes)
-					{
-						var daStrumTime:Float = songNotes[0];
-						var daNoteData:Int = Std.int(songNotes[1] % 4);
-						var gottaHitNote:Bool = section.mustHitSection;
-		
-						var rand:Int = FlxG.random.int(0, 3);
-						prevRand = rand;
-		
-						var daNoteData:Int = Std.int((randomMode ? rand : songNotes[1] % 4));
-		
-						var gottaHitNote:Bool = (mirrorMode ? !section.mustHitSection : section.mustHitSection);
-		
-						if (songNotes[1] > 3)
-							gottaHitNote = (mirrorMode ? section.mustHitSection : !section.mustHitSection);
-		
-						if (randomMode && songNotes[3] == 2)
-							continue;
+		var songData = PlayState.SONG;
 
-						var oldNote:Note;
-						if (unspawnNotes.length > 0)
-							oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
-						else
-							oldNote = null;
-		
-						var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote);
-						swagNote.mustPress = gottaHitNote;
-						swagNote.sustainLength = songNotes[2];
-						swagNote.gfNote = (section.gfSection && (songNotes[1]<4));
-						swagNote.noteType = songNotes[3];
-						if(!Std.isOfType(songNotes[3], String)) swagNote.noteType = ChartingState.noteTypeList[songNotes[3]]; //Backward compatibility + compatibility with Week 7 charts
-		
-						swagNote.scrollFactor.set();
-		
-						unspawnNotes.push(swagNote);
-		
-						final susLength:Float = swagNote.sustainLength / Conductor.stepCrochet;
-						final floorSus:Int = Math.floor(susLength);
-		
-						if(floorSus > 0) {
-							for (susNote in 0...floorSus + 1)
-							{
-								oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
-		
-								var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true);
-								sustainNote.mustPress = gottaHitNote;
-								sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
-								sustainNote.noteType = swagNote.noteType;
-								sustainNote.scrollFactor.set();
-								sustainNote.parent = swagNote;
-								unspawnNotes.push(sustainNote);
-								swagNote.tail.push(sustainNote);
-		
-								sustainNote.correctionOffset = swagNote.height / 2;
-								if(!PlayState.isPixelStage)
-								{
-									if(oldNote.isSustainNote)
-									{
-										oldNote.scale.y *= Note.SUSTAIN_SIZE / oldNote.frameHeight;
-										oldNote.scale.y /= playbackRate;
-										oldNote.updateHitbox();
-									}
-		
-									if(ClientPrefs.data.downScroll)
-										sustainNote.correctionOffset = 0;
-								}
-								else if(oldNote.isSustainNote)
-								{
-									oldNote.scale.y /= playbackRate;
-									oldNote.updateHitbox();
-								}
-		
-								if (sustainNote.mustPress) sustainNote.x += FlxG.width / 2; // general offset
-								else if(ClientPrefs.data.middleScroll)
-								{
-									sustainNote.x += 310;
-									if(daNoteData > 1) //Up and Right
-										sustainNote.x += FlxG.width / 2 + 25;
-								}
-							}
-						}
-		
-						if (swagNote.mustPress)
-						{
-							swagNote.x += FlxG.width / 2; // general offset
-						}
-						else if(ClientPrefs.data.middleScroll)
-						{
-							swagNote.x += 310;
-							if(daNoteData > 1) //Up and Right
-							{
-								swagNote.x += FlxG.width / 2 + 25;
-							}
-						}
-		
-						if(!noteTypes.contains(swagNote.noteType)) {
-							noteTypes.push(swagNote.noteType);
+		var ghostNotesCleared: Int = 0;
+		var noteDatas: Array<ChartNoteData> = [];
+
+		for (section in songData.notes)
+		{
+			for (i in 0...section.sectionNotes.length)
+			{
+				final songNotes: Array<Dynamic> = section.sectionNotes[i];
+				if (songNotes[1] == -1)
+					continue;
+
+				var gottaHitNote:Bool = (mirrorMode ? !section.mustHitSection : section.mustHitSection);
+				if (songNotes[1] > 3)
+					gottaHitNote = (mirrorMode ? section.mustHitSection : !section.mustHitSection);
+
+				final leNoteData: ChartNoteData = {
+					time: songNotes[0],
+					id: randomMode ? FlxG.random.int(0, 3): Std.int(songNotes[1] % 4),
+					sLen: songNotes[2],
+					strumLine: gottaHitNote ? 1 : 0,
+					isGfNote: (section.gfSection && (songNotes[1]<4)),
+					type: songNotes[3]
+				};
+				if (randomMode && songNotes[3] == 2) continue;
+				if(!Std.isOfType(songNotes[3], String))
+					leNoteData.type = ChartingState.noteTypeList[songNotes[3]]; //Backward compatibility + compatibility with Week 7 charts
+
+				if (i != 0) {
+					// CLEAR ANY POSSIBLE JACKS
+					for (evilNoteData in noteDatas) {
+						if (evilNoteData.id == leNoteData.id // does its direction match?
+							&& evilNoteData.strumLine == leNoteData.strumLine // does it strumline match?
+							&& Math.abs(evilNoteData.time - leNoteData.time) < 1.0) { // is it in the same step?
+								evilNoteData.dispose();
+								noteDatas.remove(evilNoteData);
+								ghostNotesCleared++;
+								//continue;
 						}
 					}
-					daBeats += 1;
 				}
-			unspawnNotes.sort(sortByTime);
-			callOnScripts('generateNotes');
+				noteDatas.push(leNoteData);
+			}
+		}
+
+		for (i in 0...noteDatas.length) {
+			var oldNote:Note = null;
+			if (unspawnNotes.length > 0)
+				oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+
+			var swagNote:Note = new Note(noteDatas[i].time, noteDatas[i].id, oldNote);
+			swagNote.mustPress = noteDatas[i].strumLine == 1;
+			swagNote.sustainLength = noteDatas[i].sLen;
+			swagNote.strumLine = noteDatas[i].strumLine;
+			swagNote.gfNote = noteDatas[i].isGfNote;
+			swagNote.noteType = noteDatas[i].type;
+			swagNote.scrollFactor.set();
+			unspawnNotes.push(swagNote);
+
+			final susLength:Float = swagNote.sustainLength / Conductor.stepCrochet;
+			final floorSus:Int = Math.floor(susLength);
+
+			if(floorSus != 0) {
+				for (susNote in 0...floorSus + 1)
+				{
+					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+
+					var sustainNote:Note = new Note(noteDatas[i].time + (Conductor.stepCrochet * susNote), noteDatas[i].id, oldNote, true);
+					sustainNote.mustPress = swagNote.mustPress;
+					sustainNote.gfNote = swagNote.gfNote;
+					sustainNote.strumLine = swagNote.strumLine;
+					sustainNote.noteType = swagNote.noteType;
+					sustainNote.scrollFactor.set();
+					sustainNote.parent = swagNote;
+					unspawnNotes.push(sustainNote);
+					swagNote.tail.push(sustainNote);
+
+					sustainNote.correctionOffset = swagNote.height / 2;
+					if(!PlayState.isPixelStage)
+					{
+						if(oldNote.isSustainNote)
+						{
+							oldNote.scale.y *= Note.SUSTAIN_SIZE / oldNote.frameHeight;
+							oldNote.scale.y /= playbackRate;
+							oldNote.updateHitbox();
+						}
+
+						if(ClientPrefs.data.downScroll)
+							sustainNote.correctionOffset = 0;
+					}
+					else if(oldNote.isSustainNote)
+					{
+						oldNote.scale.y /= playbackRate;
+						oldNote.updateHitbox();
+					}
+
+					if (sustainNote.mustPress) sustainNote.x += FlxG.width / 2; // general offset
+					else if(ClientPrefs.data.middleScroll)
+					{
+						sustainNote.x += 310;
+						if(noteDatas[i].id > 1) //Up and Right
+							sustainNote.x += FlxG.width / 2 + 25;
+					}
+				}
+			}
+
+			if (swagNote.mustPress)
+			{
+				swagNote.x += FlxG.width / 2; // general offset
+			}
+			else if(ClientPrefs.data.middleScroll)
+			{
+				swagNote.x += 310;
+				if(noteDatas[i].id > 1) //Up and Right
+					swagNote.x += FlxG.width / 2 + 25;
+			}
+
+			if(!noteTypes.contains(swagNote.noteType)) {
+				noteTypes.push(swagNote.noteType);
+			}
+		}
+		for (event in songData.events) //Event Notes
+			for (i in 0...event[1].length)
+				makeEvent(event, i);
+		trace('["${SONG.song.toUpperCase()}" CHART INFO]: Ghost Notes Cleared: $ghostNotesCleared');
+		unspawnNotes.sort(sortByTime);
+		callOnScripts('generateNotes');
 		}
 
 	public var skipArrowStartTween:Bool = false; //for lua
@@ -2728,12 +2747,12 @@ class PlayState extends MusicBeatState
 
 		//tryna do MS based judgment due to popular demand
 		var daRating:Rating = Conductor.judgeNote(ratingsData, noteDiff / playbackRate);
-
 		totalNotesHit += daRating.ratingMod;
 		note.ratingMod = daRating.ratingMod;
 		if(!note.ratingDisabled) daRating.hits++;
 		note.rating = daRating.name;
 		score = daRating.score;
+
 
 		if(daRating.noteSplash && !note.noteSplashData.disabled)
 			spawnNoteSplashOnNote(note);

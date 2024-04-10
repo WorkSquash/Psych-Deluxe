@@ -33,7 +33,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		
 		var option:Option = new Option('New Input System',
-			"If checked, the game will use a new input system simmiliar to FPS+",
+			"If checked, the game will use a slightly modified version of the Psych 0.7 input system.",
 			'newInput',
 			'bool');
 		addOption(option);
@@ -49,6 +49,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If checked, pressing Reset won't do anything.",
 			'noReset',
 			'bool');
+		addOption(option);
+
+		var option:Option = new Option('Accuracy Type: ',
+			'Complex: Accuracy will be counted on a milisecond base\nSimple: Accuracy will be counted on a judgemental base.',
+			'accType',
+			'string',
+			['Simple', 'Complex']);
 		addOption(option);
 
 		var option:Option = new Option('Note Underlay Visibility',

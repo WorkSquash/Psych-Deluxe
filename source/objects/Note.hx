@@ -1,3 +1,4 @@
+
 package objects;
 
 import backend.animation.PsychAnimationController;
@@ -42,6 +43,7 @@ class Note extends FlxSprite
 
 	public var strumTime:Float = 0;
 	public var noteData:Int = 0;
+	public var strumLine:Int = 0;
 
 	public var mustPress:Bool = false;
 	public var canBeHit:Bool = false;
@@ -151,10 +153,9 @@ class Note extends FlxSprite
 
 	public function defaultRGB()
 	{
-		var arr:Array<FlxColor>;
-		arr = ClientPrefs.data.arrowRGB[noteData];
-		//if(PlayState.isPixelStage)arr = ClientPrefs.data.arrowRGBPixel[noteData];
-		
+		var arr:Array<FlxColor> = ClientPrefs.data.arrowRGB[noteData];
+		if(PlayState.isPixelStage) arr = ClientPrefs.data.arrowRGBPixel[noteData];
+
 		if (noteData > -1 && noteData <= arr.length)
 		{
 			rgbShader.r = arr[0];
@@ -177,13 +178,13 @@ class Note extends FlxSprite
 
 					// note colors
 					rgbShader.r = 0xFF101010;
-					rgbShader.g = 0xFFFF6600;
-					rgbShader.b = 0xFF993D00;
+					rgbShader.g = 0xFFFF0000;
+					rgbShader.b = 0xFF990022;
 
 					// splash data and colors
-					noteSplashData.r = 0xFFFF6600;
+					noteSplashData.r = 0xFFFF0000;
 					noteSplashData.g = 0xFF101010;
-					//noteSplashData.texture = 'noteSplashes/noteSplashes-electric';
+					noteSplashData.texture = 'noteSplashes/noteSplashes-electric';
 
 					// gameplay data
 					lowPriority = true;
@@ -191,31 +192,11 @@ class Note extends FlxSprite
 					hitCausesMiss = true;
 					hitsound = 'cancelMenu';
 					hitsoundChartEditor = false;
-
-				case 'Death Note':
-					ignoreNote = mustPress;
-					
-					rgbShader.r = 0xFF101010;
-					rgbShader.g = 0xFFFF0000;
-					rgbShader.b = 0xFF990022;
-
-					noteSplashData.r = 0xFFFF0000;
-					noteSplashData.g = 0xFF101010;
-					//noteSplashData.texture = 'noteSplashes/noteSplashes-electric';
-	
-					lowPriority = true;
-					missHealth = isSustainNote ? 2.1 : 2.1;
-					hitCausesMiss = true;
-					hitsound = 'cancelMenu';
-					hitsoundChartEditor = false;
-				
 				case 'Alt Animation':
 					animSuffix = '-alt';
-				
 				case 'No Animation':
 					noAnimation = true;
 					noMissAnimation = true;
-				
 				case 'GF Sing':
 					gfNote = true;
 			}
@@ -229,17 +210,6 @@ class Note extends FlxSprite
 	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inEditor:Bool = false, ?createdFrom:Dynamic = null)
 	{
 		super();
-
-		/*if (!inEditor && ClientPrefs.getGameplaySetting('randomMode')) {
-			noteData = FlxG.random.int(0,3);				
-			if (sustainNote) {				
-				noteData = prevNote.noteData;					
-			}				
-		}
-
-		if (!inEditor && ClientPrefs.getGameplaySetting('mirrorMode')) {
-			noteData = Std.parseInt(Std.string(Math.abs(Std.parseFloat(Std.string(noteData-3)))));
-		}*/
 
 		animation = new PsychAnimationController(this);
 
@@ -282,8 +252,8 @@ class Note extends FlxSprite
 
 		if (isSustainNote && prevNote != null)
 		{
-			alpha = 0.75;
-			multAlpha = 0.75;
+			alpha = 0.6;
+			multAlpha = 0.6;
 			hitsoundDisabled = true;
 			if(ClientPrefs.data.downScroll) flipY = true;
 
@@ -336,8 +306,7 @@ class Note extends FlxSprite
 			var newRGB:RGBPalette = new RGBPalette();
 			globalRgbShaders[noteData] = newRGB;
 
-			//var arr:Array<FlxColor> = (!PlayState.isPixelStage) ? ClientPrefs.data.arrowRGB[noteData] : ClientPrefs.data.arrowRGBPixel[noteData];
-			var arr:Array<FlxColor> = ClientPrefs.data.arrowRGB[noteData];
+			var arr:Array<FlxColor> = (!PlayState.isPixelStage) ? ClientPrefs.data.arrowRGB[noteData] : ClientPrefs.data.arrowRGBPixel[noteData];
 			if (noteData > -1 && noteData <= arr.length)
 			{
 				newRGB.r = arr[0];
@@ -428,9 +397,9 @@ class Note extends FlxSprite
 	function loadNoteAnims() {
 		if (isSustainNote)
 		{
-			attemptToAddAnimationByPrefix('purpleholdend', 'pruple end hold', 60, true); // this fixes some retarded typo from the original note .FLA
-			animation.addByPrefix(colArray[noteData] + 'holdend', colArray[noteData] + ' hold end', 60, true);
-			animation.addByPrefix(colArray[noteData] + 'hold', colArray[noteData] + ' hold piece', 60, true);
+			attemptToAddAnimationByPrefix('purpleholdend', 'pruple end hold', 24, true); // this fixes some retarded typo from the original note .FLA
+			animation.addByPrefix(colArray[noteData] + 'holdend', colArray[noteData] + ' hold end', 24, true);
+			animation.addByPrefix(colArray[noteData] + 'hold', colArray[noteData] + ' hold piece', 24, true);
 		}
 		else animation.addByPrefix(colArray[noteData] + 'Scroll', colArray[noteData] + '0');
 
@@ -441,12 +410,12 @@ class Note extends FlxSprite
 	function loadPixelNoteAnims() {
 		if(isSustainNote)
 		{
-			animation.add(colArray[noteData] + 'holdend', [noteData + 4], 60, true);
-			animation.add(colArray[noteData] + 'hold', [noteData], 60, true);
-		} else animation.add(colArray[noteData] + 'Scroll', [noteData + 4], 60, true);
+			animation.add(colArray[noteData] + 'holdend', [noteData + 4], 24, true);
+			animation.add(colArray[noteData] + 'hold', [noteData], 24, true);
+		} else animation.add(colArray[noteData] + 'Scroll', [noteData + 4], 24, true);
 	}
 
-	function attemptToAddAnimationByPrefix(name:String, prefix:String, framerate:Float = 60, doLoop:Bool = true)
+	function attemptToAddAnimationByPrefix(name:String, prefix:String, framerate:Float = 24, doLoop:Bool = true)
 	{
 		var animFrames = [];
 		@:privateAccess
