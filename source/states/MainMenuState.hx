@@ -10,7 +10,7 @@ import options.OptionsState;
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.7.3'; 
-	public static var deluxeVer:String = #if debug '2.75-d' #else '2.75' #end; // This is also used for Discord RPC
+	public static var deluxeVer:String = #if debug '3.0-d' #else '3.0' #end; // This is also used for Discord RPC
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
@@ -30,6 +30,8 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
+		openfl.Lib.application.window.title = #if debug "Friday Night Funkin': Running in Developer Mode" #else "Friday Night Funkin'" #end;
+		
 		#if MODS_ALLOWED
 		Mods.pushGlobalMods();
 		#end

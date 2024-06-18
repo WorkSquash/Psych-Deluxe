@@ -49,8 +49,6 @@ class SongCredit extends FlxSpriteGroup
         bg = new FlxSprite(fontSize/-2, fontSize/-2).makeGraphic(Math.floor(size + fontSize), Math.floor(text.height + fontSize), FlxColor.BLACK);
         bg.alpha = 0.5;
 
-        //text.text += "\n";
-
         add(bg);
         add(text);
 
@@ -63,8 +61,8 @@ class SongCredit extends FlxSpriteGroup
 
     public function start(){
         visible = true;
-        FlxTween.tween(this, {x: x + size + (fontSize/2)}, 1, {ease: FlxEase.quintOut, onComplete: function(twn:FlxTween){
-            FlxTween.tween(this, {x: x - size}, 1, {ease: FlxEase.quintIn, startDelay: 2, onComplete: function(twn:FlxTween){ this.destroy(); }});
+        FlxTween.tween(this, {x: x + size + (fontSize/2)}, 1.5, {ease: FlxEase.sineIn, onComplete: function(twn:FlxTween){
+            FlxTween.tween(this, {x: x - size - (fontSize/2)}, 1.5, {ease: FlxEase.sineOut, startDelay: 2, onComplete: function(twn:FlxTween){ this.destroy(); }});
         }});
 
     }

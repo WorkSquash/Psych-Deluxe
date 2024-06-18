@@ -96,6 +96,12 @@ class VisualSettingsSubState extends BaseOptionsMenu
         option.decimals = 2;
 		addOption(option);
 
+		var option:Option = new Option('Colored Score Text',
+			'If checked, the score text change colors depending on the rating.',
+			'coloredScore',
+			'bool');
+		addOption(option);
+
 		var option:Option = new Option('Enable Song Captions',
 			'If checked, the songs captions will be rendered on screen.',
 			'showCaptions',
@@ -114,16 +120,10 @@ class VisualSettingsSubState extends BaseOptionsMenu
 		'bool');
 		addOption(option);
 
-		var option:Option = new Option('Smooth Heathbar',
-		"Makes the healtbar smoother",
-		'smoothHealthbar',
+		var option:Option = new Option('Smooth Progressbars',
+		"Makes the progressbars smoother",
+		'smoothProgress',
 		'bool');
-		addOption(option);
-
-		var option:Option = new Option('Icon Bop',
-			"If unchencked, the icons don't bop to the beat.",
-			'iconBop',
-			'bool');
 		addOption(option);
 
 		var option:Option = new Option('Camera Zooms',

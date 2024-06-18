@@ -1,3 +1,3 @@
-Song: Eggonog
-Composer: Kawaii Sprite
-Origin: Friday Night Funkin'
+Song: Eggnog
+Composer: Kawai Sprite
+Source: Friday Night Funkin'

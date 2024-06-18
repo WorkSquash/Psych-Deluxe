@@ -17,7 +17,6 @@ import states.TitleState;
 	public var newInput:Bool = true;
 	public var autoPause:Bool = true;
 	public var noReset:Bool = false;
-	public var accType:String = 'Simple';
 	public var underlayAlpha:Float = 0.75;
 
 	//Offset Settings
@@ -43,11 +42,11 @@ import states.TitleState;
 	public var timeBarColors:String = 'Static';
 	public var splashAlpha:Float = 0.6;
 	public var backgroundDim:Float = 0;
+	public var coloredScore:Bool = true;
 	public var showCaptions:Bool = true;
 	public var flashing:Bool = true;
 	public var screenShake:Bool = true;
-	public var smoothHealthbar:Bool = false;
-	public var iconBop:Bool = true;
+	public var smoothProgress:Bool = false;
 	public var camZooms:Bool = true;
 	public var songMeta:Bool = true;
 	public var scoreZoom:Bool = true;
@@ -59,9 +58,12 @@ import states.TitleState;
 	//UI Settings
 	public var hideHud:Bool = false;
 	public var verticalUI:Bool = false;
-	public var showStatistics:Bool = false;
+	public var judgementCounter:Bool = false;
 	public var systemInfo:Bool = false;
-	public var timeBarType:String = 'Time Left';
+	public var timeBarType:String = 'Disabled';
+	public var iconBop:String = 'Default';
+	public var healthPos:String = 'Right';
+	public var judgementPos:String = 'Left';
 	public var healthBarAlpha:Float = 1;
 	
 	//Audio Settings
@@ -72,7 +74,8 @@ import states.TitleState;
 	public var hitsoundVolume:Float = 0;
 	//public var missSound:Bool = true;
 	public var instVolume:Float = 1;
-	public var vocalVolume:Float = 1;
+	public var voiceVolume:Float = 1;
+	public var strumHit:Bool = false;
 
 	//Note Colors
 	public var arrowRGB:Array<Array<FlxColor>> = [
@@ -92,7 +95,7 @@ import states.TitleState;
 	public var hideStrums:Bool = false;
 	public var checkForUpdates:Bool = true;
 	public var discordRPC:Bool = true;
-	
+
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -117,7 +120,9 @@ import states.TitleState;
 		'botplay' => false,
 		'opponentplay' => false,
 		'mirrorMode' => false,
-		'randomMode' => false
+		'randomMode' => false,
+		'accCH' => false,
+		'invisStums' => false
 	];
 
 	//Old Variables in case i need it.

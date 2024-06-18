@@ -9,15 +9,23 @@ class AudioSettingsSubState extends BaseOptionsMenu
 		title = 'Audio';
 		rpcTitle = 'Audio Settings Menu'; //for Discord Rich Presence
 
-		
-		var option:Option = new Option('Pause Screen Song:',
-			"What song do you prefer for the Pause Screen?",
-			'pauseMusic',
-			'string',
-			['None', 'Breakfast', 'Tea Time', 'Local Forecast', 'Sovereign']);
-		addOption(option);
-		option.onChange = onChangePauseMusic;
 
+		var pauseMusic:Array<String> = Mods.mergeAllTextsNamed('music/pause_menu/tracks.txt', 'shared');
+		if(pauseMusic.length > 0)
+		{
+			if(!pauseMusic.contains(ClientPrefs.data.pauseMusic))
+				ClientPrefs.data.pauseMusic = ClientPrefs.defaultData.pauseMusic;
+
+			pauseMusic.insert(0, ClientPrefs.defaultData.pauseMusic);
+			pauseMusic.insert(pauseMusic.length + 1, 'None');
+			var option:Option = new Option('Pause Screen Song:',
+				"What song do you prefer for the Pause Screen?",
+				'pauseMusic',
+				'string',
+				pauseMusic);
+			option.onChange = onChangePauseMusic;
+			addOption(option);
+		}
 
 		//Not implementented
 		/*var option:Option = new Option('Menu Screen Song:',
@@ -48,7 +56,10 @@ class AudioSettingsSubState extends BaseOptionsMenu
 		var hitsounds:Array<String> = Mods.mergeAllTextsNamed('hitsounds/list.txt', 'shared');
 		if(hitsounds.length > 0)
 		{
-			hitsounds.insert(0, ClientPrefs.defaultData.hitsound); //Default skin always comes first
+			if(!hitsounds.contains(ClientPrefs.data.hitsound))
+				ClientPrefs.data.hitsound = ClientPrefs.defaultData.hitsound;
+
+			hitsounds.insert(0, ClientPrefs.defaultData.hitsound);
 			var option:Option = new Option('Hitsound:',
 				'What soud should notes make when you hit them?',
 				'hitsound',
@@ -76,9 +87,9 @@ class AudioSettingsSubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);*/
 
-		/*var option:Option = new Option('Vocals Volume',
+		var option:Option = new Option('Vocals Volume',
 			'Changes the vocals volume.',
-			'vocalVolume',
+			'voiceVolume',
 			'percent');
 		addOption(option);
 		option.scrollSpeed = 1.6;
@@ -96,7 +107,14 @@ class AudioSettingsSubState extends BaseOptionsMenu
 		option.minValue = 0.0;
 		option.maxValue = 1;
 		option.changeValue = 0.1;
-		option.decimals = 1;*/
+		option.decimals = 1;
+
+		var option:Option = new Option('Always Play Hitsounds',
+			'Plays the hits sound even when there are no notes.',
+			'strumHit',
+			'bool');
+		addOption(option);
+		option.onChange = onChangeHitsoundVolume;
 
 		super();
 	}
@@ -110,7 +128,7 @@ class AudioSettingsSubState extends BaseOptionsMenu
 		if(ClientPrefs.data.pauseMusic == 'None')
 			FlxG.sound.music.volume = 0;
 		else
-			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)));
+			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('pause_menu/' + ClientPrefs.data.pauseMusic)));
 
 		changedMusic = true;
 	}

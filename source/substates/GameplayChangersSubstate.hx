@@ -14,14 +14,33 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 	private var checkboxGroup:FlxTypedGroup<CheckboxThingie>;
 	private var grpTexts:FlxTypedGroup<AttachedText>;
 
+	private var descBox:FlxSprite;
+	private var descText:FlxText;
+
 	public static var onPlayState:Bool = false;
 
 	function getOptions()
 	{
-		var goption:GameplayOption = new GameplayOption('Scroll Type', 'scrolltype', 'string', 'multiplicative', ["multiplicative", "constant", "playbackrate"]);
+		var goption:GameplayOption = new GameplayOption(
+			'Scroll Type', //name
+			'Changes how the scroll speed is calculated.', //Description
+			/*'Changes how the notes speed are calculated
+			\nMultiplicative: multiples the songs scroll speed.
+			\nConstant: the scroll speed reamains the same.
+			\nPlaybackrate: matches the scroll speed to the playbackrate.', //Description */
+			'scrolltype',  //Variable for ClientPrefs
+			'string', //Variable type
+			'multiplicative', //Default value
+			["multiplicative", "constant", "playbackrate"] //Options
+			);
 		optionsArray.push(goption);
 
-		var option:GameplayOption = new GameplayOption('Scroll Speed', 'scrollspeed', 'float', 1);
+		var option:GameplayOption = new GameplayOption(
+			'Scroll Speed',
+			'Adjust the speed at which notes move.',
+			'scrollspeed', 
+			'float', 
+			1);
 		option.scrollSpeed = 2.0;
 		option.minValue = 0.25;
 		option.changeValue = 0.05;
@@ -30,6 +49,9 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 			case 'constant':
 				option.displayFormat = "%v";
 				option.maxValue = 6;
+			case 'playbackrate':
+				option.displayFormat = "%d";
+				option.maxValue = 1;
 			default:
 				option.displayFormat = '%vX';
 				option.maxValue = 3;
@@ -37,7 +59,12 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		optionsArray.push(option);
 
 		#if FLX_PITCH
-		var option:GameplayOption = new GameplayOption('Playback Rate', 'songspeed', 'float', 1);
+		var option:GameplayOption = new GameplayOption(
+			'Playback Rate', 
+			'Adjusts the speed of the game.',
+			'songspeed', 
+			'float', 
+			1);
 		option.scrollSpeed = 1;
 		option.minValue = 0.25;
 		option.maxValue = 3.0;
@@ -47,7 +74,12 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		optionsArray.push(option);
 		#end
 
-		var option:GameplayOption = new GameplayOption('Health Gain Multiplier\n', 'healthgain', 'float', 1);
+		var option:GameplayOption = new GameplayOption(
+			'Health Gain Multiplier\n', 
+			'Amplifies the rate at which players recover health.',
+			'healthgain', 
+			'float', 
+			1);
 		option.scrollSpeed = 2.5;
 		option.minValue = 0;
 		option.maxValue = 5;
@@ -55,7 +87,12 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		option.displayFormat = '%vX';
 		optionsArray.push(option);
 
-		var option:GameplayOption = new GameplayOption('Health Loss Multiplier\n', 'healthloss', 'float', 1);
+		var option:GameplayOption = new GameplayOption(
+			'Health Loss Multiplier\n',
+			'Amplifies the rate at which players lose health.',
+			'healthloss', 
+			'float', 
+			1);
 		option.scrollSpeed = 2.5;
 		option.minValue = 0;
 		option.maxValue = 5;
@@ -63,7 +100,12 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		option.displayFormat = '%vX';
 		optionsArray.push(option);
 
-		var option:GameplayOption = new GameplayOption('Opp Health Gain Multiplier', 'oppHealthgain', 'float', 1); //Opponent Health Loss Multiplier doesn't exist because opponent can't miss notes...
+		var option:GameplayOption = new GameplayOption(
+			'Opp Health Gain Multiplier\n',
+			'Amplifies the rate at which opponents recover health.', 
+			'oppHealthgain', 
+			'float', 
+			1); //Opponent Health Loss Multiplier doesn't exist because opponent can't miss notes...
 		option.scrollSpeed = 2.5;
 		option.minValue = 0.5;
 		option.maxValue = 3;
@@ -71,14 +113,60 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		option.displayFormat = '%vX';
 		optionsArray.push(option);
 
-		optionsArray.push(new GameplayOption('Mirror Chart', 'mirrorMode', 'bool', false));
-		optionsArray.push(new GameplayOption('Randomize Chart', 'randomMode', 'bool', false));
-
-		optionsArray.push(new GameplayOption('Fair Play', 'fairplay', 'bool', false)); //Basically Healtdrain
-		optionsArray.push(new GameplayOption('Instakill on Miss', 'instakill', 'bool', false));
-		optionsArray.push(new GameplayOption('Sicks Only', 'sickOnly', 'bool', false));
-		optionsArray.push(new GameplayOption('Practice Mode', 'practice', 'bool', false));
-		optionsArray.push(new GameplayOption('Botplay', 'botplay', 'bool', false));
+		optionsArray.push(new GameplayOption(
+			'Mirror Chart',
+			'Player and Oppent switch places',
+			'mirrorMode', 
+			'bool', 
+			false));
+		optionsArray.push(new GameplayOption(
+			'Randomize Chart',
+			'Notes appear in randomized patterns.',
+			'randomMode', 
+			'bool', 
+			false));
+		optionsArray.push(new GameplayOption(
+			'Accuracy Challange',
+			'Keep your accuracy above 75% or die.',
+			'accCH', 
+			'bool', 
+			false));
+		optionsArray.push(new GameplayOption(
+			'Hide Strumline',
+			'Hides the strumline.',
+			'invisStrums', 
+			'bool', 
+			false));
+		optionsArray.push(new GameplayOption(
+			'Fair Play',
+			'Opponents gain health when hitting notes.',
+			'fairplay', 
+			'bool', 
+			false)); //Basically Healthdrain
+		optionsArray.push(new GameplayOption(
+			'Instakill on Miss',
+			'Miss a note and die',
+			'instakill', 
+			'bool', 
+			false));
+		optionsArray.push(new GameplayOption(
+			'Sicks Only',
+			"Hitting anything other than 'Sick' will kill you.",
+			'sickOnly', 
+			'bool', 
+			false));
+		optionsArray.push(new GameplayOption(
+			'Practice Mode',
+			"Pretty self explenatory isn't it?",
+			'practice', 
+			'bool', 
+			false));
+		optionsArray.push(new GameplayOption(
+			'Botplay',
+			'Sit back and relax, watch the game play itself.',
+			'botplay', 
+			'bool', 
+			false));
 	}
 
 	public function getOptionByName(name:String)
@@ -103,6 +191,10 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		bg.screenCenter();
 		add(bg);
 
+		descBox = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
+		descBox.alpha = 0.6;
+		add(descBox);
+
 		// avoids lagspikes while scrolling through menus!
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
@@ -112,7 +204,13 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 		checkboxGroup = new FlxTypedGroup<CheckboxThingie>();
 		add(checkboxGroup);
-		
+
+		descText = new FlxText(50, 600, 1180, "", 32);
+		descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		descText.scrollFactor.set();
+		descText.borderSize = 2.4;
+		add(descText);
+
 		getOptions();
 
 		for (i in 0...optionsArray.length)
@@ -364,6 +462,15 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		}
 		curOption = optionsArray[curSelected]; //shorter lol
 		FlxG.sound.play(Paths.sound('scrollMenu'));
+
+		descText.text = optionsArray[curSelected].description;
+		descText.screenCenter(Y);
+		descText.y += 270;
+
+		descBox.setPosition(descText.x - 10, descText.y - 10);
+		descBox.setGraphicSize(Std.int(descText.width + 20), Std.int(descText.height + 25));
+		descBox.updateHitbox();
+
 	}
 
 	function reloadCheckboxes() {
@@ -398,10 +505,12 @@ class GameplayOption
 
 	public var displayFormat:String = '%v'; //How String/Float/Percent/Int values are shown, %v = Current value, %d = Default value
 	public var name:String = 'Unknown';
+	public var description:String = 'Unknown';
 
-	public function new(name:String, variable:String, type:String = 'bool', defaultValue:Dynamic = 'null variable value', ?options:Array<String> = null)
+	public function new(name:String, description:String, variable:String, type:String = 'bool', defaultValue:Dynamic = 'null variable value', ?options:Array<String> = null)
 	{
 		this.name = name;
+		this.description = description;
 		this.variable = variable;
 		this.type = type;
 		this.defaultValue = defaultValue;

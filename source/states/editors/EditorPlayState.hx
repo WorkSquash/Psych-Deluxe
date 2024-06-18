@@ -31,6 +31,7 @@ class EditorPlayState extends MusicBeatSubstate
 	var vocals:FlxSound;
 	var opponentVocals:FlxSound;
 	var inst:FlxSound;
+	var hitsound:FlxSound;
 	
 	var notes:FlxTypedGroup<Note>;
 	var unspawnNotes:Array<Note> = [];
@@ -75,13 +76,17 @@ class EditorPlayState extends MusicBeatSubstate
 	var dataTxt:FlxText;
 	var newInput:Bool = false;
 
+	var downScroll:Bool = ClientPrefs.data.downScroll;
+	var middleScroll:Bool = ClientPrefs.data.middleScroll;
+
 	public function new(playbackRate:Float)
 	{
 		super();
-		
+
 		/* setting up some important data */
 		this.playbackRate = playbackRate;
 		this.startPos = Conductor.songPosition;
+
 
 		Conductor.safeZoneOffset = (ClientPrefs.data.safeFrames / 60) * 1000 * playbackRate;
 		Conductor.songPosition -= startOffset;
@@ -133,7 +138,7 @@ class EditorPlayState extends MusicBeatSubstate
 		dataTxt.borderSize = 1.25;
 		add(dataTxt);
 
-		/*var tipText:FlxText = new FlxText(10, ClientPrefs.data.downScroll ? 10 : FlxG.height - 25, 0, 'Press ESC to Go Back to Chart Editor', 16);
+		/*var tipText:FlxText = new FlxText(10, downScroll ? 10 : FlxG.height - 25, 0, 'Press ESC to Go Back to Chart Editor', 16);
 		tipText.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		tipText.borderSize = 2;
 		tipText.scrollFactor.set();
@@ -252,7 +257,7 @@ class EditorPlayState extends MusicBeatSubstate
 			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
 			return;
 		}
-		notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
+		notes.sort(FlxSort.byY, downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 
 		super.beatHit();
 		lastBeatHit = curBeat;
@@ -280,14 +285,14 @@ class EditorPlayState extends MusicBeatSubstate
 	{
 		startingSong = false;
 		@:privateAccess
-		FlxG.sound.playMusic(inst._sound, 1, false);
+		FlxG.sound.playMusic(inst._sound, ClientPrefs.data.instVolume, false);
 		FlxG.sound.music.time = startPos;
 		#if FLX_PITCH FlxG.sound.music.pitch = playbackRate; #end
 		FlxG.sound.music.onComplete = finishSong;
-		vocals.volume = 1;
+		vocals.volume = ClientPrefs.data.voiceVolume;
 		vocals.time = startPos;
 		vocals.play();
-		opponentVocals.volume = 1;
+		opponentVocals.volume = ClientPrefs.data.voiceVolume;
 		opponentVocals.time = startPos;
 		opponentVocals.play();
 
@@ -314,7 +319,7 @@ class EditorPlayState extends MusicBeatSubstate
 		Conductor.bpm = songData.bpm;
 
 		var mirrorMode:Bool = songData.disableMirrorCharts ? false : ClientPrefs.getGameplaySetting('mirrorMode');
-		var randomMode:Bool = ClientPrefs.getGameplaySetting('randomMode');
+		var randomMode:Bool = songData.disableRandomCharts ? false : ClientPrefs.getGameplaySetting('randomMode');
 
 		var boyfriendVocals:String = loadCharacterFile(PlayState.SONG.player1).vocals_file;
 		var dadVocals:String = loadCharacterFile(PlayState.SONG.player2).vocals_file;
@@ -326,11 +331,14 @@ class EditorPlayState extends MusicBeatSubstate
 			if (songData.needsVoices)
 			{
 				var playerVocals = Paths.voices(songData.song, (boyfriendVocals == null || boyfriendVocals.length < 1) ? 'Player' : boyfriendVocals);
+				var playerVocalsDiff = Paths.voicesDiff(songData.song, Difficulty.getString(), (boyfriendVocals == null || boyfriendVocals.length < 1) ? 'Player' : boyfriendVocals);
 				vocals.loadEmbedded(playerVocals != null ? playerVocals : Paths.voices(songData.song));
-				if(CoolUtil.exists(Paths.voicesDiff(songData.song, Difficulty.getString(PlayState.storyDifficulty)))) vocals.loadEmbedded(Paths.voicesDiff(songData.song, Difficulty.getString()));
+				if(PlayState.diffRemixes.contains(Difficulty.getString())) vocals.loadEmbedded(playerVocalsDiff != null ? playerVocalsDiff : Paths.voicesDiff(songData.song, Difficulty.getString()));
 				
 				var oppVocals = Paths.voices(songData.song, (dadVocals == null || dadVocals.length < 1) ? 'Opponent' : dadVocals);
+				var oppVocalsDiff = Paths.voicesDiff(songData.song, Difficulty.getString(), (dadVocals == null || dadVocals.length < 1) ? 'Opponent' : dadVocals);
 				if(oppVocals != null) opponentVocals.loadEmbedded(oppVocals);
+				if(PlayState.diffRemixes.contains(Difficulty.getString()) && oppVocalsDiff != null) opponentVocals.loadEmbedded(oppVocalsDiff);
 			}
 		}
 		catch(e:Dynamic) {}
@@ -347,8 +355,8 @@ class EditorPlayState extends MusicBeatSubstate
 
 		inst = new FlxSound();
 		try {
-			if(CoolUtil.exists(Paths.instDiff(songData.song, Difficulty.getString(PlayState.storyDifficulty)))) inst.loadEmbedded(Paths.instDiff(songData.song, Difficulty.getString()));
-			inst.loadEmbedded(Paths.inst(songData.song));
+			if(PlayState.diffRemixes.contains(Difficulty.getString())) inst.loadEmbedded(Paths.instDiff(songData.song, Difficulty.getString()));
+			else inst.loadEmbedded(Paths.inst(songData.song));
 		}
 		FlxG.sound.list.add(inst);
 		FlxG.sound.music.volume = 0;
@@ -439,7 +447,7 @@ class EditorPlayState extends MusicBeatSubstate
 							oldNote.updateHitbox();
 						}
 
-						if(ClientPrefs.data.downScroll)
+						if(downScroll)
 							sustainNote.correctionOffset = 0;
 					}
 					else if(oldNote.isSustainNote)
@@ -449,7 +457,7 @@ class EditorPlayState extends MusicBeatSubstate
 					}
 
 					if (sustainNote.mustPress) sustainNote.x += FlxG.width / 2; // general offset
-					else if(ClientPrefs.data.middleScroll)
+					else if(middleScroll)
 					{
 						sustainNote.x += 310;
 						if(noteDatas[i].id > 1) //Up and Right
@@ -462,7 +470,7 @@ class EditorPlayState extends MusicBeatSubstate
 			{
 				swagNote.x += FlxG.width / 2; // general offset
 			}
-			else if(ClientPrefs.data.middleScroll)
+			else if(middleScroll)
 			{
 				swagNote.x += 310;
 				if(noteDatas[i].id > 1) //Up and Right
@@ -475,26 +483,26 @@ class EditorPlayState extends MusicBeatSubstate
 
 	private function generateStaticArrows(player:Int):Void
 	{
-		var strumLineX:Float = ClientPrefs.data.middleScroll ? PlayState.STRUM_X_MIDDLESCROLL : PlayState.STRUM_X;
-		var strumLineY:Float = ClientPrefs.data.downScroll ? (FlxG.height - 150) : 50;
+		var strumLineX:Float = middleScroll ? PlayState.STRUM_X_MIDDLESCROLL : PlayState.STRUM_X;
+		var strumLineY:Float = downScroll ? (FlxG.height - 150) : 50;
 		for (i in 0...4)
 		{
 			// FlxG.log.add(i);
 			var targetAlpha:Float = 1;
 			if (player < 1)
 			{
-				if(ClientPrefs.data.middleScroll) targetAlpha = 0;
+				if(middleScroll) targetAlpha = 0;
 			}
 
 			var babyArrow:StrumNote = new StrumNote(strumLineX, strumLineY, i, player);
-			babyArrow.downScroll = ClientPrefs.data.downScroll;
+			babyArrow.downScroll = downScroll;
 			babyArrow.alpha = targetAlpha;
 
 			if (player == 1)
 				playerStrums.add(babyArrow);
 			else
 			{
-				if(ClientPrefs.data.middleScroll)
+				if(middleScroll)
 				{
 					babyArrow.x += 310;
 					if(i > 1) { //Up and Right
@@ -560,12 +568,7 @@ class EditorPlayState extends MusicBeatSubstate
 
 		//tryna do MS based judgment due to popular demand
 		var daRating:Rating = Conductor.judgeNote(ratingsData, noteDiff / playbackRate);
-		switch(ClientPrefs.data.accType){
-			case 'complex':
-				totalNotesHit += ratingsData[0].hitWindow / (noteDiff/playbackRate);
-			default:
-				totalNotesHit += daRating.ratingMod;
-		}
+		totalNotesHit += daRating.ratingMod;
 		note.ratingMod = daRating.ratingMod;
 		if(!note.ratingDisabled) daRating.hits++;
 		note.rating = daRating.name;
@@ -724,6 +727,8 @@ class EditorPlayState extends MusicBeatSubstate
 
 	private function keyPressed(key:Int)
 	{
+		var note:Note;
+
 		if(key < 0) return;
 
 		// more accurate hit time for the ratings?
@@ -757,6 +762,14 @@ class EditorPlayState extends MusicBeatSubstate
 					}
 				}
 			}
+			
+			hitsound = new FlxSound();
+			try {
+			hitsound.loadEmbedded(Paths.hitsound(ClientPrefs.data.hitsound));
+			}
+			hitsound.pitch = playbackRate;
+			hitsound.volume = ClientPrefs.data.hitsoundVolume;
+			if(ClientPrefs.data.strumHit && ClientPrefs.data.hitsoundVolume > 0) hitsound.play();
 
 			goodNoteHit(funnyNote);
 		}
@@ -864,8 +877,14 @@ class EditorPlayState extends MusicBeatSubstate
 		if(note.wasGoodHit) return;
 
 		note.wasGoodHit = true;
-		if (ClientPrefs.data.hitsoundVolume > 0 && !note.hitsoundDisabled)
-			FlxG.sound.play(Paths.hitsound(ClientPrefs.data.hitsound), ClientPrefs.data.hitsoundVolume);
+
+		hitsound = new FlxSound();
+		try {
+			hitsound.loadEmbedded(Paths.hitsound(note.hitsound));
+		}
+		hitsound.pitch = playbackRate;
+		hitsound.volume = ClientPrefs.data.hitsoundVolume;
+		if(ClientPrefs.data.hitsoundVolume > 0 && !note.hitsoundDisabled) hitsound.play();
 
 		if(note.hitCausesMiss) {
 			noteMiss(note);
@@ -965,7 +984,8 @@ class EditorPlayState extends MusicBeatSubstate
 	function spawnNoteSplash(x:Float, y:Float, data:Int, ?note:Note = null) {
 		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
 		splash.setupNoteSplash(x, y, data, note);
-		if(ClientPrefs.getGameplaySetting('fairplay'))splash.alpha = note.alpha;
+		
+		//if(ClientPrefs.getGameplaySetting('fairplay') && !mustHitSection)splash.alpha = note.alpha; //Set the notesplash alpha value if fairplay enabled.
 		grpNoteSplashes.add(splash);
 	}
 	

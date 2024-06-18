@@ -44,7 +44,7 @@ class Main extends Sprite
 		initialState: TitleState, // initial game state
 		zoom: -1.0, // game state bounds
 		framerate: 60, // default framerate
-		skipSplash: true, // if the default flixel splash screen should be skipped
+		skipSplash: #if debug true, #else false, #end // if the default flixel splash screen should be skipped
 		startFullscreen: false // if the game should start at fullscreen mode
 	};
 
@@ -115,6 +115,8 @@ class Main extends Sprite
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
 		if(fpsVar != null) {
 			fpsVar.visible = ClientPrefs.data.showFPS;
+			if(FlxG.keys.justPressed.TAB) fpsVar.visible = true;
+			if(fpsVar.visible == true && FlxG.keys.justPressed.TAB) fpsVar.visible = false;
 		}
 		#end
 
@@ -170,7 +172,7 @@ class Main extends Sprite
 		dateNow = dateNow.replace(" ", "_");
 		dateNow = dateNow.replace(":", "'");
 
-		path = "./crash/" + "PsychDeluxe" + dateNow + ".txt";
+		path = "./crash/" + "Psych_Deluxe" + dateNow + ".txt";
 
 		for (stackItem in callStack)
 		{
@@ -183,7 +185,7 @@ class Main extends Sprite
 			}
 		}
 
-		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/WorkSquash/Psych-Deluxe\n\n> Crash Handler written by: sqirra-rng";
+		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/WorkSquash/Psych-Deluxe\n> Crash Handler written by: sqirra-rng";
 
 		if (!FileSystem.exists("./crash/"))
 			FileSystem.createDirectory("./crash/");

@@ -56,6 +56,8 @@ class FreeplayState extends MusicBeatState
 		//Paths.clearStoredMemory();
 		//Paths.clearUnusedMemory();
 		
+		openfl.Lib.application.window.title = "Friday Night Funkin': Freeplay";
+
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
 		WeekData.reloadWeekFiles(false);
@@ -88,6 +90,7 @@ class FreeplayState extends MusicBeatState
 				addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
 			}
 		}
+		//addSong('test', 8, 'bf', FlxColor.fromString('#31B0D1')); //I don't want to create a separate json for this...
 		
 		Mods.loadTopMod();
 
@@ -283,6 +286,7 @@ class FreeplayState extends MusicBeatState
 				changeDiff(1);
 				_updateSongLastDifficulty();
 			}
+			if(FlxG.keys.justPressed.T) PlayState.SONG = Song.loadFromJson('test', Paths.formatToSongPath('test'));
 		}
 
 		if (controls.BACK)
@@ -332,7 +336,7 @@ class FreeplayState extends MusicBeatState
 					try
 					{
 						vocals.loadEmbedded(Paths.voices(PlayState.SONG.song));
-						if(CoolUtil.exists(Paths.voicesDiff(PlayState.SONG.song, Difficulty.getString(curDifficulty)))) vocals.loadEmbedded(Paths.voicesDiff(PlayState.SONG.song, Difficulty.getString()));
+						if(PlayState.diffRemixes.contains(Difficulty.getString())) vocals.loadEmbedded(Paths.voicesDiff(PlayState.SONG.song, Difficulty.getString()));
 					}
 					FlxG.sound.list.add(vocals);
 					vocals.persist = true;
@@ -345,12 +349,12 @@ class FreeplayState extends MusicBeatState
 					vocals = null;
 				}
 
-				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.8);
-				if(CoolUtil.exists(Paths.instDiff(PlayState.SONG.song, Difficulty.getString(curDifficulty)))) FlxG.sound.playMusic(Paths.instDiff(PlayState.SONG.song, Difficulty.getString()), 0.8);
+				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), ClientPrefs.data.instVolume);
+				if(PlayState.diffRemixes.contains(Difficulty.getString())) FlxG.sound.playMusic(Paths.instDiff(PlayState.SONG.song, Difficulty.getString()), ClientPrefs.data.instVolume);
 				if(vocals != null) //Sync vocals to Inst
 				{
 					vocals.play();
-					vocals.volume = 0.8;
+					vocals.volume = ClientPrefs.data.voiceVolume;
 				}
 				instPlaying = curSelected;
 

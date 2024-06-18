@@ -16,6 +16,7 @@ typedef Achievement =
 	@:optional var hidden:Bool;
 	@:optional var maxScore:Float;
 	@:optional var maxDecimals:Int;
+	@:optional var rare:Bool;
 
 	//handled automatically, ignore these two
 	@:optional var mod:String;
@@ -25,22 +26,29 @@ typedef Achievement =
 class Achievements {
 	public static function init()
 	{
-		createAchievement('friday_night_play',		{name: "Freaky on a Friday Night", description: "Play on a Friday... Night.", hidden: true});
-		createAchievement('week1_nomiss',			{name: "She Calls Me Daddy Too", description: "Beat Week 1 on Hard with no Misses."});
-		createAchievement('week2_nomiss',			{name: "No More Tricks", description: "Beat Week 2 on Hard with no Misses."});
-		createAchievement('week3_nomiss',			{name: "Call Me The Hitman", description: "Beat Week 3 on Hard with no Misses."});
-		createAchievement('week4_nomiss',			{name: "Lady Killer", description: "Beat Week 4 on Hard with no Misses."});
-		createAchievement('week5_nomiss',			{name: "Missless Christmas", description: "Beat Week 5 on Hard with no Misses."});
-		createAchievement('week6_nomiss',			{name: "Highscore!!", description: "Beat Week 6 on Hard with no Misses."});
-		createAchievement('week7_nomiss',			{name: "God Effing Damn It!", description: "Beat Week 7 on Hard with no Misses."});
-		createAchievement('ur_bad',					{name: "What a Funkin' Disaster!", description: "Complete a Song with a rating lower than 20%."});
-		createAchievement('ur_good',				{name: "Perfectionist", description: "Complete a Song with a rating of 100%."});
+		createAchievement('all_hits',				{name: "All Hits, No Misses", description: "Finish a song without missing a single note."});
+		createAchievement('nailed_it',				{name: "Nailed It!", description: "Finish a song without missing a note while maintaining 100% accuracy.", rare: true});
+		createAchievement('cant_stop',				{name: "Can't Stop, Won't Miss", description: "Finish 5 songs without missing a single note", maxScore: 5, maxDecimals: 0});
+		createAchievement('tenacious',				{name: "Tenacious Rhythm", description: "Finish 10 songs without missing a single note", maxScore: 10, maxDecimals: 0});
+		createAchievement('perfect_harmony',		{name: "Perfect Harmony", description: "Finish 50 songs without missing a single note", maxScore: 50, maxDecimals: 0, rare: true});
+		createAchievement('playlist',				{name: "The Perfect Playlist", description: "Finish 100 songs without missing a single note", maxScore: 100, maxDecimals: 0, rare: true});
+		//If you have this you got some problems... go touch some grass
+		createAchievement('rhythm_reaper',			{name: "The Rhythm Reaper", description: "Finish 1000 songs without missing a single note", maxScore: 1000, maxDecimals: 0, rare: true}); //Carpal Tunnel of Champions
+		createAchievement('failed',					{name: "Nailed It... Not", description: "Finish a song and get an F rating"});
+		createAchievement('date_disaster', 			{name: "Date Night Disaster", description: "Get blueballed by Girlfriend."}); //Sorry fellas...
 		createAchievement('roadkill_enthusiast',	{name: "Roadkill Enthusiast", description: "Watch the Henchmen die 50 times.", maxScore: 50, maxDecimals: 0});
+		createAchievement('button_masher', 			{name: "The Button Masher", description: "Hit 10 000 notes.", maxScore: 10000, maxDecimals: 0, rare: true});
 		createAchievement('oversinging', 			{name: "Oversinging Much...?", description: "Sing for 10 seconds without going back to Idle."});
-		createAchievement('hype',					{name: "Hyperactive", description: "Finish a Song without going back to Idle."});
-		createAchievement('two_keys',				{name: "Just the Two of Us", description: "Finish a Song pressing only two keys."});
+		createAchievement('hype',					{name: "Hyperactive", description: "Finish a song without going back to Idle."});
+		createAchievement('two_keys',				{name: "Just the Two of Us", description: "Finish a song pressing only two keys."});
 		createAchievement('toastie',				{name: "Toaster Gamer", description: "Have you tried to run the game on a toaster?"});
+		createAchievement('turn_tables',			{name: "Turn-Tables!", description: "Finish a song using the Miror Chart mod."});
+		createAchievement('unpredictable',			{name: "Unpredictable!", description: "Finish a song using the Randomize Chart mod."});
+		createAchievement('steady_beat',			{name: "Steady Beat", description: "Finish a song using the Accuracy Challange mod."});
+		createAchievement('ghost_strummer',			{name: "Ghost Strummer", description: "Finish a song using the Hide Strumline mod."});
 		createAchievement('debugger',				{name: "Debugger", description: "Beat the \"Test\" Stage from the Chart Editor.", hidden: true});
+		createAchievement('twilight_tempo',			{name: "Twilight Tempo", description: "Hit the high notes! Play a song with the playbackrate set to 1.35.", hidden: true});
+		createAchievement('friday_night_play',		{name: "Freaky on a Friday Night", description: "Play on a Friday... Night.", hidden: true});
 		
 		//dont delete this thing below
 		_originalLength = _sortID + 1;
@@ -128,7 +136,8 @@ class Achievements {
 	}
 
 	static var _lastUnlock:Int = -999;
-	public static function unlock(name:String, autoStartPopup:Bool = true):String {
+	public static function unlock(name:String, autoStartPopup:Bool = true,):String {
+		var achievement:Achievement = achievements.get(name);
 		if(!achievements.exists(name))
 		{
 			FlxG.log.error('Achievement "$name" does not exists!');
@@ -145,7 +154,7 @@ class Achievements {
 		var time:Int = openfl.Lib.getTimer();
 		if(Math.abs(time - _lastUnlock) >= 100) //If last unlocked happened in less than 100 ms (0.1s) ago, then don't play sound
 		{
-			FlxG.sound.play(Paths.sound('confirmMenu'), 0.5);
+			achievement.rare ? FlxG.sound.play(Paths.sound('achievement_rare'), 0.5) : FlxG.sound.play(Paths.sound('achievement'), 0.5);
 			_lastUnlock = time;
 		}
 

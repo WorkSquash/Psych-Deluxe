@@ -1,6 +1,6 @@
 {
 	"name": " Deluxe Expansion Pack",
-	"description": "Add extra hitsounds noteskins and splashes to the game.\nContains 31 hitounds, 10 noteskins, 8 splashes and 3 extra songs",
+	"description": "Add extra hitsounds noteskins and splashes to the game.\nEnabling this will allow you to play the erect remixes of certain songs.",
 	"restart":true,
 	"runsGlobally": true,
 	"color": [223, 192, 237],

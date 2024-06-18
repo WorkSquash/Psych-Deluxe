@@ -63,6 +63,17 @@ class PauseSubState extends MusicBeatSubstate
 		try
 		{
 			var pauseSong:String = getPauseSong();
+			if(ClientPrefs.data.pauseMusic == 'Breakfast'){ //Changes the breakfast music according to the stage.
+				switch (PlayState.curStage){
+					case 'school' | 'schoolEvil':
+						pauseSong = 'pause_menu/breakfast-pixel';
+					case 'philly':
+						pauseSong = 'pause_menu/breakfast-pico';
+					default:
+						pauseSong = 'pause_menu/breakfast';
+				}
+			}
+			if(pauseSong == null) pauseMusic.loadEmbedded(Paths.music(Paths.formatToSongPath('pause_menu/tea-time'))); //Default to tea time if pause song not found...
 			if(pauseSong != null) pauseMusic.loadEmbedded(Paths.music(pauseSong), true, true);
 		}
 		catch(e:Dynamic) {}
@@ -151,9 +162,8 @@ class PauseSubState extends MusicBeatSubstate
 	function getPauseSong()
 	{
 		var formattedSongName:String = (songName != null ? Paths.formatToSongPath(songName) : '');
-		var formattedPauseMusic:String = Paths.formatToSongPath(ClientPrefs.data.pauseMusic);
+		var formattedPauseMusic:String = Paths.formatToSongPath('pause_menu/' + ClientPrefs.data.pauseMusic);
 		if(formattedSongName == 'none' || (formattedSongName != 'none' && formattedPauseMusic == 'none')) return null;
-
 		return (formattedSongName != '') ? formattedSongName : formattedPauseMusic;
 	}
 
@@ -300,7 +310,7 @@ class PauseSubState extends MusicBeatSubstate
 					MusicBeatState.switchState(new OptionsState());
 					if(ClientPrefs.data.pauseMusic != 'None')
 					{
-						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
+						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('pause_menu/' + ClientPrefs.data.pauseMusic)), pauseMusic.volume);
 						FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
 						FlxG.sound.music.time = pauseMusic.time;
 					}
@@ -312,7 +322,7 @@ class PauseSubState extends MusicBeatSubstate
 						MusicBeatState.switchState(new GameplayChangersSubstate());
 						if(ClientPrefs.data.pauseMusic != 'None')
 						{
-							FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
+							FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('pause_menu/' + ClientPrefs.data.pauseMusic)), pauseMusic.volume);
 							FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
 							FlxG.sound.music.time = pauseMusic.time;
 						}

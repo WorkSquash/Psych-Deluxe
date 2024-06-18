@@ -1,16 +1,45 @@
-2.75:
-Note: this version is still in development!!
-Ported to psych 0.7.3
-Added Hitsounds
-Changed the pre installed mod
-Removed Erect Remixes.
-Added Remove / Add Caption, Change Pitch event
-Optimized Camera Flash event
-New Input system
-Difficulty selector in chart editor (W.I.P)
-New gameplay changers: Mirror / Randomize Chart, Fairplay and Sick only
-New scrollspeed option Playbackrate
-New options: Background Dim, Note Underlay, Show Captions, ect...
+2.75: Psych 0.7.3 Port
+
+Additions:
+Added Hitsounds.
+Added Remove / Add Caption, Change Pitch event.
+Optimized Camera Flash event.
+New gameplay changers: Mirror / Randomize Chart, Fairplay and Sick only.
+New scrollspeed option Playbackrate.
+New options: Background Dim, Note Underlay, Show Captions.
+Simple / Simple-pixel stages. (For those wo need a little bit of an osu experience.)
+
+Fixes / QOL Changes:
+Changed the pre installed mod.
+New Input system fix.
 Reworked Options menu.
 
+Removals:
+Removed the old way of accessing the Erect Remixes
+Difficulty selector in chart editor (W.I.P).
+
+3.0: Final Stages of Depression
+Additions:
+Difficulty remixes with mod and split vocal support.
+New gameplay changer: Accuracy challange
+Bunch of new options
+New pause music track: Ringtone
+Breakfast-pico/pixel in respective stages as a pause menu track
+Better Hitsounds.
+Mirror Chart rework (You can basically play as opponent, will make it a separate mod if needed.)
+New achievements.
+
+
+Fixes / QOL Changes:
+Splitted the vocals file into opponent and player ones.
+Pause_menu folder in music (Put your pause menu music's here)
+Mirror and Random mode can be disabled on songs. (Check the data tab in chart editor)
+Changed some old achievements.
+Soft coded pause menu tracks.
+Gameplay changers now have their own description.
+Notes render on top of the ui.
+
+Removals:
+Removed Difficulty selector in chart editor
+Removed the week_nomiss achievements.
 

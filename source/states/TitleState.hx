@@ -72,6 +72,8 @@ class TitleState extends MusicBeatState
 	{
 		Paths.clearStoredMemory();
 
+		openfl.Lib.application.window.title = #if debug "Friday Night Funkin': Running in Developer Mode" #else "Friday Night Funkin'" #end;
+
 		#if LUA_ALLOWED
 		Mods.pushGlobalMods();
 		#end

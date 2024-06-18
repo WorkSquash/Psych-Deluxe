@@ -1,3 +1,3 @@
-Song: Dad Battle
-Composer: Kawaii Sprite
-Origin: Friday Night Funkin'
+Song: Dadbattle
+Composer: Kawai Sprite
+Source: Friday Night Funkin'

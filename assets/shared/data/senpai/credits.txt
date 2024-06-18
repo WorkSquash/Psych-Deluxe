@@ -1,4 +1,3 @@
 Song: Senpai
-Composer: Kawaii Sprite
-Artist: Moawling
-Origin: Friday Night Funkin'
+Composer: Kawai Sprite
+Source: Friday Night Funkin'

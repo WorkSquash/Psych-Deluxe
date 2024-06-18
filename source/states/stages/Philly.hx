@@ -2,6 +2,7 @@ package states.stages;
 
 import states.stages.objects.*;
 import objects.Character;
+import substates.GameOverSubstate;
 
 class Philly extends BaseStage
 {
@@ -20,6 +21,10 @@ class Philly extends BaseStage
 
 	override function create()
 	{
+		var _song = PlayState.SONG;
+		if(_song.gameOverLoop == null || _song.gameOverLoop.trim().length < 1) GameOverSubstate.loopSoundName = 'gameOver-pico';
+		if(_song.gameOverEnd == null || _song.gameOverEnd.trim().length < 1) GameOverSubstate.endSoundName = 'gameOverEnd-pico';
+
 		if(!ClientPrefs.data.lowQuality) {
 			var bg:BGSprite = new BGSprite('philly/sky', -100, 0, 0.1, 0.1);
 			add(bg);

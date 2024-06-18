@@ -108,6 +108,7 @@ class AchievementsMenuState extends MusicBeatState
 		progressBar = new Bar(0, descText.y + 52);
 		progressBar.screenCenter(X);
 		progressBar.scrollFactor.set();
+		progressBar.setColors(FlxColor.LIME, FlxColor.BLACK);
 		progressBar.enabled = false;
 		
 		progressTxt = new FlxText(50, progressBar.y - 6, FlxG.width - 100, "", 32);
@@ -133,6 +134,7 @@ class AchievementsMenuState extends MusicBeatState
 		return {
 			name: achievement,
 			displayName: unlocked ? data.name : '???',
+			isRare: data.rare,
 			description: data.description,
 			curProgress: data.maxScore > 0 ? Achievements.getScore(achievement) : 0,
 			maxProgress: data.maxScore > 0 ? data.maxScore : 0,

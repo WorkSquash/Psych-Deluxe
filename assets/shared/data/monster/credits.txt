@@ -1,3 +1,3 @@
 Song: Monster
-Composer: Bassets Films
-Origin: Friday Night Funkin'
+Composer: Bassets Films & Kawai Sprite
+Source: Friday Night Funkin'

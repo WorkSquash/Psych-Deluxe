@@ -16,15 +16,15 @@ class UISettingsSubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);
 
-		var option:Option = new Option('Vertical UI',
-			'Changes the UI to be vertical',
+		var option:Option = new Option('Vertical Healthbar',
+			'Makes the healthbar vertical',
 			'verticalUI',
 			'bool');
 		addOption(option);
 
-		var option:Option = new Option('Statistics',
-			'If checked, shows the statistics text.\nDisables the score text!',
-			'showStatistics',
+		var option:Option = new Option('Judgement Counter',
+			'If checked, shows the Judgement Counter.',
+			'judgementCounter',
 			'bool');
 		addOption(option);
 
@@ -38,7 +38,28 @@ class UISettingsSubState extends BaseOptionsMenu
 			"What should the Time Bar display?",
 			'timeBarType',
 			'string',
-			['Time Left', 'Time Elapsed', 'Song Name', 'Disabled']);
+			['Disabled', 'Time Left', 'Time Elapsed', 'Song Name']);
+		addOption(option);
+
+		var option:Option = new Option('Icon Bop:',
+			"Changes how the icons bop to the beat.",
+			'iconBop',
+			'string',
+			['Default', 'Deluxe']);
+		addOption(option);
+
+		var option:Option = new Option('Healthbar Position:',
+			"Changes the vertical healthbars position.",
+			'healthPos',
+			'string',
+			['Left', 'Right']);
+		addOption(option);
+
+		var option:Option = new Option('Judgement Counter Position:',
+			"Changes the judgement counters position.",
+			'judgementPos',
+			'string',
+			['Left', 'Right']);
 		addOption(option);
 
 		var option:Option = new Option('Health Bar Opacity',

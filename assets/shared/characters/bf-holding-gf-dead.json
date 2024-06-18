@@ -52,5 +52,6 @@
 		0
 	],
 	"sing_duration": 4,
-	"scale": 1.05
+	"scale": 1.05,
+	"vocals_file": "bf"
 }

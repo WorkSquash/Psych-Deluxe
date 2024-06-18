@@ -230,8 +230,8 @@ class Paths
 	inline static public function voicesDiff(song:String, difficulty:String, postfix:String = null):Any
 	{
 		var diffKey:String = '${formatToSongPath(song)}/Voices';
-		diffKey += '-${difficulty.toLowerCase()}';
 		if(postfix != null) diffKey += '-' + postfix;
+		diffKey += '-${difficulty.toLowerCase()}';
 		return returnSound(null, diffKey, 'songs');
 	}
 

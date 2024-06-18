@@ -26,7 +26,8 @@ typedef SwagSong =
 	@:optional var gameOverEnd:String;
 	
 	@:optional var disableNoteRGB:Bool;
-	@:optional var disableMirrorCharts:Bool;
+	@:optional var disableMirrorCharts:Bool; //Disables da mirror
+	@:optional var disableRandomCharts:Bool; //Why would you do this You're no fun.
 
 	@:optional var arrowSkin:String;
 	@:optional var splashSkin:String;
@@ -68,6 +69,7 @@ class Song
 	public var gameOverEnd:String;
 	public var disableNoteRGB:Bool = false;
 	public var disableMirrorCharts:Bool = false;
+	public var disableRandomCharts:Bool = false;
 	public var speed:Float = 1;
 	public var stage:String;
 	public var player1:String = 'bf';

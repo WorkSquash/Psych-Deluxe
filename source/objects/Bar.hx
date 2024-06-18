@@ -18,7 +18,7 @@ class Bar extends FlxSpriteGroup
 	public var barHeight(default, set):Int = 1;
 	public var barOffset:FlxPoint = new FlxPoint(3, 3);
 
-	public function new(x:Float, y:Float, image:String = 'healthBar', valueFunction:Void->Float = null, boundX:Float = 0, boundY:Float = 1)
+	public function new(x:Float, y:Float, image:String = 'progressBar', valueFunction:Void->Float = null, boundX:Float = 0, boundY:Float = 1)
 	{
 		super(x, y);
 		
@@ -149,5 +149,16 @@ class Bar extends FlxSpriteGroup
 		barHeight = value;
 		regenerateClips();
 		return value;
+	}
+
+	public function set_barSize(width:Int, height:Int)
+	{
+		leftBar.setGraphicSize(Std.int(width), Std.int(height));
+		rightBar.setGraphicSize(Std.int(width), Std.int(height));
+		leftBar.updateHitbox();
+		rightBar.updateHitbox();
+		leftBar.clipRect = new FlxRect(0, 0, Std.int(width), Std.int(height));
+		rightBar.clipRect = new FlxRect(0, 0, Std.int(width), Std.int(height));
+		updateBar();
 	}
 }

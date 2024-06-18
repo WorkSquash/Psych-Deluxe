@@ -51,13 +51,6 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);
 
-		var option:Option = new Option('Accuracy Type: ',
-			'Complex: Accuracy will be counted on a milisecond base\nSimple: Accuracy will be counted on a judgemental base.',
-			'accType',
-			'string',
-			['Simple', 'Complex']);
-		addOption(option);
-
 		var option:Option = new Option('Note Underlay Visibility',
 			'Sets visibility of note underlay.',
 			'underlayAlpha',

@@ -126,7 +126,7 @@ class Note extends FlxSprite
 
 	public var hitsoundDisabled:Bool = false;
 	public var hitsoundChartEditor:Bool = true;
-	public var hitsound:String = 'hitsound';
+	public var hitsound:String = ClientPrefs.data.hitsound;
 
 	private function set_multSpeed(value:Float):Float {
 		resizeByRatio(value / multSpeed);
@@ -153,9 +153,8 @@ class Note extends FlxSprite
 
 	public function defaultRGB()
 	{
-		var arr:Array<FlxColor> = ClientPrefs.data.arrowRGB[noteData];
-		if(PlayState.isPixelStage) arr = ClientPrefs.data.arrowRGBPixel[noteData];
-
+		var arr:Array<FlxColor> = (PlayState.isPixelStage) ? ClientPrefs.data.arrowRGBPixel[noteData]: ClientPrefs.data.arrowRGB[noteData];
+		
 		if (noteData > -1 && noteData <= arr.length)
 		{
 			rgbShader.r = arr[0];
@@ -172,26 +171,39 @@ class Note extends FlxSprite
 			switch(value) {
 				case 'Hurt Note':
 					ignoreNote = mustPress;
-					//reloadNote('HURTNOTE_assets');
-					//this used to change the note texture to HURTNOTE_assets.png,
-					//but i've changed it to something more optimized with the implementation of RGBPalette:
-
-					// note colors
+					//colors
 					rgbShader.r = 0xFF101010;
-					rgbShader.g = 0xFFFF0000;
-					rgbShader.b = 0xFF990022;
-
-					// splash data and colors
-					noteSplashData.r = 0xFFFF0000;
+					rgbShader.g = 0xFFFF7B00;
+					rgbShader.b = 0xFF993800;
+					//splash
+					noteSplashData.r = 0xFFFF7B00;
 					noteSplashData.g = 0xFF101010;
-					noteSplashData.texture = 'noteSplashes/noteSplashes-electric';
-
-					// gameplay data
+					//noteSplashData.texture = 'noteSplashes/noteSplashes-electric';
+					//gameplay
 					lowPriority = true;
 					missHealth = isSustainNote ? 0.25 : 0.1;
 					hitCausesMiss = true;
-					hitsound = 'cancelMenu';
-					hitsoundChartEditor = false;
+				case 'Death Note':
+					ignoreNote = mustPress;
+					rgbShader.r = 0xFF101010;
+					rgbShader.g = 0xFFFF0000;
+					rgbShader.b = 0xFF990022;
+					noteSplashData.r = 0xFFFF0000;
+					noteSplashData.g = 0xFF101010;
+					//noteSplashData.texture = 'noteSplashes/noteSplashes-electric';
+					lowPriority = true;
+					missHealth =  2.5;
+					hitCausesMiss = true;
+				case 'Dodge Note':
+					rgbShader.r = 0xFFFFFFFF;
+					rgbShader.g = 0xFFFBFF00;
+					rgbShader.b = 0xFF998200;
+					noteSplashData.r = 0xFFFBFF00;
+					noteSplashData.g = 0xFFFFFFFF;						
+					//noteSplashData.texture = 'noteSplashes/noteSplashes-sparkles';
+					lowPriority = false;
+					missHealth =  2.5;
+					hitCausesMiss = false;
 				case 'Alt Animation':
 					animSuffix = '-alt';
 				case 'No Animation':
@@ -306,7 +318,7 @@ class Note extends FlxSprite
 			var newRGB:RGBPalette = new RGBPalette();
 			globalRgbShaders[noteData] = newRGB;
 
-			var arr:Array<FlxColor> = (!PlayState.isPixelStage) ? ClientPrefs.data.arrowRGB[noteData] : ClientPrefs.data.arrowRGBPixel[noteData];
+			var arr:Array<FlxColor> = (PlayState.isPixelStage) ? ClientPrefs.data.arrowRGBPixel[noteData] : ClientPrefs.data.arrowRGB[noteData];
 			if (noteData > -1 && noteData <= arr.length)
 			{
 				newRGB.r = arr[0];
