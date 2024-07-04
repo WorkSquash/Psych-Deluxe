@@ -18,7 +18,7 @@ class AudioSettingsSubState extends BaseOptionsMenu
 
 			pauseMusic.insert(0, ClientPrefs.defaultData.pauseMusic);
 			pauseMusic.insert(pauseMusic.length + 1, 'None');
-			var option:Option = new Option('Pause Screen Song:',
+			var option:Option = new Option('Pause Screen Song:\n',
 				"What song do you prefer for the Pause Screen?",
 				'pauseMusic',
 				'string',
@@ -26,33 +26,22 @@ class AudioSettingsSubState extends BaseOptionsMenu
 			option.onChange = onChangePauseMusic;
 			addOption(option);
 		}
-
-		//Not implementented
-		/*var option:Option = new Option('Menu Screen Song:',
-			"What song do you prefer for the menu Screen?",
-			'menuMusic',
-			'string',
-			['Default', 'Deluxe', 'Festive']
-			);
-		addOption(option);
-		option.onChange = onChangeMenuMusic;*/
-
 		
-		//Unused for now
-        /*var songs:Array<String> = Mods.mergeAllTextsNamed('music/tracks.txt', 'assets');
-		if(songs.length > 0)
+        var menuMusic:Array<String> = Mods.mergeAllTextsNamed('music/menu/tracks.txt', 'shared');
+		if(menuMusic.length > 0)
 		{
-			if(!songs.contains(ClientPrefs.data.menuMusic)) ClientPrefs.data.menuMusic = ClientPrefs.defaultData.menuMusic; //Reset to default if saved menu music couldnt be found
+			if(!menuMusic.contains(ClientPrefs.data.menuMusic)) ClientPrefs.data.menuMusic = ClientPrefs.defaultData.menuMusic; //Reset to default if saved menu music couldnt be found
 
-			songs.insert(0, ClientPrefs.defaultData.menuMusic); //Default track always comes first
-			var option:Option = new Option('Menu Screen Song:',
+			menuMusic.insert(0, ClientPrefs.defaultData.menuMusic); //Default track always comes first
+			var option:Option = new Option('Menu Screen Song:\n',
 				"What song do you prefer for the menu Screen?",
 				'menuMusic',
 				'string',
-				#if MODS_ALLOWED songs #else ['Default', 'Deluxe'] #end);
+				menuMusic);
 			addOption(option);
             option.onChange = onChangeMenuMusic;
-		}*/
+		}
+
 		var hitsounds:Array<String> = Mods.mergeAllTextsNamed('hitsounds/list.txt', 'shared');
 		if(hitsounds.length > 0)
 		{
@@ -60,7 +49,7 @@ class AudioSettingsSubState extends BaseOptionsMenu
 				ClientPrefs.data.hitsound = ClientPrefs.defaultData.hitsound;
 
 			hitsounds.insert(0, ClientPrefs.defaultData.hitsound);
-			var option:Option = new Option('Hitsound:',
+			var option:Option = new Option('Hitsound:\n',
 				'What soud should notes make when you hit them?',
 				'hitsound',
 				'string',
@@ -133,11 +122,11 @@ class AudioSettingsSubState extends BaseOptionsMenu
 		changedMusic = true;
 	}
 
-   /* function onChangeMenuMusic()
+   function onChangeMenuMusic()
     {
-        FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('/menu/'+ClientPrefs.data.menuMusic)));
+        FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic)));
         changedMenu = true;
-    }*/
+    }
 
 	function onChangeHitsoundVolume()
 	{
@@ -146,7 +135,7 @@ class AudioSettingsSubState extends BaseOptionsMenu
 
 	override function destroy()
 	{
-		if(!OptionsState.onPlayState) FlxG.sound.playMusic(Paths.music('freakyMenu')); //FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('/menu/'+ClientPrefs.data.menuMusic)));
+		if(!OptionsState.onPlayState)  FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic))); //FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('/menu/'+ClientPrefs.data.menuMusic)));
 		super.destroy();
 	}
 }

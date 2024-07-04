@@ -286,7 +286,6 @@ class FreeplayState extends MusicBeatState
 				changeDiff(1);
 				_updateSongLastDifficulty();
 			}
-			if(FlxG.keys.justPressed.T) PlayState.SONG = Song.loadFromJson('test', Paths.formatToSongPath('test'));
 		}
 
 		if (controls.BACK)
@@ -301,7 +300,7 @@ class FreeplayState extends MusicBeatState
 				player.playingMusic = false;
 				player.switchPlayMusic();
 
-				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+				FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic)));
 				FlxTween.tween(FlxG.sound, {volume: 1}, 2);
 			}
 			else 
@@ -325,7 +324,8 @@ class FreeplayState extends MusicBeatState
 			if(instPlaying != curSelected && !player.playingMusic)
 			{
 				destroyFreeplayVocals();
-				FlxG.sound.music.volume = 0;
+				FlxG.sound.playMusic(Paths.music('freeplay'), 0.75);
+				/*FlxG.sound.music.volume = 0;
 
 				Mods.currentModDirectory = songs[curSelected].folder;
 				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
@@ -355,7 +355,7 @@ class FreeplayState extends MusicBeatState
 				{
 					vocals.play();
 					vocals.volume = ClientPrefs.data.voiceVolume;
-				}
+				}*/
 				instPlaying = curSelected;
 
 				player.playingMusic = true;
@@ -579,7 +579,7 @@ class FreeplayState extends MusicBeatState
 
 		FlxG.autoPause = ClientPrefs.data.autoPause;
 		if (!FlxG.sound.music.playing)
-			FlxG.sound.playMusic(Paths.music('freakyMenu'));
+			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic)));
 	}	
 }
 

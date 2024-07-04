@@ -68,7 +68,7 @@ import states.TitleState;
 	
 	//Audio Settings
 	public var pauseMusic:String = 'Tea Time';
-	//public var menuMusic:String = 'Default'; //Default is the Freaky Menu
+	public var menuMusic:String = 'Default'; //Default is the Freaky Menu
 	public var noteSounds:Bool = false;
 	public var hitsound:String = 'Osu!Mania'; //This is the default Psych hitsound....
 	public var hitsoundVolume:Float = 0;

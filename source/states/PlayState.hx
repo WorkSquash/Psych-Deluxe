@@ -239,6 +239,7 @@ class PlayState extends MusicBeatState
 	public var botplaySine:Float = 0;
 	public var botplayTxt:FlxText;
 
+	public var iconSine:Float = 0;
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 	public var camHUD:FlxCamera;
@@ -1066,6 +1067,52 @@ class PlayState extends MusicBeatState
 		Paths.sound('intro2' + introSoundsSuffix);
 		Paths.sound('intro1' + introSoundsSuffix);
 		Paths.sound('introGo' + introSoundsSuffix);
+	}
+
+	function midCountdown()
+	{
+		startTimer = new FlxTimer().start(Conductor.crochet / 1000 / playbackRate, function(tmr:FlxTimer)
+		{
+			characterBopper(tmr.loopsLeft);
+
+			var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
+			var introImagesArray:Array<String> = switch(stageUI) {
+				case "pixel": ['${stageUI}UI/ready-pixel', '${stageUI}UI/set-pixel', '${stageUI}UI/date-pixel'];
+				case "normal": ["ready", "set" ,"go"];
+				default: ['${stageUI}UI/ready', '${stageUI}UI/set', '${stageUI}UI/go'];
+			}
+			introAssets.set(stageUI, introImagesArray);
+			var swagCounter:Int = 0;
+
+			var introAlts:Array<String> = introAssets.get(stageUI);
+			var antialias:Bool = (ClientPrefs.data.antialiasing && !isPixelStage);
+			var tick:Countdown = THREE;
+
+			switch (swagCounter)
+			{
+				case 0:
+					FlxG.sound.play(Paths.sound('intro3' + introSoundsSuffix), 0.6);
+					tick = THREE;
+				case 1:
+					countdownReady = createCountdownSprite(introAlts[0], antialias);
+					FlxG.sound.play(Paths.sound('intro2' + introSoundsSuffix), 0.6);
+					tick = TWO;
+				case 2:
+					countdownSet = createCountdownSprite(introAlts[1], antialias);
+					FlxG.sound.play(Paths.sound('intro1' + introSoundsSuffix), 0.6);
+					tick = ONE;
+				case 3:
+					countdownGo = createCountdownSprite(introAlts[2], antialias);
+					FlxG.sound.play(Paths.sound('introGo' + introSoundsSuffix), 0.6);
+					tick = GO;
+					if(gf.animOffsets.exists('cheer')) gf.playAnim('cheer', true);
+				case 4:
+					tick = START;
+			}
+
+			stagesFunc(function(stage:BaseStage) stage.countdownTick(tick, swagCounter));
+			swagCounter += 1;
+		}, 5);
 	}
 
 	public function startCountdown()
@@ -1933,6 +1980,12 @@ class PlayState extends MusicBeatState
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
 		}
 
+		if(ClientPrefs.data.iconBop == 'Sine' && iconP1.visible == true && iconP2.visible == true){
+			iconSine += 180 * elapsed;
+			iconP1.alpha = 1 - Math.sin((Math.PI * iconSine) / 180);
+			iconP2.alpha = 1 - Math.sin((Math.PI * iconSine) / 180);
+		}
+
 		if (controls.PAUSE && startedCountdown && canPause)
 		{
 			var ret:Dynamic = callOnScripts('onPause', null, true);
@@ -2527,9 +2580,12 @@ class PlayState extends MusicBeatState
 				FlxG.sound.play(Paths.sound(value1), flValue2);
 
 			case 'Camera Flash': //Special thanks to QuetzalcoutlDev for the original code.
-				if(flValue1 == null) flValue1 = 1.25; 
-				if(value2 == null) value2 = '0xFFFFFF';
-				if(ClientPrefs.data.flashing) FlxG.camera.flash(FlxColor.fromString(value2), flValue1, null, true);
+			if(flValue1 == null) flValue1 = 1.25; 
+			if(value2 == null) value2 = '0xFFFFFF';
+			if(ClientPrefs.data.flashing) FlxG.camera.flash(FlxColor.fromString(value2), flValue1, null, true);
+
+			case 'Activate Countdown': //Special thanks to QuetzalcoutlDev for the original code.
+				midCountdown();
 			
 			case 'Add Caption' | 'Add Lyrics': //FPS+ Captions with added color change.
 				if(value1 == null) value1 = 'Coolswag';
@@ -2728,7 +2784,7 @@ class PlayState extends MusicBeatState
 				if (storyPlaylist.length <= 0)
 				{
 					Mods.loadTopMod();
-					FlxG.sound.playMusic(Paths.music('freakyMenu'));
+					FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic)));
 					#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 					MusicBeatState.switchState(new StoryMenuState());
@@ -2767,7 +2823,7 @@ class PlayState extends MusicBeatState
 				#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 				MusicBeatState.switchState(new FreeplayState());
-				FlxG.sound.playMusic(Paths.music('freakyMenu'));
+				FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic)));
 				changedDifficulty = false;
 			}
 			transitioning = true;

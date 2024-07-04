@@ -68,6 +68,8 @@ class TitleState extends MusicBeatState
 
 	public static var updateVersion:String = '';
 
+	var menuMusic:Array<String> = [];
+
 	override public function create():Void
 	{
 		Paths.clearStoredMemory();
@@ -89,12 +91,20 @@ class TitleState extends MusicBeatState
 
 		FlxG.save.bind('funkin', CoolUtil.getSavePath());
 
+        menuMusic = Mods.mergeAllTextsNamed('music/menu/tracks.txt', 'shared');
+		if(!menuMusic.contains(ClientPrefs.data.menuMusic)) ClientPrefs.data.menuMusic = ClientPrefs.defaultData.menuMusic;
+
 		ClientPrefs.loadPrefs();
 
 		#if CHECK_FOR_UPDATES
 		if(ClientPrefs.data.checkForUpdates && !closedState) {
 			trace('checking for update');
-			var http = new haxe.Http("https://raw.githubusercontent.com/WorkSquash/Psych-Deluxe/beta/deluxeVersion.txt");
+			var http = 
+				#if debug 
+					new haxe.Http("https://raw.githubusercontent.com/WorkSquash/Psych-Deluxe/beta/deluxeVersion.txt"); 
+				#else 
+					new haxe.Http("https://raw.githubusercontent.com/WorkSquash/Psych-Deluxe/release/deluxeVersion.txt"); 
+				#end
 
 			http.onData = function (data:String)
 			{
@@ -187,7 +197,7 @@ class TitleState extends MusicBeatState
 		if (!initialized)
 		{
 			if(FlxG.sound.music == null) {
-				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+				FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic)));
 			}
 		}
 
@@ -547,7 +557,7 @@ class TitleState extends MusicBeatState
 			{
 				case 1:
 					//FlxG.sound.music.stop();
-					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+					FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic)));
 					FlxG.sound.music.fadeIn(4, 0, 0.7);
 				case 2:
 					#if PSYCH_WATERMARKS
@@ -624,7 +634,7 @@ class TitleState extends MusicBeatState
 						skippedIntro = true;
 						playJingle = false;
 
-						FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic)));
 						FlxG.sound.music.fadeIn(4, 0, 0.7);
 						return;
 				}
@@ -646,7 +656,7 @@ class TitleState extends MusicBeatState
 					remove(credGroup);
 					FlxG.camera.flash(FlxColor.WHITE, 3);
 					sound.onComplete = function() {
-						FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic)));
 						FlxG.sound.music.fadeIn(4, 0, 0.7);
 						transitioning = false;
 					};

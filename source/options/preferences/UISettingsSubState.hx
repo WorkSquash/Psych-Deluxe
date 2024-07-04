@@ -45,7 +45,7 @@ class UISettingsSubState extends BaseOptionsMenu
 			"Changes how the icons bop to the beat.",
 			'iconBop',
 			'string',
-			['Default', 'Deluxe']);
+			['Default', 'Deluxe', 'Sine']);
 		addOption(option);
 
 		var option:Option = new Option('Healthbar Position:',
