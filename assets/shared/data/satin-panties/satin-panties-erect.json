@@ -8051,12 +8051,7 @@
         "needsVoices": true,
         "bpm": 135,
         "speed": 2.4,
-        "gameOverSound": "",
-        "gameOverChar": "",
-        "gameOverLoop": "",
-        "gameOverEnd": "",
-        "arrowSkin": "",
-        "splashSkin": "noteSplashes"
+        "variation": "erect"
     },
     "generatedBy": "FNF Chart Conversor - Psych Converter v0.7.3"
 }

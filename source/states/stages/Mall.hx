@@ -1,6 +1,7 @@
 package states.stages;
 
 import states.stages.objects.*;
+import shaders.effects.Snowfall;
 
 class Mall extends BaseStage
 {
@@ -10,6 +11,7 @@ class Mall extends BaseStage
 
 	override function create()
 	{
+
 		var bg:BGSprite = new BGSprite('christmas/bgWalls', -1000, -500, 0.2, 0.2);
 		bg.setGraphicSize(Std.int(bg.width * 0.8));
 		bg.updateHitbox();
@@ -41,8 +43,9 @@ class Mall extends BaseStage
 		Paths.sound('Lights_Shut_off');
 		setDefaultGF('gf-christmas');
 
-		if(isStoryMode && !seenCutscene)
-			setEndCallback(eggnogEndCutscene);
+		if(isStoryMode && !seenCutscene) setEndCallback(eggnogEndCutscene);
+
+		PlayState.instance.addShaderToCamera('game', new SnowfallShader(false));
 	}
 
 	override function countdownTick(count:Countdown, num:Int) everyoneDance();

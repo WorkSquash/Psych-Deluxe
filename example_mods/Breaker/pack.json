@@ -1,0 +1,7 @@
+{
+	"name": "Project: Breaker",
+	"description": "Add extra songs to the game.\nWarning: This will probably cause carpel tunnel.",
+	"restart":false,
+	"runsGlobally": false,
+	"color": [255, 255, 255]
+}

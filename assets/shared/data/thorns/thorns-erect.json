@@ -1,6 +1,7 @@
 {
     "song": {
         "song": "Thorns",
+        "variation": "erect",
         "bpm": 190,
         "needsVoices": true,
         "player1": "bf-pixel",

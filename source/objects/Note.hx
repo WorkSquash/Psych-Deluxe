@@ -52,6 +52,8 @@ class Note extends FlxSprite
 	public var wasGoodHit:Bool = false;
 	public var missed:Bool = false;
 
+	public var isMineNote:Bool = false;
+
 	public var ignoreNote:Bool = false;
 	public var hitByOpponent:Bool = false;
 	public var noteWasHit:Bool = false;
@@ -183,6 +185,7 @@ class Note extends FlxSprite
 					lowPriority = true;
 					missHealth = isSustainNote ? 0.25 : 0.1;
 					hitCausesMiss = true;
+					isMineNote = true;
 				case 'Death Note':
 					ignoreNote = mustPress;
 					rgbShader.r = 0xFF101010;
@@ -194,6 +197,7 @@ class Note extends FlxSprite
 					lowPriority = true;
 					missHealth =  2.5;
 					hitCausesMiss = true;
+					isMineNote = true;
 				case 'Dodge Note':
 					rgbShader.r = 0xFFFFFFFF;
 					rgbShader.g = 0xFFFBFF00;
@@ -422,9 +426,9 @@ class Note extends FlxSprite
 	function loadPixelNoteAnims() {
 		if(isSustainNote)
 		{
-			animation.add(colArray[noteData] + 'holdend', [noteData + 4], 24, true);
-			animation.add(colArray[noteData] + 'hold', [noteData], 24, true);
-		} else animation.add(colArray[noteData] + 'Scroll', [noteData + 4], 24, true);
+			animation.add(colArray[noteData] + 'holdend', [noteData + 4], 12, true);
+			animation.add(colArray[noteData] + 'hold', [noteData], 12, true);
+		} else animation.add(colArray[noteData] + 'Scroll', [noteData + 4], 12, true);
 	}
 
 	function attemptToAddAnimationByPrefix(name:String, prefix:String, framerate:Float = 24, doLoop:Bool = true)

@@ -50,6 +50,7 @@ class PauseSubState extends MusicBeatSubstate
 			menuItemsOG.insert(4 + num, 'Toggle Practice Mode');
 			menuItemsOG.insert(5 + num, 'Toggle Botplay');
 		}
+
 		menuItems = menuItemsOG;
 
 		for (i in 0...Difficulty.list.length) {
@@ -63,17 +64,7 @@ class PauseSubState extends MusicBeatSubstate
 		try
 		{
 			var pauseSong:String = getPauseSong();
-			if(ClientPrefs.data.pauseMusic == 'Breakfast'){ //Changes the breakfast music according to the stage.
-				switch (PlayState.curStage){
-					case 'school' | 'schoolEvil':
-						pauseSong = 'pause_menu/breakfast-pixel';
-					case 'philly':
-						pauseSong = 'pause_menu/breakfast-pico';
-					default:
-						pauseSong = 'pause_menu/breakfast';
-				}
-			}
-			if(pauseSong == null) pauseMusic.loadEmbedded(Paths.music(Paths.formatToSongPath('pause_menu/tea-time'))); //Default to tea time if pause song not found...
+			if(pauseSong == null) pauseSong = ClientPrefs.defaultData.pauseMusic; //Default to tea time if pause song not found...
 			if(pauseSong != null) pauseMusic.loadEmbedded(Paths.music(pauseSong), true, true);
 		}
 		catch(e:Dynamic) {}
@@ -317,16 +308,17 @@ class PauseSubState extends MusicBeatSubstate
 					OptionsState.onPlayState = true;
 
 				case 'Modifiers':
-						PlayState.instance.paused = true; // For lua
-						PlayState.instance.vocals.volume = 0;
-						MusicBeatState.switchState(new GameplayChangersSubstate());
-						if(ClientPrefs.data.pauseMusic != 'None')
-						{
-							FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('pause_menu/' + ClientPrefs.data.pauseMusic)), pauseMusic.volume);
-							FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
-							FlxG.sound.music.time = pauseMusic.time;
-						}
-						GameplayChangersSubstate.onPlayState = true;
+					PlayState.instance.paused = true; // For lua
+					PlayState.instance.vocals.volume = 0;
+					MusicBeatState.switchState(new ModifiersSubState());
+					if(ClientPrefs.data.pauseMusic != 'None')
+					{
+						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('pause_menu/' + ClientPrefs.data.pauseMusic)), pauseMusic.volume);
+						FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
+						FlxG.sound.music.time = pauseMusic.time;
+					}
+					ModifiersSubState.onPlayState = true;
+
 				case "Exit to menu":
 					#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 					PlayState.deathCounter = 0;

@@ -5,6 +5,7 @@
         "needsVoices": true,
         "player1": "bf-car",
         "player2": "mom-car",
+        "variation": "erect",
         "speed": 2.4,
         "notes": [
             {

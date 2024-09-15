@@ -135,12 +135,12 @@ class LoadingState extends MusicBeatState
 	
 	static function getSongPath()
 	{
-		return CoolUtil.exists(Paths.instDiff(PlayState.SONG.song, Difficulty.getString())) ? Paths.instDiff(PlayState.SONG.song, Difficulty.getString()) : Paths.inst(PlayState.SONG.song);
+		return Paths.inst(PlayState.SONG.song);
 	}
 	
 	static function getVocalPath()
 	{
-		return CoolUtil.exists(Paths.voicesDiff(PlayState.SONG.song, Difficulty.getString())) ? Paths.voicesDiff(PlayState.SONG.song, Difficulty.getString()) : Paths.voices(PlayState.SONG.song);
+		return Paths.voices(PlayState.SONG.song);
 	}
 	
 	inline static public function loadAndSwitchState(target:FlxState, stopMusic = false)

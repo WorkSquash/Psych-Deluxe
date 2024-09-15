@@ -84,10 +84,9 @@ class ChartingState extends MusicBeatState
 		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
 		['Set Property', "Value 1: Variable name\nValue 2: New value"],
 		['Play Sound', "Value 1: Sound file name\nValue 2: Volume (Default: 1), ranges from 0 to 1"],
-		['Activate Countdown', 'Activates the countdown.'],
 		['Camera Focus', 'Changes to camera to focus on the target character,\nValue 1: 0 = Target Dad\n1 = Target BF'],
 		['Camera Flash', "Value 1: Duration of the Camera Flash\nValue 2:The color name or its hex code.\nExample: red or #FF0000 or 0xFF0000.\nDoesn't work when flashing lights are disabled"],
-		['Add Caption', "Value 1: The text \nValue 2: The color name or its hex code.\nExample: red or #FF0000 or 0xFF0000"],
+		['Add Caption', "Value 1: Caption text use '^' for subtext.\nValue 2: Text color as a name (e.g., red), hex code (e.g., #FF0000), or integer (e.g., 0xFF0000"],
 		['Hide Caption', "Hides the caption box."],
 		['Change Song Pitch', "Value 1: Song Pitch Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
 	];
@@ -204,7 +203,6 @@ class ChartingState extends MusicBeatState
 			_song = PlayState.SONG;
 		else
 		{
-			Difficulty.resetList();
 			_song = {
 				song: 'Test',
 				notes: [],
@@ -215,8 +213,7 @@ class ChartingState extends MusicBeatState
 				player2: 'bf-pixel-opponent',
 				gfVersion: 'gf-pixel',
 				speed: 1,
-				stage: 'school',
-				difficulty: 1
+				stage: 'school'
 			};
 			addSection();
 			PlayState.SONG = _song;
@@ -638,9 +635,9 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(new FlxText(stepperBPM.x, stepperBPM.y - 15, 0, 'Song BPM:'));
 		tab_group_song.add(new FlxText(stepperBPM.x + 100, stepperBPM.y - 15, 0, 'Song Offset:'));
 		tab_group_song.add(new FlxText(stepperSpeed.x, stepperSpeed.y - 15, 0, 'Song Speed:'));
-		tab_group_song.add(new FlxText(player2DropDown.x, player2DropDown.y - 15, 0, 'Opponent:'));
-		tab_group_song.add(new FlxText(gfVersionDropDown.x, gfVersionDropDown.y - 15, 0, 'Girlfriend:'));
-		tab_group_song.add(new FlxText(player1DropDown.x, player1DropDown.y - 15, 0, 'Boyfriend:'));
+		tab_group_song.add(new FlxText(player2DropDown.x, player2DropDown.y - 15, 0, 'Opponent (Player 2):'));
+		tab_group_song.add(new FlxText(gfVersionDropDown.x, gfVersionDropDown.y - 15, 0, 'Girlfriend (Player 3):'));
+		tab_group_song.add(new FlxText(player1DropDown.x, player1DropDown.y - 15, 0, 'Boyfriend (Player 1):'));
 		tab_group_song.add(new FlxText(stageDropDown.x, stageDropDown.y - 15, 0, 'Stage:'));
 		//tab_group_song.add(new FlxText(diffDropDown.x, diffDropDown.y - 15, 0, 'Difficulty:'));
 		tab_group_song.add(player2DropDown);
@@ -1413,24 +1410,6 @@ class ChartingState extends MusicBeatState
 			//trace('CHECKED!');
 		};
 
-		var check_disableMirrorCharts:FlxUICheckBox = new FlxUICheckBox(10, 190, null, null, "Disable Mirror Charts", 100);
-		check_disableMirrorCharts.checked = (_song.disableMirrorCharts == true);
-		check_disableMirrorCharts.callback = function()
-		{
-			_song.disableMirrorCharts = check_disableMirrorCharts.checked;
-			updateGrid();
-			//trace('CHECKED!');
-		};
-
-		var check_disableRandomCharts:FlxUICheckBox = new FlxUICheckBox(10, 230, null, null, "Disable Randomized Charts", 100);
-		check_disableRandomCharts.checked = (_song.disableRandomCharts == true);
-		check_disableRandomCharts.callback = function()
-		{
-			_song.disableRandomCharts = check_disableRandomCharts.checked;
-			updateGrid();
-			//trace('CHECKED!');
-		};
-
 		//
 		noteSkinInputText = new FlxUIInputText(10, 280, 150, _song.arrowSkin != null ? _song.arrowSkin : '', 8);
 		blockPressWhileTypingOn.push(noteSkinInputText);
@@ -1450,8 +1429,6 @@ class ChartingState extends MusicBeatState
 		tab_group_data.add(gameOverEndInputText);
 
 		tab_group_data.add(check_disableNoteRGB);
-		tab_group_data.add(check_disableMirrorCharts);
-		tab_group_data.add(check_disableRandomCharts);
 		
 		tab_group_data.add(reloadNotesButton);
 		tab_group_data.add(noteSkinInputText);
@@ -1487,10 +1464,12 @@ class ChartingState extends MusicBeatState
 		opponentVocals = new FlxSound();
 		try
 		{
-			var playerVocals = Paths.voices(currentSongName, (characterData.vocalsP1 == null || characterData.vocalsP1.length < 1) ? 'Player' : characterData.vocalsP1);
-			var playerVocalsDiff = Paths.voicesDiff(currentSongName,  Difficulty.getString(), (characterData.vocalsP1 == null || characterData.vocalsP1.length < 1) ? 'Player' : characterData.vocalsP1);
-			vocals.loadEmbedded(playerVocals != null ? playerVocals : Paths.voices(currentSongName));
-			if(PlayState.diffRemixes.contains(Difficulty.getString())) vocals.loadEmbedded(playerVocalsDiff != null ? playerVocalsDiff : Paths.voicesDiff(currentSongName, Difficulty.getString()));
+			var playerVocals = Paths.voices(currentSongName, 
+				(characterData.vocalsP1 == null || characterData.vocalsP1.length < 1) ? 'Player' : characterData.vocalsP1,
+				(_song.variation.length > 0) ? _song.variation : null);
+			//var playerVocalsDiff = Paths.voicesDiff(currentSongName,  Difficulty.getString(), (characterData.vocalsP1 == null || characterData.vocalsP1.length < 1) ? 'Player' : characterData.vocalsP1);
+			vocals.loadEmbedded(playerVocals != null ? playerVocals : Paths.voices(currentSongName, null, (_song.variation.length > 0) ? _song.variation : null));
+			//if(PlayState.diffRemixes.contains(Difficulty.getString())) vocals.loadEmbedded(playerVocalsDiff != null ? playerVocalsDiff : Paths.voicesDiff(currentSongName, Difficulty.getString()));
 		}
 		vocals.autoDestroy = false;
 		FlxG.sound.list.add(vocals);
@@ -1498,10 +1477,12 @@ class ChartingState extends MusicBeatState
 		opponentVocals = new FlxSound();
 		try
 		{
-			var oppVocals = Paths.voices(currentSongName, (characterData.vocalsP2 == null || characterData.vocalsP2.length < 1) ? 'Opponent' : characterData.vocalsP2);
-			var oppVocalsDiff = Paths.voicesDiff(currentSongName, Difficulty.getString(), (characterData.vocalsP2 == null || characterData.vocalsP2.length < 1) ? 'Opponent' : characterData.vocalsP2);
+			var oppVocals = Paths.voices(currentSongName, 
+				(characterData.vocalsP2 == null || characterData.vocalsP2.length < 1) ? 'Opponent' : characterData.vocalsP2,
+				(_song.variation.length > 0) ? _song.variation : null);
+			//var oppVocalsDiff = Paths.voicesDiff(currentSongName, Difficulty.getString(), (characterData.vocalsP2 == null || characterData.vocalsP2.length < 1) ? 'Opponent' : characterData.vocalsP2);
 			if(oppVocals != null) opponentVocals.loadEmbedded(oppVocals);
-			if(PlayState.diffRemixes.contains(Difficulty.getString()) && oppVocalsDiff != null) opponentVocals.loadEmbedded(oppVocalsDiff);
+			//if(PlayState.diffRemixes.contains(Difficulty.getString()) && oppVocalsDiff != null) opponentVocals.loadEmbedded(oppVocalsDiff);
 		}
 		opponentVocals.autoDestroy = false;
 		FlxG.sound.list.add(opponentVocals);
@@ -1562,8 +1543,8 @@ class ChartingState extends MusicBeatState
 	}
 
 	function generateSong() {
-		FlxG.sound.playMusic(Paths.inst(currentSongName), 0.75/*, false*/);
-		if(PlayState.diffRemixes.contains(Difficulty.getString())) FlxG.sound.playMusic(Paths.instDiff(currentSongName, Difficulty.getString()), 0.75/*, false*/);
+		FlxG.sound.playMusic(Paths.inst(currentSongName, (_song.variation.length > 0) ? _song.variation : null), 0.75/*, false*/);
+		//if(PlayState.diffRemixes.contains(Difficulty.getString())) FlxG.sound.playMusic(Paths.instDiff(currentSongName, Difficulty.getString()), 0.75/*, false*/);
 		FlxG.sound.music.autoDestroy = false;
 		if (instVolume != null) FlxG.sound.music.volume = instVolume.value;
 		if (check_mute_inst != null && check_mute_inst.checked) FlxG.sound.music.volume = 0;
@@ -1932,7 +1913,7 @@ class ChartingState extends MusicBeatState
 				autosaveSong();
 				PlayState.chartingMode = false;
 				MusicBeatState.switchState(new states.editors.MasterEditorMenu());
-				FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic)));
+				FlxG.sound.playMusic(Paths.music('menu/offsetSong'));
 				FlxG.mouse.visible = false;
 				return;
 			}
@@ -3163,7 +3144,7 @@ class ChartingState extends MusicBeatState
 					PlayState.SONG = Song.loadFromJson(song.toLowerCase(), song.toLowerCase());
 				}
 				else{
-					PlayState.SONG = Song.loadFromJson(song.toLowerCase() + "-" + Difficulty.getString(_song.difficulty), song.toLowerCase());
+					PlayState.SONG = Song.loadFromJson(song.toLowerCase() + "-" + Difficulty.getString(), song.toLowerCase());
 				}
 			}
 			else PlayState.SONG = Song.loadFromJson(song.toLowerCase(), song.toLowerCase());

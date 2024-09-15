@@ -2,6 +2,7 @@
     "song": {
         "song": "Blammed",
         "bpm": 170,
+        "variation" : "Erect",
         "needsVoices": true,
         "player1": "bf",
         "player2": "pico",

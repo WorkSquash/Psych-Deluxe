@@ -1,3 +1,2 @@
 Song: Ugh
-Composer: Kawai Sprite
-Source: Friday Night Funkin'
+Artist: Kawai Sprite

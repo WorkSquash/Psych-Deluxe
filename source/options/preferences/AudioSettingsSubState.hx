@@ -27,21 +27,6 @@ class AudioSettingsSubState extends BaseOptionsMenu
 			addOption(option);
 		}
 		
-        var menuMusic:Array<String> = Mods.mergeAllTextsNamed('music/menu/tracks.txt', 'shared');
-		if(menuMusic.length > 0)
-		{
-			if(!menuMusic.contains(ClientPrefs.data.menuMusic)) ClientPrefs.data.menuMusic = ClientPrefs.defaultData.menuMusic; //Reset to default if saved menu music couldnt be found
-
-			menuMusic.insert(0, ClientPrefs.defaultData.menuMusic); //Default track always comes first
-			var option:Option = new Option('Menu Screen Song:\n',
-				"What song do you prefer for the menu Screen?",
-				'menuMusic',
-				'string',
-				menuMusic);
-			addOption(option);
-            option.onChange = onChangeMenuMusic;
-		}
-
 		var hitsounds:Array<String> = Mods.mergeAllTextsNamed('hitsounds/list.txt', 'shared');
 		if(hitsounds.length > 0)
 		{
@@ -122,11 +107,6 @@ class AudioSettingsSubState extends BaseOptionsMenu
 		changedMusic = true;
 	}
 
-   function onChangeMenuMusic()
-    {
-        FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic)));
-        changedMenu = true;
-    }
 
 	function onChangeHitsoundVolume()
 	{
@@ -135,7 +115,7 @@ class AudioSettingsSubState extends BaseOptionsMenu
 
 	override function destroy()
 	{
-		if(!OptionsState.onPlayState)  FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic))); //FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('/menu/'+ClientPrefs.data.menuMusic)));
+		if(!OptionsState.onPlayState)  FlxG.sound.playMusic(Paths.music('menu/offsetSong'));
 		super.destroy();
 	}
 }

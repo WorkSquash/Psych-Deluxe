@@ -20,12 +20,6 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);
 
-		/*var option:Option = new Option('Opponent Notes',
-			'If unchecked, opponent notes get hidden.',
-			'opponentStrums',
-			'bool');
-		addOption(option);*/
-
 		var option:Option = new Option('Ghost Tapping',
 			"If checked, you won't get misses from pressing keys\nwhile there are no notes able to be hit.",
 			'ghostTapping',
@@ -51,6 +45,19 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);
 
+		var option:Option = new Option('Show Timing Window',
+			"If checked, show how much ms it took to hit the note.",
+			'showMS',
+			'bool');
+		addOption(option);
+
+		var option:Option = new Option('Accuracy Type',
+			"Changes the accuracy type.",
+			'accuracyType',
+			'string',
+			['Psych', 'Complex']);
+		addOption(option);
+
 		var option:Option = new Option('Note Underlay Visibility',
 			'Sets visibility of note underlay.',
 			'underlayAlpha',
@@ -65,53 +72,59 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		var option:Option = new Option('Rating Offset',
 			'Changes how late/early you have to hit for a "Sick!"\nHigher values mean you have to hit later.',
 			'ratingOffset',
-			'int');
+			'float');
 		option.displayFormat = '%vms';
 		option.scrollSpeed = 20;
 		option.minValue = -30;
 		option.maxValue = 30;
+		option.changeValue = 0.1;
+		option.decimals = 2;
 		addOption(option);
 
 		var option:Option = new Option('Sick! Hit Window',
 			'Changes the amount of time you have\nfor hitting a "Sick!" in milliseconds.',
 			'sickWindow',
-			'int');
+			'float');
 		option.displayFormat = '%vms';
 		option.scrollSpeed = 15;
 		option.minValue = 15;
 		option.maxValue = 65;
+		option.changeValue = 0.1;
+		option.decimals = 2;
 		addOption(option);
 
 
 		var option:Option = new Option('Good Hit Window',
 			'Changes the amount of time you have\nfor hitting a "Good" in milliseconds.',
 			'goodWindow',
-			'int');
+			'float');
 		option.displayFormat = '%vms';
 		option.scrollSpeed = 15;
 		option.minValue = 15;
 		option.maxValue = 120;
+		option.changeValue = 0.1;
+		option.decimals = 2;
 		addOption(option);
 
 		var option:Option = new Option('Bad Hit Window',
 			'Changes the amount of time you have\nfor hitting a "Bad" in milliseconds.',
 			'badWindow',
-			'int');
+			'float');
 		option.displayFormat = '%vms';
 		option.scrollSpeed = 15;
 		option.minValue = 15;
 		option.maxValue = 160;
+		option.changeValue = 0.1;
+		option.decimals = 2;
 		addOption(option);
 
 		var option:Option = new Option('Safe Frames',
 			'Changes how many frames you have for\nhitting a note earlier or late.',
 			'safeFrames',
-			'float');
+			'int');
 		option.scrollSpeed = 5;
 		option.minValue = 2;
 		option.maxValue = 20;
-		option.changeValue = 0.1;
-        option.decimals = 2;
 		addOption(option);
 
 		super();

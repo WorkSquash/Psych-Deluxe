@@ -6,6 +6,8 @@ import cutscenes.DialogueBox;
 
 import openfl.utils.Assets as OpenFlAssets;
 
+import shaders.effects.CRT;
+
 class School extends BaseStage
 {
 	var bgGirls:BackgroundGirls;
@@ -87,6 +89,9 @@ class School extends BaseStage
 			initDoof();
 			setStartCallback(schoolIntro);
 		}
+
+		PlayState.instance.addShaderToCamera('hud', new CRTShader());
+		PlayState.instance.addShaderToCamera('game', new CRTShader());
 	}
 
 	override function beatHit()

@@ -1,8 +1,10 @@
+144p
 Diamonds
 Bar
 Circle
 Square
-Shiny
+Triangle
+Glitch
 Stepmania
 Addbyzero
 Subtractbyzero

@@ -44,8 +44,7 @@ class OptionsState extends MusicBeatState
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.antialiasing = ClientPrefs.data.antialiasing;
-		//bg.color = 0xFFea71fd;
-		bg.color = FlxColor.WHITE;
+		bg.color = 0xFFea71fd;
 		bg.updateHitbox();
 
 		bg.screenCenter();
@@ -62,10 +61,10 @@ class OptionsState extends MusicBeatState
 			grpOptions.add(optionText);
 		}
 
-		selectorLeft = new Alphabet(10, 0, '>', true);
+		selectorLeft = new Alphabet(10, 0, '-', true);
 		add(selectorLeft);
-		selectorRight = new Alphabet(0, 0, ' <', true);
-		//add(selectorRight);
+		selectorRight = new Alphabet(0, 0, '-', true);
+		add(selectorRight);
 
 		changeSelection();
 		ClientPrefs.saveSettings();
@@ -87,8 +86,6 @@ class OptionsState extends MusicBeatState
 		if (controls.UI_DOWN_P) {
 			changeSelection(1);
 		}
-
-		//if(FlxG.keys.justPressed.P) LoadingState.loadAndSwitchState(new options.OptionsStatePsych());
 
 		if(FlxG.keys.justPressed.SHIFT) LoadingState.loadAndSwitchState(new options.NoteOffsetState());
 

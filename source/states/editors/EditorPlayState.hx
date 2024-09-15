@@ -132,7 +132,7 @@ class EditorPlayState extends MusicBeatSubstate
 		scoreTxt.visible = !ClientPrefs.data.hideHud;
 		add(scoreTxt);
 		
-		dataTxt = new FlxText(10, 100, FlxG.width - 20, "Section: 0", 20);
+		dataTxt = new FlxText(10, 100, FlxG.width - 50, "Section: 0", 20);
 		dataTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		dataTxt.scrollFactor.set();
 		dataTxt.borderSize = 1.25;
@@ -221,7 +221,7 @@ class EditorPlayState extends MusicBeatSubstate
 		}
 		
 		var time:Float = CoolUtil.floorDecimal((Conductor.songPosition - ClientPrefs.data.noteOffset) / 1000, 1);
-		dataTxt.text = 'Time: $time / ${songLength/1000}
+		dataTxt.text = 'Time: $time / ${songLength/1000 /playbackRate}
 						\nSection: $curSection
 						\nBeat: $curBeat
 						\nStep: $curStep';
@@ -305,21 +305,19 @@ class EditorPlayState extends MusicBeatSubstate
 	{
 		// FlxG.log.add(ChartParser.parse());
 		songSpeed = PlayState.SONG.speed;
-		var songSpeedType:String = ClientPrefs.getGameplaySetting('scrolltype');
+		var songSpeedType:String = ClientPrefs.getModifiers('scrolltype');
 		switch(songSpeedType)
 		{
 			case "multiplicative":
-				songSpeed = PlayState.SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed');
+				songSpeed = PlayState.SONG.speed * ClientPrefs.getModifiers('scrollspeed');
 			case "constant":
-				songSpeed = ClientPrefs.getGameplaySetting('scrollspeed');
+				songSpeed = ClientPrefs.getModifiers('scrollspeed');
 		}
 		noteKillOffset = Math.max(Conductor.stepCrochet, 350 / songSpeed * playbackRate);
 
 		var songData = PlayState.SONG;
 		Conductor.bpm = songData.bpm;
 
-		var mirrorMode:Bool = songData.disableMirrorCharts ? false : ClientPrefs.getGameplaySetting('mirrorMode');
-		var randomMode:Bool = songData.disableRandomCharts ? false : ClientPrefs.getGameplaySetting('randomMode');
 
 		var boyfriendVocals:String = loadCharacterFile(PlayState.SONG.player1).vocals_file;
 		var dadVocals:String = loadCharacterFile(PlayState.SONG.player2).vocals_file;
@@ -330,15 +328,17 @@ class EditorPlayState extends MusicBeatSubstate
 		{
 			if (songData.needsVoices)
 			{
-				var playerVocals = Paths.voices(songData.song, (boyfriendVocals == null || boyfriendVocals.length < 1) ? 'Player' : boyfriendVocals);
-				var playerVocalsDiff = Paths.voicesDiff(songData.song, Difficulty.getString(), (boyfriendVocals == null || boyfriendVocals.length < 1) ? 'Player' : boyfriendVocals);
-				vocals.loadEmbedded(playerVocals != null ? playerVocals : Paths.voices(songData.song));
-				if(PlayState.diffRemixes.contains(Difficulty.getString())) vocals.loadEmbedded(playerVocalsDiff != null ? playerVocalsDiff : Paths.voicesDiff(songData.song, Difficulty.getString()));
+				var playerVocals = Paths.voices(songData.song, 
+					(boyfriendVocals == null || boyfriendVocals.length < 1) ? 'Player' : boyfriendVocals,
+					(songData.variation.length > 0) ? songData.variation : null);
+				vocals.loadEmbedded(playerVocals != null ? playerVocals : Paths.voices(songData.song, null, (songData.variation.length > 0) ? songData.variation : null));
 				
-				var oppVocals = Paths.voices(songData.song, (dadVocals == null || dadVocals.length < 1) ? 'Opponent' : dadVocals);
-				var oppVocalsDiff = Paths.voicesDiff(songData.song, Difficulty.getString(), (dadVocals == null || dadVocals.length < 1) ? 'Opponent' : dadVocals);
+				
+				var oppVocals = Paths.voices(songData.song, 
+					(dadVocals == null || dadVocals.length < 1) ? 'Opponent' : dadVocals,
+					(songData.variation.length > 0) ? songData.variation : null);
 				if(oppVocals != null) opponentVocals.loadEmbedded(oppVocals);
-				if(PlayState.diffRemixes.contains(Difficulty.getString()) && oppVocalsDiff != null) opponentVocals.loadEmbedded(oppVocalsDiff);
+				
 			}
 		}
 		catch(e:Dynamic) {}
@@ -355,8 +355,8 @@ class EditorPlayState extends MusicBeatSubstate
 
 		inst = new FlxSound();
 		try {
-			if(PlayState.diffRemixes.contains(Difficulty.getString())) inst.loadEmbedded(Paths.instDiff(songData.song, Difficulty.getString()));
-			else inst.loadEmbedded(Paths.inst(songData.song));
+			//if(PlayState.diffRemixes.contains(Difficulty.getString())) inst.loadEmbedded(Paths.instDiff(songData.song, Difficulty.getString()));
+			inst.loadEmbedded(Paths.inst(songData.song, (songData.variation.length > 0) ? songData.variation : null));
 		}
 		FlxG.sound.list.add(inst);
 		FlxG.sound.music.volume = 0;
@@ -373,19 +373,16 @@ class EditorPlayState extends MusicBeatSubstate
 				if (songNotes[1] == -1)
 					continue;
 
-				var gottaHitNote:Bool = (mirrorMode ? !section.mustHitSection : section.mustHitSection);
-				if (songNotes[1] > 3)
-					gottaHitNote = (mirrorMode ? section.mustHitSection : !section.mustHitSection);
+				var gottaHitNote:Bool = section.mustHitSection;
 
 				final leNoteData: ChartNoteData = {
 					time: songNotes[0],
-					id: randomMode ? FlxG.random.int(0,3) : Std.int(songNotes[1] % 4),
+					id: Std.int(songNotes[1] % 4),
 					sLen: songNotes[2],
 					strumLine: gottaHitNote ? 1 : 0,
 					isGfNote: (section.gfSection && (songNotes[1]<4)),
 					type: songNotes[3]
 				};
-				if(randomMode && songNotes[3] == 2) continue;
 				if(!Std.isOfType(songNotes[3], String))
 					leNoteData.type = ChartingState.noteTypeList[songNotes[3]]; //Backward compatibility + compatibility with Week 7 charts
 
@@ -867,7 +864,7 @@ class EditorPlayState extends MusicBeatSubstate
 
 		if (!note.isSustainNote)
 			invalidateNote(note);
-		if(!note.noteSplashData.disabled && !note.isSustainNote && ClientPrefs.getGameplaySetting('fairplay'))
+		if(!note.noteSplashData.disabled && !note.isSustainNote && ClientPrefs.getModifiers('fairplay'))
 			spawnNoteSplashOnOpponentNote(note);
 
 	}
@@ -974,7 +971,7 @@ class EditorPlayState extends MusicBeatSubstate
 	}
 
 	function spawnNoteSplashOnOpponentNote(note:Note) {
-		if(note != null && ClientPrefs.getGameplaySetting('fairplay')) {
+		if(note != null && ClientPrefs.getModifiers('fairplay')) {
 			var strum:StrumNote = opponentStrums.members[note.noteData];
 			if(strum != null)
 				spawnNoteSplash(strum.x, strum.y, note.noteData, note);
@@ -985,7 +982,7 @@ class EditorPlayState extends MusicBeatSubstate
 		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
 		splash.setupNoteSplash(x, y, data, note);
 		
-		//if(ClientPrefs.getGameplaySetting('fairplay') && !mustHitSection)splash.alpha = note.alpha; //Set the notesplash alpha value if fairplay enabled.
+		//if(ClientPrefs.getModifiers('fairplay') && !mustHitSection)splash.alpha = note.alpha; //Set the notesplash alpha value if fairplay enabled.
 		grpNoteSplashes.add(splash);
 	}
 	
@@ -1021,19 +1018,10 @@ class EditorPlayState extends MusicBeatSubstate
 
 	function updateScore(miss:Bool = false)
 	{
-		var str:String = '?';
-		if(totalPlayed != 0)
-		{
-			var percent:Float = CoolUtil.floorDecimal(ratingPercent * 100, 2);
-			str = '$percent% - $ratingFC';
-		}
-		scoreTxt.text = 'Hits: $songHits | Misses: $songMisses | Rating: $str';
-		if(ClientPrefs.data.verticalUI){
 		scoreTxt.text = 'H: $songHits'
-			+ ' • M: $songMisses'
-			+ ' • A: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} %'
-			+ ' • R: $ratingFC';
-		}
+		+ ' • M: $songMisses'
+		+ ' • A: ${CoolUtil.floorDecimal(ratingPercent * 100, 3)} %'
+		+ ' • R: $ratingFC';
 	}
 	
 	function fullComboUpdate()

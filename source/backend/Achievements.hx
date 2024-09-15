@@ -31,23 +31,20 @@ class Achievements {
 		createAchievement('cant_stop',				{name: "Can't Stop, Won't Miss", description: "Finish 5 songs without missing a single note", maxScore: 5, maxDecimals: 0});
 		createAchievement('tenacious',				{name: "Tenacious Rhythm", description: "Finish 10 songs without missing a single note", maxScore: 10, maxDecimals: 0});
 		createAchievement('perfect_harmony',		{name: "Perfect Harmony", description: "Finish 50 songs without missing a single note", maxScore: 50, maxDecimals: 0, rare: true});
-		createAchievement('playlist',				{name: "The Perfect Playlist", description: "Finish 100 songs without missing a single note", maxScore: 100, maxDecimals: 0, rare: true});
-		//If you have this you got some problems... go touch some grass
-		createAchievement('rhythm_reaper',			{name: "The Rhythm Reaper", description: "Finish 1000 songs without missing a single note", maxScore: 1000, maxDecimals: 0, rare: true}); //Carpal Tunnel of Champions
 		createAchievement('failed',					{name: "Nailed It... Not", description: "Finish a song and get an F rating"});
-		createAchievement('date_disaster', 			{name: "Date Night Disaster", description: "Get blueballed by Girlfriend."}); //Sorry fellas...
 		createAchievement('roadkill_enthusiast',	{name: "Roadkill Enthusiast", description: "Watch the Henchmen die 50 times.", maxScore: 50, maxDecimals: 0});
 		createAchievement('button_masher', 			{name: "The Button Masher", description: "Hit 10 000 notes.", maxScore: 10000, maxDecimals: 0, rare: true});
 		createAchievement('oversinging', 			{name: "Oversinging Much...?", description: "Sing for 10 seconds without going back to Idle."});
 		createAchievement('hype',					{name: "Hyperactive", description: "Finish a song without going back to Idle."});
 		createAchievement('two_keys',				{name: "Just the Two of Us", description: "Finish a song pressing only two keys."});
 		createAchievement('toastie',				{name: "Toaster Gamer", description: "Have you tried to run the game on a toaster?"});
-		createAchievement('turn_tables',			{name: "Turn-Tables!", description: "Finish a song using the Miror Chart mod."});
-		createAchievement('unpredictable',			{name: "Unpredictable!", description: "Finish a song using the Randomize Chart mod."});
-		createAchievement('steady_beat',			{name: "Steady Beat", description: "Finish a song using the Accuracy Challange mod."});
-		createAchievement('ghost_strummer',			{name: "Ghost Strummer", description: "Finish a song using the Hide Strumline mod."});
+		createAchievement('flipside',				{name: "Flip Side!", description: "Finish a song using the Flip Notes modifier."});
+		createAchievement('unpredictable',			{name: "Unpredictable!", description: "Finish a song using the Randomize Notes modifier."});
+		createAchievement('turn_tables',			{name: "Turn-Tables!", description: "Finish a song using the Miror Chart modifier."});
+		createAchievement('steady_beat',			{name: "Steady Beat", description: "Finish a song using the Three-Quarters modifier."});
 		createAchievement('debugger',				{name: "Debugger", description: "Beat the \"Test\" Stage from the Chart Editor.", hidden: true});
-		createAchievement('twilight_tempo',			{name: "Twilight Tempo", description: "Hit the high notes! Play a song with the playbackrate set to 1.35.", hidden: true});
+		createAchievement('twilight_tempo',			{name: "Twilight Tempo", description: "Hit the high notes! Play a song with the nightcore modifier.", hidden: true});
+		createAchievement('dusk_disco',				{name: "Dusk Disco", description: "Hit the low notes! Play a song with the daycore modifier.", hidden: true});
 		createAchievement('friday_night_play',		{name: "Freaky on a Friday Night", description: "Play on a Friday... Night.", hidden: true});
 		
 		//dont delete this thing below

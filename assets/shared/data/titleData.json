@@ -1,0 +1,11 @@
+{	
+	"titlePos":[-150, -100],
+	"startPos": [100, 576],
+	"gfPos": [512, 40],
+	"hideGF" : false,
+	"hideLogo": false,
+	"background":"",
+	"titleColors": ["#33FFFF", "#3333CC", "#FFFFFF"],
+	"music" : "freakyMenu",
+	"bpm":102
+}

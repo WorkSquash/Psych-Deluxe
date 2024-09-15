@@ -7,7 +7,7 @@ import backend.StageData;
 
 class MenuSubState extends MusicBeatState
 {
-	var options:Array<String> = #if desktop ['Visuals', 'User Interface', 'Audio', 'Miscellaneous'] #else ['Visuals', 'User Interface', 'Audio'] #end;
+	var options:Array<String> = ['Visuals', 'User Interface', 'Audio', 'Miscellaneous'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
@@ -38,8 +38,7 @@ class MenuSubState extends MusicBeatState
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.antialiasing = ClientPrefs.data.antialiasing;
-		//bg.color = 0xFFea71fd;
-		bg.color = FlxColor.WHITE;
+		bg.color = 0xFFea71fd;
 		bg.updateHitbox();
 
 		bg.screenCenter();
@@ -56,10 +55,10 @@ class MenuSubState extends MusicBeatState
 			grpOptions.add(optionText);
 		}
 
-		selectorLeft = new Alphabet(10, 0, '>', true);
+		selectorLeft = new Alphabet(10, 0, '-', true);
 		add(selectorLeft);
-		selectorRight = new Alphabet(0, 0, '<', true);
-		//add(selectorRight);
+		selectorRight = new Alphabet(0, 0, '-', true);
+		add(selectorRight);
 
 		changeSelection();
 		ClientPrefs.saveSettings();

@@ -10,7 +10,10 @@ import options.OptionsState;
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.7.3'; 
-	public static var deluxeVer:String = #if debug '3.0-d' #else '3.0' #end; // This is also used for Discord RPC
+	public static var deluxeVer:String = ''; // This is also used for Discord RPC, leave this empty
+	var localVersion:String = '3.1.0';
+	var retryAttempts = 0;
+	var maxRetries = 3;
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
@@ -31,6 +34,8 @@ class MainMenuState extends MusicBeatState
 	override function create()
 	{
 		openfl.Lib.application.window.title = #if debug "Friday Night Funkin': Running in Developer Mode" #else "Friday Night Funkin'" #end;
+		fetchVersion();
+
 		
 		#if MODS_ALLOWED
 		Mods.pushGlobalMods();
@@ -129,8 +134,8 @@ class MainMenuState extends MusicBeatState
 		if (FlxG.sound.music.volume < 0.8 )
 		{
 			FlxG.sound.music.volume += 0.5 * elapsed;
-			if (FreeplayState.vocals != null)
-				FreeplayState.vocals.volume += 0.5 * elapsed;
+			/*if (FreeplayState.vocals != null)
+				FreeplayState.vocals.volume += 0.5 * elapsed;*/
 		}
 
 		if (!selectedSomethin)
@@ -241,5 +246,56 @@ class MainMenuState extends MusicBeatState
 
 		camFollow.setPosition(menuItems.members[curSelected].getGraphicMidpoint().x,
 			menuItems.members[curSelected].getGraphicMidpoint().y - (menuItems.length > 4 ? menuItems.length * 8 : 0));
+	}
+
+	function fetchVersion() 
+	{
+		var http = 
+		#if debug 
+			new haxe.Http("https://raw.githubusercontent.com/WorkSquash/Psych-Deluxe/beta/deluxeVersion.txt");
+		#else 
+			new haxe.Http("https://raw.githubusercontent.com/WorkSquash/Psych-Deluxe/release/deluxeVersion.txt"); 
+		#end
+		
+		http.onData = function(data:String) {
+			var cloudVersion = data.split('\n')[0].trim();
+			
+			if (compareVersions(localVersion, cloudVersion) > 0) {
+				deluxeVer = localVersion;
+			} else {
+				deluxeVer = cloudVersion;
+			}
+			
+			trace('Version used: $deluxeVer');
+		}
+	
+		http.onError = function(error:String) {
+			trace('Error fetching version: $error');
+			retryAttempts++;
+			if (retryAttempts < maxRetries) {
+				trace('Retrying version fetch... ($retryAttempts/$maxRetries)');
+				fetchVersion();
+			} else {
+				deluxeVer = localVersion;
+				trace('Failed to fetch cloud version after $maxRetries attempts. Using local version: $deluxeVer');
+			}
+		}
+	
+		http.request(true);
+	}
+
+	public static function compareVersions(localVer:String, cloudVer:String):Int {
+		var localParts = localVer.split('.');
+		var cloudParts = cloudVer.split('.');
+		
+		for (i in 0...Std.int(Math.max(localParts.length, cloudParts.length))) {
+			var localNum = (i < localParts.length) ? Std.parseInt(localParts[i]) : 0;
+			var cloudNum = (i < cloudParts.length) ? Std.parseInt(cloudParts[i]) : 0;
+			
+			if (localNum > cloudNum) return 1; // Local is higher
+			if (localNum < cloudNum) return -1; // Cloud is higher
+		}
+		
+		return 0; // Versions are equal
 	}
 }

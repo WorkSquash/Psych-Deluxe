@@ -1,5 +1,3 @@
-//Literally 'Borrowed' from  FPS+ Source with little modificstions
-
 package objects;
 
 import haxe.io.Path;
@@ -17,17 +15,13 @@ import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 
-import backend.Song;
-
 using StringTools;
 using flixel.util.FlxSpriteUtil;
 
 class SongCredit extends FlxSpriteGroup
 {
-    var meta:Array<Array<String>> = [];
     var size:Float = 0;
     var fontSize:Int = 20;
-    var meta_exists:Bool = false;
 
     public function new(_x:Float, _y:Float, _song:String) {
 
@@ -35,35 +29,42 @@ class SongCredit extends FlxSpriteGroup
         var bg:FlxSprite;
 
         var text = new FlxText(0, 0, 0, '', fontSize);
-        //if(PlayState.isPixelStage) text.setFormat(Paths.font('pixel.otf'), 15, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE_FAST, FlxColor.BLACK);
-        text.setFormat(Paths.font("notosans.tff"), fontSize, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.SHADOW, FlxColor.BLACK);
         
+        text.setFormat(Paths.font("vcr.tff"), fontSize, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.SHADOW, FlxColor.BLACK);
         
-        //if(CoolUtil.exists(Paths.txt(Paths.formatToSongPath(_song + "/credits"))))
-        text.text = CoolUtil.exists(Paths.txt(Paths.formatToSongPath(_song + '/credits-' + Difficulty.getString()))) ? 
-         CoolUtil.getText(Paths.txt(Paths.formatToSongPath(_song + "/credits-" + Difficulty.getString().toLowerCase()))) : CoolUtil.getText(Paths.txt(Paths.formatToSongPath(_song + "/credits")));
+        var creditsText = CoolUtil.exists(Paths.txt(Paths.formatToSongPath(_song + '/credits-${PlayState.SONG.variation.toLowerCase()}'))) ? 
+         CoolUtil.getText(Paths.txt(Paths.formatToSongPath(_song + '/credits-${PlayState.SONG.variation.toLowerCase()}'))) : CoolUtil.getText(Paths.txt(Paths.formatToSongPath(_song + "/credits")));
+
+        creditsText = creditsText.replace("\\n", "\n");
+        
+        var lines = creditsText.split('\n');
+        for (i in 0...lines.length) {
+            var line = lines[i].trim();
+            if (i > 0) {
+                text.text += "\n";
+            }
+            text.text += line;
+        }
+        
         size = text.fieldWidth;
-        
-        text.antialiasing = ClientPrefs.data.antialiasing && !PlayState.isPixelStage;
+        text.antialiasing = ClientPrefs.data.antialiasing;
         
         bg = new FlxSprite(fontSize/-2, fontSize/-2).makeGraphic(Math.floor(size + fontSize), Math.floor(text.height + fontSize), FlxColor.BLACK);
-        bg.alpha = 0.5;
+        bg.alpha = 0.75;
 
         add(bg);
         add(text);
 
-        x -= size;
+        y -= size;
         visible = false;
-        
+        bg.screenCenter(X);
+        text.screenCenter(X);
     }
-
-
 
     public function start(){
         visible = true;
-        FlxTween.tween(this, {x: x + size + (fontSize/2)}, 1.5, {ease: FlxEase.sineIn, onComplete: function(twn:FlxTween){
-            FlxTween.tween(this, {x: x - size - (fontSize/2)}, 1.5, {ease: FlxEase.sineOut, startDelay: 2, onComplete: function(twn:FlxTween){ this.destroy(); }});
+        FlxTween.tween(this, {y: y + size + (fontSize/2)}, 1.5, {ease: FlxEase.sineIn, onComplete: function(twn:FlxTween){
+            FlxTween.tween(this, {y: y - size - (fontSize/2)}, 1.5, {ease: FlxEase.sineOut, startDelay: 2, onComplete: function(twn:FlxTween){ this.destroy(); }});
         }});
-
     }
 }

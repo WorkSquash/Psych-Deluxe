@@ -1,0 +1,22 @@
+{
+	"songs": [
+		["Divinity", "", [255, 255, 255]],
+		["Singularity", "", [255, 255, 255]],
+		["Cybernecia Catharsis", "", [255, 255, 255]],
+		["RPG", "", [255, 255, 255]]
+	],
+	"hiddenUntilUnlocked": false,
+	"hideFreeplay": false,
+	"weekBackground": "",
+	"difficulties": "Hard, Extreme",
+	"weekCharacters": [
+		"",
+		"",
+		""
+	],
+	"storyName": "",
+	"weekName": "",
+	"hideStoryMode": true,
+	"weekBefore": "erect",
+	"startUnlocked": true
+}

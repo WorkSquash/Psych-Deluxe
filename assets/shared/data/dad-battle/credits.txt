@@ -1,3 +1,3 @@
-Song: Dadbattle
-Composer: Kawai Sprite
-Source: Friday Night Funkin'
+Song: DadBattle
+Artist: Kawai Sprite
+Charter: ninjamuffin99 & MtH

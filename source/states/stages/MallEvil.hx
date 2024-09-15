@@ -1,6 +1,7 @@
 package states.stages;
 
 import states.stages.objects.*;
+import shaders.effects.Snowfall;
 
 class MallEvil extends BaseStage
 {
@@ -27,6 +28,8 @@ class MallEvil extends BaseStage
 					setStartCallback(winterHorrorlandCutscene);
 			}
 		}
+
+		PlayState.instance.addShaderToCamera('game', new SnowfallShader(true));
 	}
 
 	function winterHorrorlandCutscene()

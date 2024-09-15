@@ -1,5 +1,3 @@
-Bluu
 Breakfast
-Local Forecast
-Ringtone
-Sovereign
+Breakfast (Pico)
+Breakfast (Pixel)

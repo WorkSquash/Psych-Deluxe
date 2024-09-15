@@ -94,6 +94,7 @@ class FunkinLua {
 		set('stepCrochet', Conductor.stepCrochet);
 		set('songLength', FlxG.sound.music.length);
 		set('songName', PlayState.SONG.song);
+		set('songVariation', PlayState.SONG.variation);
 		set('songPath', Paths.formatToSongPath(PlayState.SONG.song));
 		set('startedCountdown', false);
 		set('curStage', PlayState.SONG.stage);
@@ -135,6 +136,9 @@ class FunkinLua {
 		set('version', MainMenuState.psychEngineVersion.trim());
 		set('deluxeVersion', MainMenuState.deluxeVer.trim());
 
+		set('useDownscroll', game.downScroll);
+		set('useMiddlescroll', game.middleScroll);
+
 		set('inGameOver', false);
 		set('mustHitSection', false);
 		set('altAnim', false);
@@ -152,10 +156,12 @@ class FunkinLua {
 
 		set('newInput', ClientPrefs.data.newInput);
 		set('instakillOnMiss', game.instakillOnMiss);
-		set('sickOnly', game.sickOnly);
-		set('mirrorChart', game.mirrorMode);
-		set('randomizeChart', game.randomMode);
-		set('fairplay', game.fairplay);
+		set('three-quarters', game.accuracyChallange);
+		set('perfectCombo', game.perfectCombo);
+		set('flipNotes', game.flipChart);
+		set('randomizeNotes', game.randomizeChart);
+		set('mirrorChart', game.mirrorChart);
+		set('fairPlay', game.fairplay);
 		set('botPlay', game.cpuControlled);
 		set('practice', game.practiceMode);
 
@@ -180,8 +186,8 @@ class FunkinLua {
 		set('gfName', PlayState.SONG.gfVersion);
 
 		// Other settings
-		set('downscroll', ClientPrefs.data.downScroll);
-		set('middlescroll', ClientPrefs.data.middleScroll);
+		set('downscroll', ClientPrefs.data.downScroll || game.downScroll);
+		set('middlescroll', ClientPrefs.data.middleScroll || game.middleScroll);
 		set('framerate', ClientPrefs.data.framerate);
 		set('ghostTapping', ClientPrefs.data.ghostTapping);
 		set('hideHud', ClientPrefs.data.hideHud);
@@ -199,6 +205,10 @@ class FunkinLua {
 		set('backgroundDim', ClientPrefs.data.backgroundDim);
 		set('scriptName', scriptName);
 		set('currentModDirectory', Mods.currentModDirectory);
+
+		// Song Credit/Caption
+		set('caption', objects.SongCaptions);
+		set('credits', objects.SongCredit);
 
 		// Noteskin/Splash
 		set('noteSkin', ClientPrefs.data.noteSkin);
@@ -1215,6 +1225,29 @@ class FunkinLua {
 			game.timeBar.setColors(left_color, right_color);
 		});
 
+		Lua_helper.add_callback(lua, "setPosition", function(obj:String, ?x:Float = null, ?y:Float = null) {
+			var real = game.getLuaObject(obj);
+			if(real != null) {
+				if(x != null) real.x = x;
+				if(y != null) real.y = y;
+				return true;
+			}
+
+			var split:Array<String> = obj.split('.');
+			var object:FlxSprite = LuaUtils.getObjectDirectly(split[0]);
+			if(split.length > 1) {
+				object = LuaUtils.getVarInArray(LuaUtils.getPropertyLoop(split), split[split.length-1]);
+			}
+
+			if(object != null) {
+				if(x != null) object.x = x;
+				if(y != null) object.y = y;
+				return true;
+			}
+			luaTrace("setPosition: Couldnt find object " + obj, false, false, FlxColor.RED);
+			return false;
+		});
+
 		Lua_helper.add_callback(lua, "setObjectCamera", function(obj:String, camera:String = '') {
 			var real = game.getLuaObject(obj);
 			if(real!=null){
@@ -1510,6 +1543,7 @@ class FunkinLua {
 
 		#if DISCORD_ALLOWED DiscordClient.addLuaCallbacks(lua); #end
 		#if HSCRIPT_ALLOWED HScript.implement(this); #end
+		//#if VIDEOS_ALLOWED VideoFunctions.implement(this); #end
 		#if ACHIEVEMENTS_ALLOWED Achievements.addLuaCallbacks(lua); #end
 		#if flxanimate FlxAnimateFunctions.implement(this); #end
 		ReflectionFunctions.implement(this);

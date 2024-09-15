@@ -1,6 +1,7 @@
 {
     "song": {
         "song": "Spookeez",
+        "variation": "erect",
         "bpm": 166,
         "needsVoices": true,
         "player1": "bf",

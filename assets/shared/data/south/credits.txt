@@ -1,3 +1,3 @@
 Song: South
-Composer: Kawai Sprite
-Source: Friday Night Funkin'
+Artist: Kawai Sprite
+Charter: ninjamuffin99 & MtH

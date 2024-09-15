@@ -1,0 +1,20 @@
+{
+	"songs": [
+		["Fresh", "bf", [49, 176, 209]]
+	],
+
+	"weekCharacters": [
+		"dad",
+		"bf",
+		"gf"
+	],
+	"weekBackground": "stage",
+
+	"storyName": "",
+	"weekBefore": "week1",
+	"weekName": "Ft. Lil' BF",
+	"startUnlocked": true,
+	"difficulties": "boyfriend",
+	"hideStoryMode": false,
+	"hideFreeplay": false
+}

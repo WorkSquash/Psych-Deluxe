@@ -22,6 +22,8 @@ import haxe.Json;
 import backend.Mods;
 #end
 
+import backend.Song;
+
 class Paths
 {
 	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
@@ -177,6 +179,10 @@ class Paths
 		return getPath('$key.lua', TEXT, library);
 	}
 
+	inline static function osu(key:String, ?library:String){
+		return getPath('beatmaps/$key.osu', TEXT, library);
+	}
+
 	static public function video(key:String)
 	{
 		#if MODS_ALLOWED
@@ -211,66 +217,22 @@ class Paths
 		return file;
 	}
 
-	/*inline static public function voices(song:String, postfix:String = null):Any
+
+	inline static public function voices(song:String, postfix:String = null, variation:String = null):Any
 	{
 		var songKey:String = '${formatToSongPath(song)}/Voices';
 		if(postfix != null) songKey += '-' + postfix;
-		//trace('songKey test: $songKey');
-		var voices = returnSound(null, songKey, 'songs');
-		return voices;
-	}*/
-
-	inline static public function voices(song:String, postfix:String = null):Any
-	{
-		var songKey:String = '${formatToSongPath(song)}/Voices';
-		if(postfix != null) songKey += '-' + postfix;
+		if(variation != null) songKey += '-${variation.toLowerCase()}';
 		return returnSound(null, songKey, 'songs');
 	}
 
-	inline static public function voicesDiff(song:String, difficulty:String, postfix:String = null):Any
-	{
-		var diffKey:String = '${formatToSongPath(song)}/Voices';
-		if(postfix != null) diffKey += '-' + postfix;
-		diffKey += '-${difficulty.toLowerCase()}';
-		return returnSound(null, diffKey, 'songs');
-	}
-
-	inline static public function inst(song:String):Any
+	inline static public function inst(song:String, variation:String = null):Any
 	{
 		var songKey:String = '${formatToSongPath(song)}/Inst';
+		if(variation != null) songKey = '${formatToSongPath(song)}/Inst-${variation.toLowerCase()}';
 		return returnSound(null, songKey, 'songs');
 	}
 
-	inline static public function instDiff(song:String, difficulty:String):Any
-	{
-		var diffKey:String = '${formatToSongPath(song)}/Inst';
-		diffKey += '-${difficulty.toLowerCase()}';
-		return returnSound(null, diffKey, 'songs');
-	} 
-
-	/*inline static public function erectVoices(song:String):Any
-	{
-		var songKey:String = '${formatToSongPath(song)}/Voices';
-		songKey += '-Erect';
-		//trace('songKey test: $songKey');
-		var voices = returnSound(null, songKey, 'songs');
-		return voices;
-	}*/
-
-	/*inline static public function inst(song:String):Any
-	{
-		var songKey:String = '${formatToSongPath(song)}/Inst';
-		var inst = returnSound(null, songKey, 'songs');
-		return inst;
-	}*/
-
-	/*inline static public function erectInst(song:String):Any
-	{
-		var songKey:String = '${formatToSongPath(song)}/Inst';
-		songKey += '-Erect';
-		var inst = returnSound(null, songKey, 'songs');
-		return inst;
-	}*/
 
 	public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
 	static public function image(key:String, ?library:String = null, ?allowGPU:Bool = true):FlxGraphic

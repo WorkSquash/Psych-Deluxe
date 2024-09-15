@@ -6,6 +6,8 @@ import substates.GameOverSubstate;
 import cutscenes.DialogueBox;
 import openfl.utils.Assets as OpenFlAssets;
 
+import shaders.effects.CRT;
+
 class SchoolEvil extends BaseStage
 {
 	override function create()
@@ -36,6 +38,10 @@ class SchoolEvil extends BaseStage
 			initDoof();
 			setStartCallback(schoolIntro);
 		}
+		
+		PlayState.instance.addShaderToCamera('hud', new CRTShader());
+		PlayState.instance.addShaderToCamera('game', new CRTShader());
+		
 	}
 	override function createPost()
 	{

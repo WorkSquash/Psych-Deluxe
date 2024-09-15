@@ -265,7 +265,7 @@ class MenuCharacterEditorState extends MusicBeatState
 			ClientPrefs.toggleVolumeKeys(true);
 			if(FlxG.keys.justPressed.ESCAPE) {
 				MusicBeatState.switchState(new states.editors.MasterEditorMenu());
-				FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic)));
+				FlxG.sound.playMusic(Paths.music('menu/offsetSong'));
 			}
 
 			var shiftMult:Int = 1;

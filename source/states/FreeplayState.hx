@@ -8,7 +8,7 @@ import backend.Difficulty;
 import objects.HealthIcon;
 import objects.MusicPlayer;
 
-import substates.GameplayChangersSubstate as GameplayChangers;
+import substates.ModifiersSubState as Modifiers;
 import substates.ResetScoreSubState;
 
 import flixel.math.FlxMath;
@@ -167,7 +167,7 @@ class FreeplayState extends MusicBeatState
 		bottomBG.alpha = 0.6;
 		add(bottomBG);
 
-		var leText:String = "Press SPACE to listen to the Song / Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy.";
+		var leText:String = "Press SPACE to listen to the Song / Press CTRL to open the Modifiers Menu / Press RESET to Reset your Score and Accuracy.";
 		bottomString = leText;
 		var size:Int = 16;
 		bottomText = new FlxText(bottomBG.x, bottomBG.y + 4, FlxG.width, leText, size);
@@ -286,6 +286,7 @@ class FreeplayState extends MusicBeatState
 				changeDiff(1);
 				_updateSongLastDifficulty();
 			}
+			if(FlxG.keys.justPressed.T) PlayState.SONG = Song.loadFromJson('test', Paths.formatToSongPath('test'));
 		}
 
 		if (controls.BACK)
@@ -300,7 +301,7 @@ class FreeplayState extends MusicBeatState
 				player.playingMusic = false;
 				player.switchPlayMusic();
 
-				FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic)));
+				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 				FlxTween.tween(FlxG.sound, {volume: 1}, 2);
 			}
 			else 
@@ -317,45 +318,20 @@ class FreeplayState extends MusicBeatState
 		if(FlxG.keys.justPressed.CONTROL && !player.playingMusic)
 		{
 			persistentUpdate = false;
-			openSubState(new GameplayChangers());
+			openSubState(new Modifiers());
 		}
 		else if(FlxG.keys.justPressed.SPACE)
 		{
 			if(instPlaying != curSelected && !player.playingMusic)
 			{
 				destroyFreeplayVocals();
-				FlxG.sound.playMusic(Paths.music('freeplay'), 0.75);
-				/*FlxG.sound.music.volume = 0;
+				FlxG.sound.music.volume = 0;
 
 				Mods.currentModDirectory = songs[curSelected].folder;
 				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 				PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
-				if (PlayState.SONG.needsVoices)
-				{
-					vocals = new FlxSound();
-					try
-					{
-						vocals.loadEmbedded(Paths.voices(PlayState.SONG.song));
-						if(PlayState.diffRemixes.contains(Difficulty.getString())) vocals.loadEmbedded(Paths.voicesDiff(PlayState.SONG.song, Difficulty.getString()));
-					}
-					FlxG.sound.list.add(vocals);
-					vocals.persist = true;
-					vocals.looped = true;
-				}
-				else if (vocals != null)
-				{
-					vocals.stop();
-					vocals.destroy();
-					vocals = null;
-				}
 
-				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), ClientPrefs.data.instVolume);
-				if(PlayState.diffRemixes.contains(Difficulty.getString())) FlxG.sound.playMusic(Paths.instDiff(PlayState.SONG.song, Difficulty.getString()), ClientPrefs.data.instVolume);
-				if(vocals != null) //Sync vocals to Inst
-				{
-					vocals.play();
-					vocals.volume = ClientPrefs.data.voiceVolume;
-				}*/
+				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song, (PlayState.SONG.variation != null && PlayState.SONG.variation.length > 0 ) ? PlayState.SONG.variation : null), ClientPrefs.data.instVolume);
 				instPlaying = curSelected;
 
 				player.playingMusic = true;
@@ -414,7 +390,6 @@ class FreeplayState extends MusicBeatState
 
 			FlxG.sound.music.volume = 0;
 					
-			destroyFreeplayVocals();
 			#if (MODS_ALLOWED && cpp)
 			DiscordClient.loadModRPC();
 			#end
@@ -579,7 +554,7 @@ class FreeplayState extends MusicBeatState
 
 		FlxG.autoPause = ClientPrefs.data.autoPause;
 		if (!FlxG.sound.music.playing)
-			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic)));
+			FlxG.sound.playMusic(Paths.music('offsetSong'));
 	}	
 }
 

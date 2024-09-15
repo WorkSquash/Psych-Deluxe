@@ -334,7 +334,7 @@ class DialogueEditorState extends MusicBeatState
 			}
 			if(FlxG.keys.justPressed.ESCAPE) {
 				MusicBeatState.switchState(new states.editors.MasterEditorMenu());
-				FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath('menu/'+ClientPrefs.data.menuMusic)));
+				FlxG.sound.playMusic(Paths.music('menu/offsetSong'));
 				transitioning = true;
 			}
 			var negaMult:Array<Int> = [1, -1];

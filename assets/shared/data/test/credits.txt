@@ -1,3 +1,2 @@
 Song: Test
-Composer: Kawai Sprite & MtH
-Source: Friday Night Funkin'
+Artist: Kawai Sprite & MtH

@@ -24,6 +24,8 @@ import js.html.*;
 import backend.Paths;
 import backend.Controls;
 import backend.CoolUtil;
+import backend.MathUtil; //includes usefull utilities for maths and if formulas.
+import backend.FunkinUtil;
 import backend.MusicBeatState;
 import backend.MusicBeatSubstate;
 import backend.CustomFadeTransition;
@@ -55,7 +57,6 @@ import flixel.util.FlxTimer;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.tweens.misc.ColorTween;
 import flixel.group.FlxSpriteGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
 

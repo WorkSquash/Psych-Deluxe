@@ -96,9 +96,9 @@ class VisualSettingsSubState extends BaseOptionsMenu
         option.decimals = 2;
 		addOption(option);
 
-		var option:Option = new Option('Colored Score Text',
-			'If checked, the score text change colors depending on the rating.',
-			'coloredScore',
+		var option:Option = new Option('Play Video Backgrounds',
+			'If checked, the background video will play upon starting the song.',
+			'playVideos',
 			'bool');
 		addOption(option);
 
