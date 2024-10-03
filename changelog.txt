@@ -18,7 +18,7 @@ Removals:
 Removed the old way of accessing the Erect Remixes
 Difficulty selector in chart editor (W.I.P).
 
-3.0: Final Stages of Depression
+3.0:
 Additions:
 Difficulty remixes with mod and split vocal support.
 New gameplay changer: Accuracy challange
@@ -42,4 +42,3 @@ Notes render on top of the ui.
 Removals:
 Removed Difficulty selector in chart editor
 Removed the week_nomiss achievements.
-

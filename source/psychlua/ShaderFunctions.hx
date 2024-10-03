@@ -5,7 +5,6 @@ import flixel.addons.display.FlxRuntimeShader;
 #end
 
 import flixel.system.FlxAssets.FlxShader;
-import shaders.effects.*;
 
 class ShaderFunctions
 {
@@ -266,22 +265,6 @@ class ShaderFunctions
 			return false;
 			#end
 		});
-
-		/*Lua_helper.add_callback(lua, "addChromaticAbberation", function(camera:String,chromeOffset:Float = 0.005) {
-			PlayState.instance.addShaderToCamera(camera, new ChromaticAberrationShader(chromeOffset));
-		});
-		Lua_helper.add_callback(lua, "addScanline", function(camera:String) {
-			PlayState.instance.addShaderToCamera(camera, new ScanlineShader());
-		});
-		Lua_helper.add_callback(lua, "addCRT", function(camera:String) {
-			PlayState.instance.addShaderToCamera(camera, new CRTShader());
-		});
-		Lua_helper.add_callback(lua, "addInvert", function(camera:String) {
-			PlayState.instance.addShaderToCamera(camera, new InvertColorsShader());
-		});
-		Lua_helper.add_callback(lua, "clearShaders", function(camera:String) {
-			PlayState.instance.clearShaderFromCamera(camera);
-		});*/
 	}
 	
 	#if (!flash && sys)

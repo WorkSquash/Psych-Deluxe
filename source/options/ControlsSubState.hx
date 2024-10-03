@@ -42,7 +42,6 @@ class ControlsSubState extends MusicBeatSubstate
 		[false, 'DEBUG'],
 		[false, 'Key 1', 'debug_1', 'Debug Key #1'],
 		[false, 'Key 2', 'debug_2', 'Debug Key #2'],
-		[false, 'Fullscreen', 'fullscreen', 'Fullscreen']
 	];
 	var curOptions:Array<Int>;
 	var curOptionsValid:Array<Int>;

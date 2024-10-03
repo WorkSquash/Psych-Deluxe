@@ -46,16 +46,9 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Show Timing Window',
-			"If checked, show how much ms it took to hit the note.",
+			"If checked, shows how much ms it took to hit the note.",
 			'showMS',
 			'bool');
-		addOption(option);
-
-		var option:Option = new Option('Accuracy Type',
-			"Changes the accuracy type.",
-			'accuracyType',
-			'string',
-			['Psych', 'Complex']);
 		addOption(option);
 
 		var option:Option = new Option('Note Underlay Visibility',

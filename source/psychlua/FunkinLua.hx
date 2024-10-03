@@ -1546,6 +1546,7 @@ class FunkinLua {
 		//#if VIDEOS_ALLOWED VideoFunctions.implement(this); #end
 		#if ACHIEVEMENTS_ALLOWED Achievements.addLuaCallbacks(lua); #end
 		#if flxanimate FlxAnimateFunctions.implement(this); #end
+		EffectFunctions.implement(this);
 		ReflectionFunctions.implement(this);
 		TextFunctions.implement(this);
 		ExtraFunctions.implement(this);

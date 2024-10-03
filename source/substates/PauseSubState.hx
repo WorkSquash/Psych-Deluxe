@@ -30,6 +30,8 @@ class PauseSubState extends MusicBeatSubstate
 	var missingTextBG:FlxSprite;
 	var missingText:FlxText;
 
+	var isLocked:Bool = false; //Used for disabling the menu items when clicking on resume.
+
 	public static var songName:String = null;
 
 	override function create()
@@ -162,6 +164,8 @@ class PauseSubState extends MusicBeatSubstate
 	var cantUnpause:Float = 0.1;
 	override function update(elapsed:Float)
 	{
+		if(isLocked) return;
+
 		cantUnpause -= elapsed;
 		if (pauseMusic.volume < 0.5)
 			pauseMusic.volume += 0.01 * elapsed;
@@ -255,7 +259,9 @@ class PauseSubState extends MusicBeatSubstate
 			switch (daSelected)
 			{
 				case "Resume":
-					close();
+					Paths.clearUnusedMemory();
+					startCountdown();
+					return;
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
 					deleteSkipTimeText();
@@ -265,8 +271,10 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.changedDifficulty = true;
 					practiceText.visible = PlayState.instance.practiceMode;
 				case "Restart Song":
+					Paths.clearUnusedMemory();
 					restartSong();
 				case "Leave Charting Mode":
+					Paths.clearUnusedMemory();
 					restartSong();
 					PlayState.chartingMode = false;
 				case 'Skip Time':
@@ -325,10 +333,9 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.seenCutscene = false;
 
 					Mods.loadTopMod();
-					if(PlayState.isStoryMode)
-						MusicBeatState.switchState(new StoryMenuState());
-					else 
-						MusicBeatState.switchState(new FreeplayState());
+					PlayState.isStoryMode ? 
+					MusicBeatState.switchState(new StoryMenuState()) : 
+					MusicBeatState.switchState(new FreeplayState());
 
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 					PlayState.changedDifficulty = false;
@@ -451,5 +458,99 @@ class PauseSubState extends MusicBeatSubstate
 	function updateSkipTimeText()
 	{
 		skipTimeText.text = FlxStringUtil.formatTime(Math.max(0, Math.floor(curTime / 1000)), false) + ' / ' + FlxStringUtil.formatTime(Math.max(0, Math.floor(FlxG.sound.music.length / 1000)), false);
+	}
+
+	function startCountdown()
+	{
+		isLocked = true;
+
+		var swagCounter:Int = 0;
+		var countdownSpeed = (Conductor.crochet / 1000) * 1.25; //Change this if you feel like the countdown is too slow...
+
+		new FlxTimer().start(countdownSpeed, function(tmr:FlxTimer)
+		{
+			var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
+			introAssets.set('default', ['ready', "set", "go"]);
+
+			var introAlts:Array<String> = introAssets.get('default');
+			var altSuffix:String = "";
+			if(PlayState.isPixelStage) altSuffix = "-pixel";
+
+			switch (swagCounter)
+			{
+				case 0:
+					FlxG.sound.play(Paths.sound('intro3' + altSuffix), 0.6);
+					var ready:FlxText = new FlxText(0, 0, FlxG.width, "Three!", 64);
+					ready.setFormat(Paths.font("vcr.ttf"), 64, FlxColor.WHITE, CENTER);
+					ready.scrollFactor.set();
+					ready.updateHitbox();
+
+					ready.screenCenter();
+					ready.y -= 100;
+					add(ready);
+					FlxTween.tween(ready, {y: ready.y += 100, alpha: 0}, countdownSpeed, {
+						ease: FlxEase.cubeInOut,
+						onComplete: function(twn:FlxTween)
+						{
+							ready.destroy();
+						}
+					});
+					
+				case 1:
+					FlxG.sound.play(Paths.sound('intro2' + altSuffix), 0.6);
+					var set:FlxText = new FlxText(0, 0, FlxG.width, "Two!", 64);
+					set.setFormat(Paths.font("vcr.ttf"), 64, FlxColor.WHITE, CENTER);
+					set.scrollFactor.set();
+
+					set.screenCenter();
+					set.y -= 100;
+					add(set);
+					FlxTween.tween(set, {y: set.y += 100, alpha: 0}, countdownSpeed, {
+						ease: FlxEase.cubeInOut,
+						onComplete: function(twn:FlxTween)
+						{
+							set.destroy();
+						}
+					});
+
+				case 2:
+					FlxG.sound.play(Paths.sound('intro1' + altSuffix ), 0.6);
+					var go:FlxText = new FlxText(0, 0, FlxG.width, "One!", 64);
+					go.setFormat(Paths.font("vcr.ttf"), 64, FlxColor.WHITE, CENTER);
+					go.scrollFactor.set();
+
+					go.updateHitbox();
+
+					go.screenCenter();
+					go.y -= 100;
+					add(go);
+					FlxTween.tween(go, {y: go.y += 100, alpha: 0}, countdownSpeed, {
+						ease: FlxEase.cubeInOut,
+						onComplete: function(twn:FlxTween)
+						{
+							go.destroy();
+						}
+					});
+
+				case 3:
+					FlxG.sound.play(Paths.sound('introGo' + altSuffix ), 0.6);
+					for (object in this.members)
+					{
+						if (Std.isOfType(object, FlxSprite) || Std.isOfType(object, FlxText))
+						{
+							FlxTween.tween(object, {alpha: 0}, 0.2, {
+								ease: FlxEase.cubeInOut,
+								onComplete: function(twn:FlxTween)
+								{
+									close();
+									isLocked = false;
+								}
+							});
+						}
+					}
+			}
+
+			swagCounter += 1;
+		}, 5);
 	}
 }

@@ -6,6 +6,8 @@ class InvertColors extends FlxShader
 {
     @:glFragmentSource('
     #pragma header
+
+    uniform bool lockAlpha = false;
     
     vec4 sineWave(vec4 pt)
     {
@@ -17,7 +19,7 @@ class InvertColors extends FlxShader
     {
         vec2 uv = openfl_TextureCoordv;
         gl_FragColor = sineWave(texture2D(bitmap, uv));
-		gl_FragColor.a = 1.0 - gl_FragColor.a;
+		if(!lockAlpha)gl_FragColor.a = 1.0 - gl_FragColor.a;
     }')
 
     public function new()
@@ -29,7 +31,8 @@ class InvertColors extends FlxShader
 class InvertColorsShader
 {
     public var shader:InvertColors = new InvertColors();
-	public function new(){
-        super();
-	}
+	public function new(lockAlpha)
+    {
+        shader.lockAlpha.value = [lockAlpha];
+    }
 }

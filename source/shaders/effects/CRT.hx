@@ -1,12 +1,6 @@
 package shaders.effects;
 
 import flixel.system.FlxAssets.FlxShader;
-/*import openfl.display.Shader;
-import openfl.display.ShaderInput;
-import openfl.utils.Assets as OpenFlAssets;
-import flixel.FlxG;
-import openfl.Lib;*/
-
 
 using StringTools;
 

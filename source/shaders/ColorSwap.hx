@@ -7,6 +7,7 @@ class ColorSwap {
 	public var hue(default, set):Float = 0;
 	public var saturation(default, set):Float = 0;
 	public var brightness(default, set):Float = 0;
+	public var awesomeOutline(default, set):Bool = false;
 
 	private function set_hue(value:Float) {
 		hue = value;
@@ -24,6 +25,12 @@ class ColorSwap {
 		brightness = value;
 		shader.uTime.value[2] = brightness;
 		return brightness;
+	}
+
+	private function set_awesomeOutline(value:Bool) {
+		awesomeOutline = value;
+		shader.awesomeOutline.value = [awesomeOutline];
+		return awesomeOutline;
 	}
 
 	public function new()
@@ -86,6 +93,7 @@ class ColorSwapShader extends FlxShader {
 		uniform bool awesomeOutline;
 
 		const float offset = 1.0 / 128.0;
+
 		vec3 normalizeColor(vec3 color)
 		{
 			return vec3(
@@ -113,60 +121,70 @@ class ColorSwapShader extends FlxShader {
 			return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 		}
 
+		float edgeDetection(sampler2D bitmap, vec2 uv, vec2 texelSize) {
+			float kernel[9];
+			vec2 offsets[9];
+
+			offsets[0] = vec2(-texelSize.x,  texelSize.y);
+			offsets[1] = vec2(0.0,           texelSize.y);
+			offsets[2] = vec2(texelSize.x,   texelSize.y);
+			offsets[3] = vec2(-texelSize.x,  0.0);
+			offsets[4] = vec2(0.0,           0.0);
+			offsets[5] = vec2(texelSize.x,   0.0);
+			offsets[6] = vec2(-texelSize.x, -texelSize.y);
+			offsets[7] = vec2(0.0,          -texelSize.y);
+			offsets[8] = vec2(texelSize.x,  -texelSize.y);
+
+			kernel[0] = -1.0; kernel[1] =  0.0; kernel[2] =  1.0;
+			kernel[3] = -2.0; kernel[4] =  0.0; kernel[5] =  2.0;
+			kernel[6] = -1.0; kernel[7] =  0.0; kernel[8] =  1.0;
+
+			float gx = 0.0;
+			for (int i = 0; i < 9; i++) {
+				vec4 sample = texture2D(bitmap, uv + offsets[i]);
+				gx += sample.a * kernel[i];
+			}
+
+			kernel[0] =  1.0; kernel[1] =  2.0; kernel[2] =  1.0;
+			kernel[3] =  0.0; kernel[4] =  0.0; kernel[5] =  0.0;
+			kernel[6] = -1.0; kernel[7] = -2.0; kernel[8] = -1.0;
+
+			float gy = 0.0;
+			for (int i = 0; i < 9; i++) {
+				vec4 sample = texture2D(bitmap, uv + offsets[i]);
+				gy += sample.a * kernel[i];
+			}
+
+			float edge = length(vec2(gx, gy));
+
+			return edge;
+		}
+
 		void main()
 		{
 			vec4 color = flixel_texture2D(bitmap, openfl_TextureCoordv);
 
 			vec4 swagColor = vec4(rgb2hsv(vec3(color[0], color[1], color[2])), color[3]);
 
-			// [0] is the hue???
 			swagColor[0] = swagColor[0] + uTime[0];
 			swagColor[1] = swagColor[1] + uTime[1];
 			swagColor[2] = swagColor[2] * (1.0 + uTime[2]);
 			
-			if(swagColor[1] < 0.0)
-			{
-				swagColor[1] = 0.0;
-			}
-			else if(swagColor[1] > 1.0)
-			{
-				swagColor[1] = 1.0;
-			}
+			swagColor[1] = clamp(swagColor[1], 0.0, 1.0);
 
 			color = vec4(hsv2rgb(vec3(swagColor[0], swagColor[1], swagColor[2])), swagColor[3]);
 
 			if (awesomeOutline)
 			{
-				 // Outline bullshit?
-				vec2 size = vec2(3, 3);
+				vec2 texelSize = vec2(1.0 / openfl_TextureSize.x, 1.0 / openfl_TextureSize.y);
+				float edge = edgeDetection(bitmap, openfl_TextureCoordv, texelSize);
 
-				if (color.a <= 0.5) {
-					float w = size.x / openfl_TextureSize.x;
-					float h = size.y / openfl_TextureSize.y;
-					
-					if (flixel_texture2D(bitmap, vec2(openfl_TextureCoordv.x + w, openfl_TextureCoordv.y)).a != 0.
-					|| flixel_texture2D(bitmap, vec2(openfl_TextureCoordv.x - w, openfl_TextureCoordv.y)).a != 0.
-					|| flixel_texture2D(bitmap, vec2(openfl_TextureCoordv.x, openfl_TextureCoordv.y + h)).a != 0.
-					|| flixel_texture2D(bitmap, vec2(openfl_TextureCoordv.x, openfl_TextureCoordv.y - h)).a != 0.)
-						color = vec4(1.0, 1.0, 1.0, 1.0);
+				if (edge > 0.1) {
+					color = vec4(1.0, 1.0, 1.0, 1.0);
 				}
 			}
-			gl_FragColor = color;
 
-			/* 
-			if (color.a > 0.5)
-				gl_FragColor = color;
-			else
-			{
-				float a = flixel_texture2D(bitmap, vec2(openfl_TextureCoordv + offset, openfl_TextureCoordv.y)).a +
-						  flixel_texture2D(bitmap, vec2(openfl_TextureCoordv, openfl_TextureCoordv.y - offset)).a +
-						  flixel_texture2D(bitmap, vec2(openfl_TextureCoordv - offset, openfl_TextureCoordv.y)).a +
-						  flixel_texture2D(bitmap, vec2(openfl_TextureCoordv, openfl_TextureCoordv.y + offset)).a;
-				if (color.a < 1.0 && a > 0.0)
-					gl_FragColor = vec4(0.0, 0.0, 0.0, 0.8);
-				else
-					gl_FragColor = color;
-			} */
+			gl_FragColor = color;
 		}')
 	@:glVertexSource('
 		attribute float openfl_Alpha;
@@ -188,7 +206,7 @@ class ColorSwapShader extends FlxShader {
 		attribute vec4 colorMultiplier;
 		attribute vec4 colorOffset;
 		uniform bool hasColorTransform;
-		
+
 		void main(void)
 		{
 			openfl_Alphav = openfl_Alpha;

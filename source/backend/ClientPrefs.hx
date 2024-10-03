@@ -17,8 +17,7 @@ import states.TitleState;
 	public var autoPause:Bool = true;
 	public var noReset:Bool = false;
 	public var showMS:Bool = true;
-	public var accuracyType:String = 'Psych';
-	public var underlayAlpha:Float = 0.75;
+	public var underlayAlpha:Float = 0;
 
 	//Offset Settings
 	public var comboOffset:Array<Int> = [0, 0, 0, 0];

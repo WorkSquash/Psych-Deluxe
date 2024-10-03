@@ -1,11 +1,6 @@
 package shaders.effects;
 
 import flixel.system.FlxAssets.FlxShader;
-/*import openfl.display.Shader;
-import openfl.display.ShaderInput;
-import openfl.utils.Assets as OpenFlAssets;
-import flixel.FlxG;
-import openfl.Lib;*/
 
 
 using StringTools;
@@ -13,7 +8,7 @@ using StringTools;
 class Snowfall extends FlxShader
 {
     // Automatically converted with https://github.com/TheLeerName/ShadertoyToFlixel
-    // https://www.shadertoy.com/view/lftGDl
+    //based on...  https://www.shadertoy.com/view/lftGDl
     @:glFragmentSource('
     #pragma header
 
@@ -23,26 +18,30 @@ class Snowfall extends FlxShader
     #define iChannel0 bitmap
     #define texture flixel_texture2D
 
-    // Random noise function
     float random(vec2 uv) {
         return fract(sin(dot(uv, vec2(135.0, 263.0))) * 10000.0);
     }
 
-    // Function to draw snowflakes
-    vec4 drawSnow(vec2 curid, vec2 uv, vec4 fragColor, float r, float layer) {
+    vec4 drawSimpleSnow(vec2 curid, vec2 uv, vec4 fragColor, float r) {
         float maxoff = 2.0 / 20.0;
-        float windStrength = sin(iTime * 0.5 + layer * 2.0) * 0.05 * layer;
-        vec3 snowColor = isEvil ? vec3(0.75, 0.25, 0.25) : vec3(1.0);
+        float windStrength = sin(iTime * 0.5) * 0.05; // Same speed for all flakes
+        vec3 snowColor = isEvil ? vec3(0.75, 0.25, 0.25) : vec3(1.0); // Simple color
 
         for (int x = -2; x <= 1; x++) {
             for (int y = -2; y <= 0; y++) {
                 vec2 id = curid + vec2(x, y);
                 vec2 pos = id / 20.0;
                 pos += vec2(mod(random(pos), maxoff), mod(random(pos + vec2(4.0, 3.0)), maxoff));
-                float rad = r * mod(random(pos), 1.0) / (20.0 * 5.0);
-                pos.x += windStrength + 0.5 * (maxoff - mod(random(pos), maxoff)) * sin(iTime * r + random(pos) * 100.0);
+
+                float radScale = mix(0.75, 1.25, random(pos));
+                float rad = radScale * r / (20.0 * 5.0);
+
+                pos.x += windStrength + 0.5 * (maxoff - mod(random(pos), maxoff)) * sin(iTime + random(pos) * 10.0);
+
+                float transparency = mix(0.75, 1.0, random(pos));
                 float v = smoothstep(0.0, 1.0, (rad - length(uv - pos)) / rad * 0.75);
-                fragColor = mix(fragColor, vec4(snowColor * (0.9 + 0.1 * sin(layer * pos.y * 100.0)), 1.0), v);
+
+                fragColor = mix(fragColor, vec4(snowColor, transparency), v);
             }
         }
         return fragColor;
@@ -53,14 +52,11 @@ class Snowfall extends FlxShader
         vec2 uvog = fragCoord.xy / iResolution.y;
         fragColor = texture(iChannel0, uv);
 
-        // Invert the y-coordinate for the snowflakes
         uvog.y = 1.0 - uvog.y;
 
-        for (float layer = 1.0; layer <= 3.0; layer += 1.0) {
-            vec2 offset = 0.1 * layer * vec2(sin(iTime * 0.1 * layer), iTime);
-            vec2 curid = floor((uvog + offset) * 20.0) + vec2(0.5);
-            fragColor += drawSnow(curid, uvog + offset, vec4(0), 1.0 / layer, layer);
-        }
+        vec2 offset = 0.1 * vec2(sin(iTime * 0.1), iTime);  // Simple movement offset
+        vec2 curid = floor((uvog + offset) * 20.0) + vec2(0.5);
+        fragColor += drawSimpleSnow(curid, uvog + offset, vec4(0), 1.0);
     }
 
     void main() {
