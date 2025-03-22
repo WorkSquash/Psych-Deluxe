@@ -44,7 +44,6 @@ If your song is in **Japanese**, your `meta.json` should look like this:
 }
 ```
 If it’s in French, and you want accents to show correctly:
-
 ```json
 {
     "meta": {
@@ -53,8 +52,7 @@ If it’s in French, and you want accents to show correctly:
         "charter": "Charte Cool",  
         "language": "fr"
     }
-}```
-
+}
+```
 If you don’t specify a language, it defaults to English (`en`).
-
 Now you know how language codes work and how to properly include it in your `meta.json`! This helps the game display text correctly.
