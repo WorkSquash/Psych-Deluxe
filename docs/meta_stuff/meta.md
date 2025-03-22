@@ -1,8 +1,5 @@
 Here's a markdown file as a .txt explanation for how meta.json works and its fields:
 
-txt
-Copy
-Edit
 # Understanding `meta.json` and its Fields
 
 ## What is `meta.json`?
