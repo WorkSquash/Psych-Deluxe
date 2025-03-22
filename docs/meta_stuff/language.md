@@ -1,8 +1,6 @@
-Language Codes and How They Work  
+# Language Codes and How They Work  
 
-Hey there!  
-
-This game supports multiple languages, but not all languages need a special font.  
+This game supports multiple languages (by that I mean the lyrics and and credits displaying), but not all languages need a special font.  
 If your language uses the **Latin alphabet** (like English, French, German, etc.), you **don’t** need to specify a language code.  
 However, by default, the game assumes **English (en)**.  
 
